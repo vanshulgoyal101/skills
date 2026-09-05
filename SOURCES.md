@@ -7,7 +7,7 @@ This file tracks where future skills and incidents come from. It is deliberately
 | `arcade` | Browser game lifecycle, sync integrity, DB invariants, generated assets, mobile input, accessibility | Seeded | Keep adding only verified incidents |
 | `adbrain` | Budget/spend safety, provider rotation, creative persistence, auth and database boundaries | Seeded | Extract spend enforcement and provider-failure invariants |
 | `vanshul-portfolio` | Build/deploy gates, generated SEO/OG assets, client hydration, browser verification | Seeded | Extract build artifact and deployment parity |
-| `tools` | Multi-tool UI workflows, links/assets, E2E verification | Planned | Extract user-facing tool contract and navigation checks |
+| `tools` | Multi-tool UI workflows, links/assets, E2E verification | Seeded | Extract user-facing tool contract and navigation checks |
 | `vanshul-links` | Public registry design, project list hygiene, route metadata, link-card UX | Seeded | Add live-state verification and product-card taxonomy |
 | `vanshul-portfolio` | Family sitemap maintenance, SEO, canonical routes, generated metadata, deployment checks | Seeded | Add release gate and public-indexing checks |
 | `vbrain` | Knowledge provenance, privacy boundaries, durable personal context, static SEO export | Seeded | Extract source trust and sensitive-data handling |

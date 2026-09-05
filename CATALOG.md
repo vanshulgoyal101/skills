@@ -24,6 +24,16 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [bounded-untrusted-parsing](skills/bounded-untrusted-parsing.md) | User input is parsed, formatted, matched, or scanned under resource constraints | AdBrain, Tools |
 | [service-worker-test-isolation](skills/service-worker-test-isolation.md) | Browser tests share service workers, caches, or persistent contexts | Arcade |
 | [shipped-dom-module-testing](skills/shipped-dom-module-testing.md) | UI behavior lives in a directly shipped HTML module and pure tests miss wiring | Tools, Arcade |
+| [env-validation-schema](skills/env-validation-schema.md) | Environment variables, provider settings, URLs, limits, or deployment configuration enter runtime code | AdBrain |
+| [supabase-rls-complete](skills/supabase-rls-complete.md) | A shared database or storage layer serves multiple users or tenants | AdBrain |
+| [pure-logic-dom-split](skills/pure-logic-dom-split.md) | Browser behavior mixes business rules, rendering, input, timers, or persistence | Arcade, Tools |
+| [service-worker-deploy-pattern](skills/service-worker-deploy-pattern.md) | A static site or PWA caches shells and assets across deployments | Tools, Arcade |
+| [zero-dependency-ci-validators](skills/zero-dependency-ci-validators.md) | Repository integrity checks must run before dependency installation or in CI | vbrain, Skills |
+| [codec-invertibility-tests](skills/codec-invertibility-tests.md) | Values are encoded, decoded, escaped, formatted, or serialized | Tools, AdBrain |
+| [sitemap-aware-discovery](skills/sitemap-aware-discovery.md) | A crawler or context builder must discover pages beyond linked navigation | ctx |
+| [crawlable-metadata-contracts](skills/crawlable-metadata-contracts.md) | Public pages need consistent, valid titles, canonical URLs, JSON-LD, robots, and sitemap entries | Portfolio family, vbrain |
+| [dom-identifier-contracts](skills/dom-identifier-contracts.md) | Multiple widgets or form controls can collide through shared IDs or DOM property names | Solaride, portfolio |
+| [multi-encoding-literal-rotation](skills/multi-encoding-literal-rotation.md) | A shared literal changes across display, links, attributes, URL encoding, and structured data | Solaride |
 | [documented-fact-parity](skills/documented-fact-parity.md) | A README/copy/description/profile quotes a count or list that a code registry already defines | Tools, Arcade |
 | [rasterized-social-preview](skills/rasterized-social-preview.md) | A page sets og:image/twitter:image, especially authored as SVG | vbrain |
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
@@ -31,6 +41,9 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
 | [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
+| [crawlable-metadata-contracts](skills/crawlable-metadata-contracts.md) | Pages must rank or be shared: titles, descriptions, canonical, hreflang, OG, JSON-LD, or sitemap change | Solaride |
+| [multi-encoding-literal-rotation](skills/multi-encoding-literal-rotation.md) | Retiring or changing a shared literal (phone, URL, key, version) that appears in many textual forms | Solaride |
+| [dom-identifier-contracts](skills/dom-identifier-contracts.md) | Multiple widgets share a page, or form fields are read by property name | Solaride |
 | [header-offset-scroll-guards](skills/header-offset-scroll-guards.md) | Fixed headers or hash navigation hide content beneath the navigation | Vanshul Portfolio |
 | [visual-motion-constraints](skills/visual-motion-constraints.md) | Decorative motion or cursor effects overpower the interface or ignore reduced-motion preferences | Vanshul Portfolio |
 | [build-artifact-parity](skills/build-artifact-parity.md) | Generated public artifacts like sitemaps, feeds, or OG files drift from the source of truth | Vanshul Portfolio |
@@ -67,10 +80,12 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [public-indexing-hygiene](incidents/public-indexing-hygiene.md)
 - [adbrain-provider-and-cron-configuration](incidents/adbrain-provider-and-cron-configuration.md)
 - [orphaned-development-server-memory](incidents/orphaned-development-server-memory.md)
+- [solaride-static-site-hardening](incidents/solaride-static-site-hardening.md)
 - [vanshul-portfolio-navigation-and-motion](incidents/vanshul-portfolio-navigation-and-motion.md)
 - [adbrain-startup-configuration](incidents/adbrain-startup-configuration.md)
-- [codec-data-corruption](incidents/codec-data-corruption.md)
 - [rls-policy-coverage](incidents/rls-policy-coverage.md)
+- [codec-data-corruption](incidents/codec-data-corruption.md)
+- [solaride-static-site-hardening](incidents/solaride-static-site-hardening.md)
 
 ## Products
 
