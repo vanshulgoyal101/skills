@@ -27,6 +27,7 @@ skills/
   skills/       reusable engineering patterns
   checklists/   short workflow gates
   incidents/    verified failures and their fixes
+  PRODUCT_CATALOG.md  distilled capability map across products
   templates/    formats for adding future knowledge
 ```
 
@@ -38,6 +39,9 @@ skills/
 4. Extract only the portable pattern into a skill.
 5. Add or update a checklist if the lesson belongs in a recurring workflow.
 6. Update `CATALOG.md` and run the repository's validation gate.
+
+For product-level context, update the source repository's own feature docs first,
+then distill the stable capability into [PRODUCT_CATALOG.md](PRODUCT_CATALOG.md).
 
 Do not copy proprietary source, secrets, customer data, or large code blocks. Capture the behavior and the reasoning, then link back to the owning repository only when that reference is safe and useful.
 

@@ -45,3 +45,15 @@ Reject entries that are:
 - duplicated by an existing skill;
 - missing a testable invariant;
 - carrying secrets, customer data, or copied proprietary implementation.
+
+## Local validation
+
+Run the repository's zero-dependency validator before committing:
+
+```bash
+node validate.mjs
+```
+
+It checks top-level headings, local Markdown links, catalog targets, and
+secret-shaped values. GitHub Actions runs the same command for pushes and pull
+requests.

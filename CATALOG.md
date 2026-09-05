@@ -14,6 +14,13 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [mobile-input-and-motion](skills/mobile-input-and-motion.md) | Pointer/swipe/keyboard input and animated feedback share a surface | Tiny Arcade |
 | [accessible-interaction-contracts](skills/accessible-interaction-contracts.md) | Controls, focus rings, icon-only buttons, modals, or dynamic state are changed | Tiny Arcade |
 | [verification-gates](skills/verification-gates.md) | Any cross-module or production-facing change needs a release plan | Tiny Arcade |
+| [duplicated-registry-parity](skills/duplicated-registry-parity.md) | The same runtime registry exists in multiple files or languages | Tiny Arcade |
+| [aggregate-metric-healing](skills/aggregate-metric-healing.md) | Local state has independent metrics but the server stores only an aggregate | Tiny Arcade |
+| [cache-version-parity](skills/cache-version-parity.md) | Non-hashed assets, service workers, or query-string cache versions change | Tiny Arcade |
+| [semantic-delimiter-safety](skills/semantic-delimiter-safety.md) | Free-text list values can contain the chosen delimiter | AdBrain |
+| [provider-cooldown-rotation](skills/provider-cooldown-rotation.md) | Multiple API providers, models, or keys can serve one operation | AdBrain |
+| [alternate-ipv4-ssrf-defense](skills/alternate-ipv4-ssrf-defense.md) | A URL fetcher blocks private or reserved network ranges | ctx, MCP |
+| [no-build-ship-test-parity](skills/no-build-ship-test-parity.md) | A static product ships source files directly with no build step | Tools |
 
 ## Checklists
 
@@ -33,6 +40,15 @@ This catalog is the routing layer for the repository. Add one line here whenever
 
 - [arcade-sync-and-integrity](incidents/arcade-sync-and-integrity.md)
 - [arcade-ui-and-lifecycle](incidents/arcade-ui-and-lifecycle.md)
+- [vbrain-capture-marked-filed](incidents/vbrain-capture-marked-filed.md)
+- [vbrain-jsonld-injection](incidents/vbrain-jsonld-injection.md)
+- [ui-edit-generated-index-drift](incidents/ui-edit-generated-index-drift.md)
+- [adbrain-list-delimiter-corruption](incidents/adbrain-list-delimiter-corruption.md)
+- [ssrf-alternate-ipv4-bypass](incidents/ssrf-alternate-ipv4-bypass.md)
+
+## Products
+
+- [PRODUCT_CATALOG](PRODUCT_CATALOG.md)
 
 ## Sources
 

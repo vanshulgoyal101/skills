@@ -10,5 +10,6 @@
 - [ ] Add parity/invariant tests for duplicated or generated surfaces.
 - [ ] Build every consumer of changed shared code.
 - [ ] Update generated output and cache versions.
+- [ ] Check duplicated registries, list delimiters, aggregate restore rules, provider fallbacks, and SSRF/network boundaries relevant to the feature.
 - [ ] Verify mobile, keyboard, focus, modal, offline, and error states.
 - [ ] Update the skill catalog and incident record when the lesson is reusable.
