@@ -29,6 +29,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
 | [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
+| [documented-fact-parity](skills/documented-fact-parity.md) | Human-written counts or lists describe a registry that can change independently | Arcade, Tools, portfolio |
 | [product-registry-maintenance](skills/product-registry-maintenance.md) | A public product family has a portfolio, links hub, sitemap, and live domains to keep aligned | Portfolio family |
 | [public-indexing-hygiene](skills/public-indexing-hygiene.md) | Public routes, canonicals, sitemaps, robots rules, or private surfaces affect discoverability | Portfolio family, vbrain |
 | [search-console-release-gates](skills/search-console-release-gates.md) | A public release changes crawlability or canonical URL ownership | Portfolio family |
