@@ -45,6 +45,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [release](checklists/release.md)
 - [data-sync](checklists/data-sync.md)
 - [repository-intake](checklists/repository-intake.md)
+- [product-readiness](checklists/product-readiness.md)
 
 ## Templates
 
@@ -67,6 +68,9 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [adbrain-provider-and-cron-configuration](incidents/adbrain-provider-and-cron-configuration.md)
 - [orphaned-development-server-memory](incidents/orphaned-development-server-memory.md)
 - [vanshul-portfolio-navigation-and-motion](incidents/vanshul-portfolio-navigation-and-motion.md)
+- [adbrain-startup-configuration](incidents/adbrain-startup-configuration.md)
+- [codec-data-corruption](incidents/codec-data-corruption.md)
+- [rls-policy-coverage](incidents/rls-policy-coverage.md)
 
 ## Products
 
