@@ -24,6 +24,14 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [bounded-untrusted-parsing](skills/bounded-untrusted-parsing.md) | User input is parsed, formatted, matched, or scanned under resource constraints | AdBrain, Tools |
 | [service-worker-test-isolation](skills/service-worker-test-isolation.md) | Browser tests share service workers, caches, or persistent contexts | Arcade |
 | [shipped-dom-module-testing](skills/shipped-dom-module-testing.md) | UI behavior lives in a directly shipped HTML module and pure tests miss wiring | Tools, Arcade |
+| [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
+| [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
+| [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
+| [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
+| [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
+| [product-registry-maintenance](skills/product-registry-maintenance.md) | A public product family has a portfolio, links hub, sitemap, and live domains to keep aligned | Portfolio family |
+| [public-indexing-hygiene](skills/public-indexing-hygiene.md) | Public routes, canonicals, sitemaps, robots rules, or private surfaces affect discoverability | Portfolio family, vbrain |
+| [search-console-release-gates](skills/search-console-release-gates.md) | A public release changes crawlability or canonical URL ownership | Portfolio family |
 
 ## Checklists
 
@@ -48,6 +56,10 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [ui-edit-generated-index-drift](incidents/ui-edit-generated-index-drift.md)
 - [adbrain-list-delimiter-corruption](incidents/adbrain-list-delimiter-corruption.md)
 - [ssrf-alternate-ipv4-bypass](incidents/ssrf-alternate-ipv4-bypass.md)
+- [public-indexing-hygiene](incidents/public-indexing-hygiene.md)
+- [adbrain-provider-and-cron-configuration](incidents/adbrain-provider-and-cron-configuration.md)
+- [orphaned-development-server-memory](incidents/orphaned-development-server-memory.md)
+- [public-indexing-hygiene](incidents/public-indexing-hygiene.md)
 
 ## Products
 
