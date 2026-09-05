@@ -20,6 +20,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [semantic-delimiter-safety](skills/semantic-delimiter-safety.md) | Free-text list values can contain the chosen delimiter | AdBrain |
 | [provider-cooldown-rotation](skills/provider-cooldown-rotation.md) | Multiple API providers, models, or keys can serve one operation | AdBrain |
 | [alternate-ipv4-ssrf-defense](skills/alternate-ipv4-ssrf-defense.md) | A URL fetcher blocks private or reserved network ranges | ctx, MCP |
+| [shared-security-parity](skills/shared-security-parity.md) | Sibling services implement the same security boundary independently | Reader, MCP, ctx |
 | [no-build-ship-test-parity](skills/no-build-ship-test-parity.md) | A static product ships source files directly with no build step | Tools |
 | [bounded-untrusted-parsing](skills/bounded-untrusted-parsing.md) | User input is parsed, formatted, matched, or scanned under resource constraints | AdBrain, Tools |
 | [service-worker-test-isolation](skills/service-worker-test-isolation.md) | Browser tests share service workers, caches, or persistent contexts | Arcade |
@@ -41,9 +42,6 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
 | [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
-| [crawlable-metadata-contracts](skills/crawlable-metadata-contracts.md) | Pages must rank or be shared: titles, descriptions, canonical, hreflang, OG, JSON-LD, or sitemap change | Solaride |
-| [multi-encoding-literal-rotation](skills/multi-encoding-literal-rotation.md) | Retiring or changing a shared literal (phone, URL, key, version) that appears in many textual forms | Solaride |
-| [dom-identifier-contracts](skills/dom-identifier-contracts.md) | Multiple widgets share a page, or form fields are read by property name | Solaride |
 | [header-offset-scroll-guards](skills/header-offset-scroll-guards.md) | Fixed headers or hash navigation hide content beneath the navigation | Vanshul Portfolio |
 | [visual-motion-constraints](skills/visual-motion-constraints.md) | Decorative motion or cursor effects overpower the interface or ignore reduced-motion preferences | Vanshul Portfolio |
 | [build-artifact-parity](skills/build-artifact-parity.md) | Generated public artifacts like sitemaps, feeds, or OG files drift from the source of truth | Vanshul Portfolio |
@@ -85,7 +83,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [adbrain-startup-configuration](incidents/adbrain-startup-configuration.md)
 - [rls-policy-coverage](incidents/rls-policy-coverage.md)
 - [codec-data-corruption](incidents/codec-data-corruption.md)
-- [solaride-static-site-hardening](incidents/solaride-static-site-hardening.md)
+- [reader-alternate-ipv4-ssrf](incidents/reader-alternate-ipv4-ssrf.md)
 
 ## Products
 

@@ -29,6 +29,7 @@ This is a distilled map of the products in `~/Development/copilot`. It is not a 
 - Need to test an offline PWA in a browser: start with [`service-worker-test-isolation`](skills/service-worker-test-isolation.md).
 - Need to format or match user-controlled input safely: start with [`bounded-untrusted-parsing`](skills/bounded-untrusted-parsing.md).
 - Need public SEO, content exports, redirects, or JSON-LD: start with **vbrain** and the public-site docs.
+- Need URL-to-content extraction with binary rejection and text fallback: start with **Reader/mcp** and the network-boundary skills.
 - Need tested SEO metadata, structured data, canonical/sitemap correctness, or to avoid duplicate/doorway pages: start with **Solaride** and [`crawlable-metadata-contracts`](skills/crawlable-metadata-contracts.md).
 - Need a personal operating note or a durable development lesson: start with **vbrain-private**, then extract a portable skill only after a test or live check proves it.
 
@@ -43,6 +44,7 @@ These capabilities are stable enough to guide new product plans. Reuse their con
 | Generate, review, approve, then launch paused | AdBrain | AI output can create spend, publish content, or affect an external account | Human approval is explicit and external side effects are paused by default |
 | Knowledge graph, ranked search, and MCP tools over portable notes | vbrain | Agents or users need durable, searchable knowledge with provenance | Source content remains portable, search is deterministic enough to test, and private boundaries are explicit |
 | Deterministic URL-to-clean-Markdown extraction | Reader | Web content must become compact agent context without an LLM | Extraction is bounded, SSRF-safe, and preserves useful article structure |
+| Binary-aware content extraction with text fallback | Reader, mcp | A content service receives HTML, Markdown, JSON, XML, or binary URLs | Reject truly binary streams deliberately while preserving usable text-like responses |
 | Repository packing with coverage-aware token budgeting | ctx | An agent needs relevant repository context under a token limit | Ranking, truncation, and file inclusion are explainable and bounded |
 
 ## Maintenance Rules

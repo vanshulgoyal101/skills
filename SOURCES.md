@@ -11,7 +11,7 @@ This file tracks where future skills and incidents come from. It is deliberately
 | `vanshul-links` | Public registry design, project list hygiene, route metadata, link-card UX | Seeded | Add live-state verification and product-card taxonomy |
 | `vanshul-portfolio` | Family sitemap maintenance, SEO, canonical routes, generated metadata, deployment checks | Seeded | Add release gate and public-indexing checks |
 | `vbrain` | Knowledge provenance, privacy boundaries, durable personal context, static SEO export | Seeded | Extract source trust and sensitive-data handling |
-| `reader` | Worker boundaries, URL fetching, content normalization | Planned | Extract network timeout and untrusted-content rules |
+| `reader` | Worker boundaries, URL fetching, content normalization, extraction and SSRF parity | Seeded | Extract network timeout and untrusted-content rules |
 
 ## Intake protocol
 
