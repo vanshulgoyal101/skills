@@ -37,3 +37,6 @@ This is a distilled map of the products in `~/Development/copilot`. It is not a 
 - Add a product only when it has a stable purpose and a real source README or feature document.
 - Do not copy secrets, customer data, personal notes, or private implementation details here.
 - When a capability changes, update the product's source docs first, then this catalog.
+- Source links in this catalog point at sibling repositories in the local workspace;
+	the skills repository CI cannot check out those repositories, so it validates the
+	catalog's own structure while product CI remains responsible for its source docs.

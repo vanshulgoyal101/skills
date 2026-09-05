@@ -37,6 +37,9 @@ for (const path of markdown) {
   for (const match of text.matchAll(/\]\(([^)#]+)(?:#[^)]*)?\)/g)) {
     const target = match[1];
     if (/^(https?:|mailto:|#)/i.test(target)) continue;
+    // Product catalog links may point at sibling repositories in the local
+    // workspace; those repositories are intentionally absent from this checkout.
+    if (rel === 'PRODUCT_CATALOG.md' && target.startsWith('../')) continue;
     const candidate = resolve(join(ROOT, relative(ROOT, path), '..'), target);
     if (!existsSync(candidate)) errors.push(`${rel}: broken link -> ${target}`);
   }
