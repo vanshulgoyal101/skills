@@ -21,9 +21,9 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [provider-cooldown-rotation](skills/provider-cooldown-rotation.md) | Multiple API providers, models, or keys can serve one operation | AdBrain |
 | [alternate-ipv4-ssrf-defense](skills/alternate-ipv4-ssrf-defense.md) | A URL fetcher blocks private or reserved network ranges | ctx, MCP |
 | [no-build-ship-test-parity](skills/no-build-ship-test-parity.md) | A static product ships source files directly with no build step | Tools |
-| [shipped-dom-module-testing](skills/shipped-dom-module-testing.md) | A no-build web app's UI handlers, routes, and registry need direct DOM interaction coverage | Tools |
-| [service-worker-test-isolation](skills/service-worker-test-isolation.md) | Browser tests run an offline-first app with a persistent service worker or runtime cache | Tools |
-| [bounded-untrusted-parsing](skills/bounded-untrusted-parsing.md) | User-controlled patterns, source, markup, or files can trigger expensive parsing or unsafe rewrites | Tools |
+| [bounded-untrusted-parsing](skills/bounded-untrusted-parsing.md) | User input is parsed, formatted, matched, or scanned under resource constraints | AdBrain, Tools |
+| [service-worker-test-isolation](skills/service-worker-test-isolation.md) | Browser tests share service workers, caches, or persistent contexts | Arcade |
+| [shipped-dom-module-testing](skills/shipped-dom-module-testing.md) | UI behavior lives in a directly shipped HTML module and pure tests miss wiring | Tools, Arcade |
 
 ## Checklists
 
