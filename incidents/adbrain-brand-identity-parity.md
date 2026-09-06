@@ -33,6 +33,17 @@ public production page. The obsolete authored-card generator was removed so it
 cannot restore stale imagery. Build, route verification, and both artwork tests
 passed for the refreshed capture.
 
+The Pages follow-up succeeded, but the unchanged screenshot URL still returned
+the old 40,072-byte asset with an Age header of 377 seconds. A versioned request
+returned the new 58,096-byte file with matching SHA-256. Portfolio `004ed55`
+therefore references that version explicitly. AdBrain checker `d8d7890` fetches
+the image URL actually rendered by Portfolio, not an unrelated cache-busted URL.
+
+A failed deep equality assertion on binary buffers exhausted Node's heap while
+formatting its diff. Use `Buffer.equals` for a bounded boolean assertion or
+compare SHA-256 strings with sizes and cache headers. This makes a mismatch
+diagnosable without increasing heap limits or dumping binary artifacts.
+
 ## Related workspace lessons
 
 - Keyword-derived brief previews can invent audience or offer facts. AdBrain's

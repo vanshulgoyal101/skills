@@ -38,6 +38,9 @@ A new product is launched or a site is moved, but the registry still names the o
 	logo loading and sizing independently without weakening artwork-frame tests.
 - Version cached browser assets and offline shells deliberately. Verify deployment
 	identity and served bytes, not only source tests or HTTP status.
+- Verify the asset URL the page actually uses. A cache-busted probe can match the
+	new file while the page still requests stale bytes at the unchanged URL. Use
+	hashes or bounded equality checks rather than formatting large binary diffs.
 
 ## Discriminating checks
 
