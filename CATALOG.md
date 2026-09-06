@@ -28,6 +28,9 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [cache-version-parity](skills/cache-version-parity.md) | Non-hashed assets, service workers, or query-string cache versions change | Tiny Arcade |
 | [semantic-delimiter-safety](skills/semantic-delimiter-safety.md) | Free-text list values can contain the chosen delimiter | AdBrain |
 | [provider-cooldown-rotation](skills/provider-cooldown-rotation.md) | Multiple API providers, models, or keys can serve one operation | AdBrain |
+| [task-aware-llm-routing](skills/task-aware-llm-routing.md) | Different LLM tasks have different quality, latency, or cost requirements | AdBrain |
+| [validated-multimodal-generation](skills/validated-multimodal-generation.md) | Model output controls an expensive image/audio/video artifact and must stay grounded | AdBrain |
+| [external-api-error-contracts](skills/external-api-error-contracts.md) | Provider errors, labels, capabilities, or destinations cross into customer workflows | AdBrain |
 | [alternate-ipv4-ssrf-defense](skills/alternate-ipv4-ssrf-defense.md) | A URL fetcher blocks private or reserved network ranges | ctx, MCP |
 | [shared-security-parity](skills/shared-security-parity.md) | Sibling services implement the same security boundary independently | Reader, MCP, ctx |
 | [no-build-ship-test-parity](skills/no-build-ship-test-parity.md) | A static product ships source files directly with no build step | Tools |
@@ -49,6 +52,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
+| [native-runtime-deployment-parity](skills/native-runtime-deployment-parity.md) | Native modules or platform-specific optional dependencies run in serverless production | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
 | [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
 | [header-offset-scroll-guards](skills/header-offset-scroll-guards.md) | Fixed headers or hash navigation hide content beneath the navigation | Vanshul Portfolio |
@@ -87,6 +91,8 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [vbrain-svg-social-card](incidents/vbrain-svg-social-card.md)
 - [public-indexing-hygiene](incidents/public-indexing-hygiene.md)
 - [adbrain-provider-and-cron-configuration](incidents/adbrain-provider-and-cron-configuration.md)
+- [adbrain-creative-generation-harness](incidents/adbrain-creative-generation-harness.md)
+- [adbrain-production-native-runtime](incidents/adbrain-production-native-runtime.md)
 - [orphaned-development-server-memory](incidents/orphaned-development-server-memory.md)
 - [solaride-static-site-hardening](incidents/solaride-static-site-hardening.md)
 - [vanshul-portfolio-navigation-and-motion](incidents/vanshul-portfolio-navigation-and-motion.md)
