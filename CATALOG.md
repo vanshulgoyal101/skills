@@ -49,6 +49,12 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [multi-encoding-literal-rotation](skills/multi-encoding-literal-rotation.md) | A shared literal changes across display, links, attributes, URL encoding, and structured data | Solaride |
 | [documented-fact-parity](skills/documented-fact-parity.md) | A README/copy/description/profile quotes a count or list that a code registry already defines | Tools, Arcade |
 | [rasterized-social-preview](skills/rasterized-social-preview.md) | A page sets og:image/twitter:image, especially authored as SVG | vbrain |
+| [security-response-headers](skills/security-response-headers.md) | Browser-facing HTML needs a tested and live-verified security-header baseline | AdBrain, vbrain |
+| [reference-integrity-checks](skills/reference-integrity-checks.md) | Assets and internal links must resolve in the deployed output | AdBrain, vbrain |
+| [hydration-determinism](skills/hydration-determinism.md) | SSR/SSG output depends on time, timezone, locale, randomness, or browser state | AdBrain |
+| [budget-aware-provider-routing](skills/budget-aware-provider-routing.md) | Paid AI tasks need explicit cost tiers, quotas, and fail-closed budget routing | AdBrain |
+| [idempotent-tenant-isolated-seeding](skills/idempotent-tenant-isolated-seeding.md) | Demo data is seeded into an auth- and RLS-protected multi-tenant database | AdBrain |
+| [coverage-first-passage-ranking](skills/coverage-first-passage-ranking.md) | Multi-term passage search must reward distinct query-term coverage | ctx, MCP |
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
@@ -89,6 +95,8 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [ssrf-alternate-ipv4-bypass](incidents/ssrf-alternate-ipv4-bypass.md)
 - [documented-count-drift](incidents/documented-count-drift.md)
 - [vbrain-svg-social-card](incidents/vbrain-svg-social-card.md)
+- [adbrain-open-internal-endpoint](incidents/adbrain-open-internal-endpoint.md)
+- [adbrain-managed-db-autopause](incidents/adbrain-managed-db-autopause.md)
 - [public-indexing-hygiene](incidents/public-indexing-hygiene.md)
 - [adbrain-provider-and-cron-configuration](incidents/adbrain-provider-and-cron-configuration.md)
 - [adbrain-creative-generation-harness](incidents/adbrain-creative-generation-harness.md)

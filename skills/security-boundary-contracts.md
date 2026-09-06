@@ -20,6 +20,7 @@ A route checks that a user is signed in but not that they own the target busines
 - Validate every redirect, retry, storage restore, and external response that can cross the boundary.
 - Return safe, bounded errors and avoid exposing secrets or untrusted content as instructions.
 - Add tests for alternate representations, wrong tenants, missing auth, redirects, stale state, and malformed input.
+- Walk the route tree on disk and assert every privileged endpoint rejects anonymous callers before doing work; `/internal/` in a URL is organization, not authorization.
 
 ## Discriminating checks
 
@@ -36,6 +37,7 @@ A route checks that a user is signed in but not that they own the target busines
 - Validating the initial request but not redirects or retries.
 - Trusting TypeScript types after JSON, storage, or network input.
 - Turning user-controlled external content into executable instructions.
+- Assuming an internal-looking route prefix is an auth boundary.
 
 ## Evidence
 
