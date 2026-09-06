@@ -2,10 +2,19 @@
 
 This catalog is the routing layer for the repository. Add one line here whenever new knowledge lands.
 
+## Portfolio Learning Routes
+
+- Established-UI refactors: [design intent](skills/design-intent-preservation.md), [rendered evidence](skills/rendered-ui-evidence.md), and [motion lifecycle](skills/visual-motion-constraints.md).
+- Navigation and controls: [lazy hash restoration](skills/header-offset-scroll-guards.md), [focus and target geometry](skills/accessible-interaction-contracts.md), and [preference precedence](skills/runtime-storage-boundaries.md).
+- Publishing: [runtime/static metadata parity](skills/build-artifact-parity.md), [exact redirect destinations](skills/crawlable-metadata-contracts.md), and [honest reruns/concurrent deployment identity](skills/verification-gates.md).
+- Evidence and remaining uncertainty: [portfolio shelf and release](incidents/portfolio-shelf-and-release.md).
+
 ## Skills
 
 | Skill | Use when | Source |
 |---|---|---|
+| [design-intent-preservation](skills/design-intent-preservation.md) | Refactoring established UI, preserving signature features, or separating content collections | Vanshul Portfolio |
+| [rendered-ui-evidence](skills/rendered-ui-evidence.md) | DOM visibility cannot prove viewport fit, media framing, canvas motion, or control usability | Vanshul Portfolio |
 | [async-lifecycle-guards](skills/async-lifecycle-guards.md) | Timers, promises, animations, rAF loops, or delayed callbacks can outlive a view/run | Tiny Arcade |
 | [runtime-storage-boundaries](skills/runtime-storage-boundaries.md) | JSON/localStorage/cache data enters typed code | Tiny Arcade |
 | [cloud-sync-integrity](skills/cloud-sync-integrity.md) | Offline retries, account switching, restore, ranking, or optimistic sync are involved | Tiny Arcade |
@@ -66,6 +75,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 
 ## Incidents
 
+- [portfolio-shelf-and-release](incidents/portfolio-shelf-and-release.md)
 - [arcade-sync-and-integrity](incidents/arcade-sync-and-integrity.md)
 - [arcade-ui-and-lifecycle](incidents/arcade-ui-and-lifecycle.md)
 - [vbrain-capture-marked-filed](incidents/vbrain-capture-marked-filed.md)

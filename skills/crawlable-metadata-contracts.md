@@ -20,6 +20,14 @@ Two pages clone the same marketing sections and compete for one query (duplicate
 - Give each page unique primary content and real intent; only add a location page where there is genuine local content.
 - Bound title/description length and require the geo/brand keyword where relevant.
 
+### Redirect-only pages
+
+- Treat redirect stubs separately from indexable content pages. Preserve the explicitly intended destination across refresh, script redirect, fallback link, and applicable metadata.
+- Compare complete URLs, including fragments and query strings. A homepage section, a blog index, and a reading-list route may share subject matter but provide different user journeys.
+- Test the fallback without relying on JavaScript. Verify the destination actually contains the intended entry point after any intro or lazy mount.
+- Apply indexing policy deliberately, such as `noindex, follow` for a duplicate redirect stub. Fragment navigation is a user-experience contract, not a guarantee that search engines treat fragments as separate canonical documents.
+- Verify source titles/bylines from retrieved evidence; fetch only relevant context. Leave unresolved canonical destinations explicit rather than inventing a plausible URL.
+
 ## Discriminating checks
 
 - `JSON.parse` each JSON-LD block; a malformed block fails the suite.
@@ -35,3 +43,8 @@ Two pages clone the same marketing sections and compete for one query (duplicate
 - Adding city or landing pages without unique local content (doorway-page risk).
 - Forgetting to register a new page in both the sitemap and the metadata test table.
 - Structured data referencing a stale `@id`, wrong host, or a value the DOM no longer shows.
+- Treating a successful URL fetch as proof of every source claim or of live browser layout.
+
+## Redirect evidence
+
+The blog subdomain originally reached `/blog`, which lacked the homepage shelf card. The user explicitly required `/#blog`, not `/reading-list`. Redirect integrity tests pinned the exact URL across mechanisms. See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md).

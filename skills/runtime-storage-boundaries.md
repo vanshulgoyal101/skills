@@ -29,6 +29,14 @@ Create one small sanitizer boundary per domain or shared module:
 
 Do not silently turn corrupt cloud data into a valid-looking partial store unless the reconciliation policy explicitly says it is safe.
 
+### Display preference precedence
+
+- Distinguish an absent preference from explicit saved on/off choices. Document the default, allowed values, unsupported-device behavior, and accessibility overrides.
+- Define effective behavior from that policy rather than scattered browser/core/memory heuristics. An unexplained heuristic can make an enabled preference appear broken.
+- Keep stored user intent separate from effective capability. Reduced motion or an unsupported pointer may disable an effect without overwriting the saved choice.
+- Handle unavailable storage without crashing the UI; use the documented default and keep in-session interaction working.
+- Do not imply one setting controls every animation if some effects have independent policies.
+
 ## Discriminating checks
 
 For every loader, test:
@@ -41,6 +49,8 @@ For every loader, test:
 - duplicate list values;
 - a recovered object is writable by the game logic;
 - rendered UI contains no `NaN`, `null`, or `undefined`.
+- For preferences: absent key, explicit on/off, invalid value, unavailable storage, reload persistence, reduced motion, and pointer capability.
+- Test default behavior in a fresh browser context. Other tests may explicitly opt out of effects, but default-preference tests must not inherit that opt-out.
 
 ## Common traps
 
@@ -49,3 +59,7 @@ For every loader, test:
 - `typeof value === 'object'` accepts arrays and `null`.
 - Testing only “does not throw” misses poisoned state.
 - Migrating a legacy field without pinning precedence and type policy.
+
+## Preference evidence
+
+The portfolio restored enabled ambient and supported-pointer cursor defaults, removed unexpected hardware/browser exclusions, retained explicit stored choices, and kept reduced-motion overrides. Browser checks exercised persistence and fresh-context defaults. This supplements schema validation rather than replacing it.
