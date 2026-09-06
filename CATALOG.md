@@ -85,6 +85,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 
 ## Incidents
 
+- [adbrain-brand-identity-parity](incidents/adbrain-brand-identity-parity.md)
 - [portfolio-shelf-and-release](incidents/portfolio-shelf-and-release.md)
 - [arcade-sync-and-integrity](incidents/arcade-sync-and-integrity.md)
 - [arcade-ui-and-lifecycle](incidents/arcade-ui-and-lifecycle.md)
