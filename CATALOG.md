@@ -89,6 +89,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [portfolio-shelf-and-release](incidents/portfolio-shelf-and-release.md)
 - [arcade-sync-and-integrity](incidents/arcade-sync-and-integrity.md)
 - [arcade-ui-and-lifecycle](incidents/arcade-ui-and-lifecycle.md)
+- [arcade-generated-and-production](incidents/arcade-generated-and-production.md)
 - [vbrain-capture-marked-filed](incidents/vbrain-capture-marked-filed.md)
 - [vbrain-jsonld-injection](incidents/vbrain-jsonld-injection.md)
 - [ui-edit-generated-index-drift](incidents/ui-edit-generated-index-drift.md)
