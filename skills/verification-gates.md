@@ -24,6 +24,12 @@ The checked-in source, generated artifact, live behavior, and documentation agre
 
 Record exact counts and commands, distinguish warnings from failures, and call out anything not tested. A green unit suite does not prove generated assets or live SQL are correct.
 
+- Exercise integration contracts at their owning boundary: SDK auth callbacks, resolved error responses, delayed account changes, and private-view teardown need more than pure-model tests.
+- A live integrity checker must report unreadable or unsupported records separately, not count them as healthy. Test that its readers cover every registered product and fail its gate on unreadable or inconsistent records.
+- For randomized interaction tests, choose a deterministic setup that guarantees the intended transition. A swipe may legitimately be a no-op on a random board; fix the precondition without weakening the gesture assertion.
+- Align reporting keys and labels with the backend's calendar timezone. Test near midnight where the reporting date differs from UTC and the viewer's local date, as well as delayed responses after filter or auth changes.
+- Separate generated-page smoke checks, authenticated workflow tests, and deployed-byte checks. Visible sign-in controls do not prove OAuth consent or owner-only rendering.
+
 ## Failed checks and reruns
 
 - Read the specific failure before rerunning. Repair a repeatable touched-path defect and rerun the same check first.
@@ -35,21 +41,15 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 ## Concurrent deployment identity
 
 - Inspect staged paths and preserve other actors' changes. Capture the commit identity from the commit operation; a later `rev-parse HEAD` may already name someone else's commit.
+- In a shared worktree, inspect both `git status --short` and `git diff --cached` before staging. Stage only owned paths or hunks; explicit paths alone do not protect someone else's edits in the same file. Do not reset, stash, or unstage another actor's work to manufacture a clean index.
+- When HEAD or the remote branch moves unexpectedly, inspect the reflog and ancestry before assuming work was lost. Fetch before an authorized push and compare revisions. Bot-generated commits are still concurrent changes; do not automatically rebase a dirty shared worktree or force-push over them.
+- A modification may restore stale source and remove shipped behavior. Compare its intent with the relevant base and generated artifacts; reconcile with the owner rather than discarding it solely because it differs from the remote.
 - Track workflow runs by full SHA, not an assumed current HEAD or an abbreviated filter that can miss results.
 - If a descendant revision is deployed, confirm ancestry and identify the combined revision. Do not reset or force-push away concurrent work to recover the expected SHA.
 - Use the repository's existing deployment mechanism. A Pages workflow deployment is not interchangeable with a separate branch-publishing command.
 - Await the actual deployment conclusion and inspect the live invariant before saying the change is live. Avoid noisy repeated polling; use a completion wait with bounded output when available.
 - Source/API inspection, blocked-network browser tests, and live checks prove different things. State which evidence supports each claim.
 
-## Common traps
-
-- Trusting stale language-server diagnostics over the build.
-- Running only the full suite after a bug fix and missing the causal check.
-- Calling a database definition check “functional” without exercising the trigger.
-- Forgetting to rebuild all consumers of a shared module.
-- Committing generated output from another actor or leaving the tree dirty.
-- Treating rerun success as a diagnosed or repaired flaky test.
-- Claiming the deployed SHA is the agent's commit when a concurrent descendant was actually released.
 ## Branch and worktree parity
 
 - Fetch remote state before comparing branches. Report local branch, remote branch,
@@ -87,6 +87,15 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 	A successful one-item generation does not validate a default multi-item batch.
 	Never repeat a paid rehearsal under an already-consumed approval.
 
+## Common traps
+
+- Trusting stale language-server diagnostics over the build.
+- Running only the full suite after a bug fix and missing the causal check.
+- Calling a database definition check “functional” without exercising the trigger.
+- Forgetting to rebuild all consumers of a shared module.
+- Committing generated output from another actor or leaving the tree dirty.
+- Treating rerun success as a diagnosed or repaired flaky test.
+- Claiming the deployed SHA is the agent's commit when a concurrent descendant was actually released.
 
 ## Evidence
 
