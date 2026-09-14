@@ -24,12 +24,6 @@ The checked-in source, generated artifact, live behavior, and documentation agre
 
 Record exact counts and commands, distinguish warnings from failures, and call out anything not tested. A green unit suite does not prove generated assets or live SQL are correct.
 
-- Exercise integration contracts at their owning boundary: SDK auth callbacks, resolved error responses, delayed account changes, and private-view teardown need more than pure-model tests.
-- A live integrity checker must report unreadable or unsupported records separately, not count them as healthy. Test that its readers cover every registered product and fail its gate on unreadable or inconsistent records.
-- For randomized interaction tests, choose a deterministic setup that guarantees the intended transition. A swipe may legitimately be a no-op on a random board; fix the precondition without weakening the gesture assertion.
-- Align reporting keys and labels with the backend's calendar timezone. Test near midnight where the reporting date differs from UTC and the viewer's local date, as well as delayed responses after filter or auth changes.
-- Separate generated-page smoke checks, authenticated workflow tests, and deployed-byte checks. Visible sign-in controls do not prove OAuth consent or owner-only rendering.
-
 ## Failed checks and reruns
 
 - Read the specific failure before rerunning. Repair a repeatable touched-path defect and rerun the same check first.
@@ -56,6 +50,43 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 - Committing generated output from another actor or leaving the tree dirty.
 - Treating rerun success as a diagnosed or repaired flaky test.
 - Claiming the deployed SHA is the agent's commit when a concurrent descendant was actually released.
+## Branch and worktree parity
+
+- Fetch remote state before comparing branches. Report local branch, remote branch,
+	worktree HEAD, and deployed SHA separately; they can all differ.
+- Prove containment with `git merge-base --is-ancestor <candidate> origin/main`
+	or inspect `git log origin/main..<candidate>`. A historical release branch can
+	contain no missing work even when its tip differs from main. Use `git diff` to
+	establish exact tree equality when that is the requirement.
+- Preserve dirty work during a release. An isolated worktree can ship a reviewed
+	subset, but its cleanliness says nothing about the original checkout. List
+	excluded modified and untracked paths explicitly; `git diff` omits untracked
+	file contents.
+- Before integrating preserved edits, compare their intent with the current
+	released base. Keep concurrent changes, resolve overlaps deliberately, and
+	test the assembled result. Never discard apparent stale changes by assumption.
+- Stage explicit paths and inspect the staged diff. Follow the repository's
+	protected promotion path, bind checks and merge to the exact reviewed head,
+	then synchronize the production merge back into development.
+- Branch deletion is a separate cleanup decision. First prove containment;
+	do not delete branches or attached worktrees merely to make counts match.
+
+## Evidence and authorization boundaries
+
+- Record code publication, migration, environment changes, deployment, and live
+	provider mutations separately. Approval for one does not imply the others.
+- A preview URL or configured deployment-disable rule does not prove isolation.
+	Verify actual deployment behavior and credential/database targets before use.
+- Authenticate the intended owner and business before acceptance testing. An
+	HTTP 200 with empty results for another tenant proves neither saved-result
+	recovery nor that the correct account was selected.
+- Consent mocks, application publication, and API-tier approval do not prove
+	real customer consent. Record the last completed step and leave the cause of
+	an external restriction unconfirmed until evidence distinguishes it.
+- Date demo receipts and name their tested commit, request count, and writes.
+	A successful one-item generation does not validate a default multi-item batch.
+	Never repeat a paid rehearsal under an already-consumed approval.
+
 
 ## Evidence
 

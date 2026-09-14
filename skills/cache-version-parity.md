@@ -26,6 +26,11 @@ A page or error document retains an old `?v=` while the main page points at a ne
 - Assert all importers use one version for shared modules.
 - Include `404.html`, offline shells, manifests, and service-worker lists in the scan.
 - Build from a clean checkout and assert the promoted output contains the new digest.
+- Parse asset references as URLs: check `URL.pathname` for disk existence and
+	`URL.searchParams` for the expected version. A filename check on the full
+	`icon.png?v=...` URL falsely reports a missing asset.
+- After deployment, compare served asset bytes with the committed files as well
+	as checking the version string. Matching labels alone do not establish freshness.
 
 ## Common traps
 

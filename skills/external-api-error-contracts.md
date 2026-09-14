@@ -48,6 +48,27 @@ request.
 - A malformed or non-HTTP image URL is rejected before `fetch`.
 - Unknown provider errors use the safe fallback message.
 
+## Ambiguous mutation outcomes
+
+- A timeout, dropped response, or server error after an external mutation is an
+   unknown outcome, not evidence that nothing happened. Saved partial work may
+   exist even when the client sees failure.
+- Assign an operation identity before submission and bind reconciliation reads
+   to that identity and the authorized tenant. Recovery must not create a fresh
+   paid request merely because the user clicks the retry control.
+- Bound status checks and expose a recoverable unknown/partial state. If the
+   provider outcome cannot be established safely, require reconciliation instead
+   of automatic resubmission. A provider ID or persistence checkpoint is not proof
+   that the entire operation finished.
+- Fence durable terminal transitions so late failures cannot overwrite success;
+   retain known external IDs when local checkpoint or finalization writes fail.
+- Distinguish a correlation ID from server-enforced idempotency. A client ref
+   can protect a mounted view's retry but does not survive reload, prevent another
+   tab from submitting, or enforce uniqueness across concurrent server requests.
+- Regression check: simulate an ambiguous POST, click retry, and assert exactly
+   one mutation request plus read-only checks with the original identity. Cover
+   partial/empty results, unauthorized reads, tenant filters, and safe DB errors.
+
 ## Common traps
 
 - Returning `(err as Error).message` directly from every route.
@@ -61,3 +82,9 @@ request.
 AdBrain's Meta hardening added `friendlyMetaError`, safe lead-form freshness
 validation, strict destination preservation, CTA normalization and image URL
 validation after provider errors reached users as localized/internal failures.
+
+AdBrain's September 2026 recovery tests separately covered component-scoped
+creative retries and durable campaign-operation checkpoints. The creative test
+asserted one POST across two recovery attempts; it did not prove cross-reload
+idempotency or real-provider timeout recovery. Campaign failure tests retained
+known IDs and returned reconciliation when local persistence failed.
