@@ -58,6 +58,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
 | [regenerable-cache-disk-recovery](skills/regenerable-cache-disk-recovery.md) | Local disk pressure needs cleanup without risking personal data, source, secrets, databases, or active dev runtimes | macOS local machine |
+| [execution-boundary-diagnostics](skills/execution-boundary-diagnostics.md) | Agent, sandbox, or CI commands fail at PATH, cache permissions, local ports, network, or credential helpers | Sanitized local tooling records |
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [native-runtime-deployment-parity](skills/native-runtime-deployment-parity.md) | Native modules or platform-specific optional dependencies run in serverless production | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |

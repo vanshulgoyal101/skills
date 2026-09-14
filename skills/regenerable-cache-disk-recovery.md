@@ -23,6 +23,23 @@ The visible storage loss is attributed to one suspected payload, such as an OS d
 
 ## Discriminating checks
 
+### Application remnants
+
+- Compare app bundles in system/user application directories and indexed locations with bundle IDs, running executables, registered helpers, and app-specific storage. Absence from one directory or Spotlight is not proof of uninstallation.
+- Match exact products and channels. An obsolete Stable or Canary profile does not authorize deleting an installed PTB profile; uninstalling Calendar/Mail does not authorize deleting the vendor's main notes app. Verify historical updater names against their installer payloads or app metadata.
+- Inspect Application Support, caches, HTTP storage, preferences (including ByHost), saved state, logs, crash metadata, and the user's temporary cache directory. A folder called `Caches` can contain a WebView profile or updater executable: remove verified cache children, not the entire parent by name.
+- For each bounded target, verify ownership, reject unexpected symlinks, check open files, and verify the path is gone afterward. Keep destructive targets explicit; do not use a vendor-wide wildcard across the Library. A read-only inventory can be broad, but deletion must remain narrow.
+- A browser profile, OBS scene collection, recording, or database can remain valuable after its app disappears. Request approval for non-regenerable data. Local app deletion neither deletes online accounts nor revokes their OAuth grants.
+- Leave shared vendor agents and privacy-protected data alone unless separately verified and authorized. Do not disable SIP, broadly change permissions, edit TCC databases, or interpret suppressed permission errors as a clean scan.
+
+### Git worktree retirement
+
+- Use `git worktree list --porcelain`, compare commit ancestry, and inspect tracked changes, untracked files, and ignored files separately. `git status --short` alone misses ignored QA screenshots and local environment files.
+- Preserve unique evidence in an agreed non-colliding, ignored destination before removing a redundant checkout. Never copy secrets to a tracked archive. Check running consumers; read-only language-server handles differ from an active development server.
+- Prefer `git worktree remove <path>` without force, then verify both the registration and directory are gone and the retained checkout is unchanged. Removing checkout folders is not permission to delete local/remote branches.
+
+### Measurements and checks
+
 - `df -h / /System/Volumes/Data` before and after cleanup.
 - `du -sh` for each candidate before deletion.
 - `git ls-files -- <candidate>` plus `git status --short -- <candidate>` from the owning repo to check tracked or changed files; inspect ignored artifacts for irreplaceable outputs too.
@@ -40,3 +57,10 @@ The visible storage loss is attributed to one suspected payload, such as an OS d
 - Copying machine-specific PATH, sandbox settings, credentials, or sensitive filenames into a portable cleanup recipe.
 - Treating `/System/Volumes/Data` and `/` free-space output as separate disks; on APFS they are commonly different views of the same container.
 - Emptying personal folders such as Desktop or Downloads during an automated cleanup; they may contain sensitive identity, visa, finance, or customer documents.
+- Assuming a Maven `target` directory is wholly disposable: the recorded audit found tracked files inside three such directories and preserved them.
+- Deleting a non-purgeable OS update snapshot because `tmutil` lists no Time Machine snapshots. They are different snapshot classes; inspect APFS metadata and preserve system recovery state.
+- Repeating full process command dumps until terminal output truncates. Rank compact `ps` columns first, then inspect full arguments only for candidates; summarize large inventories by family, count, size, and access failures.
+
+## Evidence
+
+The September 2026 audit preserved tracked Java outputs and VM disks, retired two same-revision worktrees while preserving eight ignored QA files, and removed an obsolete extension version only after checking the registered newer version. A later absent-app comparison removed 84 narrowly matched remnants across 12 app groups with about 70 MiB of observed recovery, not another multi-gigabyte gain. Firefox data remained inaccessible; recording deletion required a separate choice. See [the cleanup incident](../incidents/macos-beta-disk-recovery.md).
