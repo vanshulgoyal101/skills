@@ -57,6 +57,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [coverage-first-passage-ranking](skills/coverage-first-passage-ranking.md) | Multi-term passage search must reward distinct query-term coverage | ctx, MCP |
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
+| [regenerable-cache-disk-recovery](skills/regenerable-cache-disk-recovery.md) | Local disk pressure needs cleanup without risking personal data, source, secrets, databases, or active dev runtimes | macOS local machine |
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [native-runtime-deployment-parity](skills/native-runtime-deployment-parity.md) | Native modules or platform-specific optional dependencies run in serverless production | AdBrain, Vercel |
 | [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
@@ -110,6 +111,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 - [rls-policy-coverage](incidents/rls-policy-coverage.md)
 - [codec-data-corruption](incidents/codec-data-corruption.md)
 - [reader-alternate-ipv4-ssrf](incidents/reader-alternate-ipv4-ssrf.md)
+- [macos-beta-disk-recovery](incidents/macos-beta-disk-recovery.md)
 
 ## Products
 
