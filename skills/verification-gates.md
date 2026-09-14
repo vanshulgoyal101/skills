@@ -24,6 +24,12 @@ The checked-in source, generated artifact, live behavior, and documentation agre
 
 Record exact counts and commands, distinguish warnings from failures, and call out anything not tested. A green unit suite does not prove generated assets or live SQL are correct.
 
+- Exercise integration contracts at their owning boundary: SDK auth callbacks, resolved error responses, delayed account changes, and private-view teardown need more than pure-model tests.
+- A live integrity checker must report unreadable or unsupported records separately, not count them as healthy. Test that its readers cover every registered product and fail its gate on unreadable or inconsistent records.
+- For randomized interaction tests, choose a deterministic setup that guarantees the intended transition. A swipe may legitimately be a no-op on a random board; fix the precondition without weakening the gesture assertion.
+- Align reporting keys and labels with the backend's calendar timezone. Test near midnight where the reporting date differs from UTC and the viewer's local date, as well as delayed responses after filter or auth changes.
+- Separate generated-page smoke checks, authenticated workflow tests, and deployed-byte checks. Visible sign-in controls do not prove OAuth consent or owner-only rendering.
+
 ## Failed checks and reruns
 
 - Read the specific failure before rerunning. Repair a repeatable touched-path defect and rerun the same check first.
