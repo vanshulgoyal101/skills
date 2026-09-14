@@ -42,6 +42,28 @@ becomes a raw source image presented as a finished ad.
 
 ## Discriminating checks
 
+### Comparing model changes
+
+- Identify the model actually used from its saved receipt, then verify replacement
+   availability and token rates in current official model and provider docs.
+   Equal token rates do not imply equal per-image cost or token consumption.
+- Replay exact saved image prompts and references against original source images,
+   not finished ads whose overlays hide defects. Match quality and aspect ratio,
+   verify decoded dimensions, and disclose any unknown historical settings.
+- Separate image-call cost, concept/interview cost, credit-purchase fees, and
+   total workflow latency. A key-wide usage delta can include concurrent requests.
+- Bound paid evaluation by request count and explicit authorization; persist a
+   one-use submission guard before sending. Do not retry ambiguous paid outcomes.
+   Check receipt totals as well as potentially delayed account usage before the
+   next request. A local stop threshold is not a provider-side per-request cap.
+- Inspect prompt adherence, anatomy, equipment, forbidden details, and space for
+   copy separately from aesthetics. Repeated scene instructions can explain a
+   stock-like result even after a model upgrade. Note contradictory prompts.
+- A few unblinded samples in one domain support a sample-level preference, not
+   statistical significance, general superiority, or improved ad performance.
+
+### Pipeline checks
+
 - Invalid JSON, unsafe claims and invalid citations trigger no image call.
 - The image request contains the exact validated visual direction and placement.
 - A provider capability fixture rejects unsupported parameters and records actual

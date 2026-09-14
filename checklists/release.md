@@ -1,6 +1,9 @@
 # Release Checklist
 
 - [ ] Worktree and staged paths reviewed.
+- [ ] All relevant local/remote refs and worktrees inventoried; unique commits identified before merging. Fast-forward clean historical checkouts where appropriate; preserve unrelated changes.
+- [ ] Source defaults, local overrides, and deployed model/configuration values checked separately. Do not copy production credentials to make environments appear synchronized.
+- [ ] Branch deployment rules checked before pushing synchronized refs; a detached staging checkout is not an isolated hosted environment.
 - [ ] Focused tests pass.
 - [ ] Full test suite result recorded with exact pass/skip/failure counts; any reruns and unresolved intermittency disclosed.
 - [ ] All relevant builds pass.
@@ -15,3 +18,5 @@
 - [ ] Docs/catalog updated.
 - [ ] Remote branch and local tree are clean after push.
 - [ ] Actual deployment SHA identified, including concurrent descendants; workflow conclusion and live invariant verified.
+- [ ] Canonical domain mapped to the successful exact-SHA deployment; verify DNS and an actual HTTP request rather than trusting an attached alias. Missing SHA metadata in a CLI summary is not deployment evidence.
+- [ ] Read-only smoke results distinguish saved-output retrieval from fresh generation, and historical usage receipts from new charges. Do not spend again merely to verify a release.

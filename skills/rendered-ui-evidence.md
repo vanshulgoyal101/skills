@@ -23,6 +23,14 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 - Floating targets may never satisfy locator stability. For tests of intentionally moving controls, click a freshly measured position and assert the resulting event/state sequence.
 - Inspect screenshots manually. Captures without a baseline comparison are evidence, not pixel regression tests.
 - Block external dependencies only when appropriate, and explicitly state which live services and remote links were not exercised.
+- For real login checks, capture any required response body before navigation
+	discards it. With Playwright routing, fetch the actual upstream response, read
+	the session in memory, then fulfill with that same response. Disable retries
+	for the login request and never persist or log credentials or tokens. A
+	navigation-related body-read failure is not evidence of an authentication outage.
+- Wait for the specific image's load completion and nonzero natural dimensions
+	before capturing a lazy-loaded page. An early placeholder capture is not proof
+	that the stored asset is broken.
 
 ## Discriminating checks
 
