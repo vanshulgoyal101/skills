@@ -22,6 +22,8 @@ An aesthetic or performance cleanup removes an introduction, hides secondary pro
 - Reuse the existing visual language while changing the actual information structure: unframed sections, clear headings, truthful counts, and meaningful source links.
 - Keep requested collections in separately labelled sections and lists. Derive counts from their source arrays; assert every entry belongs to the right list and not the other one.
 - Preserve all entries and original ordering unless a new order or hiding mechanism is intentional. Do not invent covers, ratings, dates, or popularity rankings.
+- Let the latest explicit direction supersede old preservation rules. An intentionally collapsed directory still needs complete membership, keyboard disclosure, and no hidden tab stops; update tests that enforce the retired always-visible design.
+- Check typography as a hierarchy at each breakpoint: section heading, item title, supporting label and body. Local overrides can be necessary when a shared heading token makes item titles compete with their section; do not shrink body copy just to create contrast.
 
 ## Discriminating checks
 
@@ -30,6 +32,7 @@ An aesthetic or performance cleanup removes an introduction, hides secondary pro
 - Reach the redesigned surface from its actual entry point and return to the intended section.
 - Assert separate semantic regions, complete membership, counts, original source URLs, and no accidental duplicate IDs.
 - Inspect desktop and narrow-screen screenshots; tests cannot establish whether the user likes the design.
+- Measure computed type sizes, relative hierarchy, line height, spacing and text bounds across breakpoints. Preserve keyboard focus styling separately from noninteractive heading decoration.
 
 ## Common traps
 
@@ -42,3 +45,5 @@ An aesthetic or performance cleanup removes an introduction, hides secondary pro
 ## Evidence
 
 See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md) and [portfolio navigation and motion](../incidents/vanshul-portfolio-navigation-and-motion.md).
+
+Portfolio's September 2026 audit updates disclosure tests for the user's collapsed-directory direction while retaining all 17 entries. Commits `e46a718` through `ad6fe07` repair Work typography with computed-size, hierarchy and overflow assertions in `e2e/portfolio.spec.js`; the final heading-to-role ratio is a product-specific choice, not a universal type scale.

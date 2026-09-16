@@ -26,6 +26,8 @@ A route checks that a user is signed in but not that they own the target busines
 - Enforce streamed byte limits even when Content-Length is missing or dishonest. Bound decoded image pixels separately; upload MIME declarations are usability checks, not validation of image bytes.
 - For post-auth destinations, accept an explicit local-path grammar and validate the resolved URL. Reject authority forms, backslashes and control characters; concatenating an origin with unchecked text can change the parsed host.
 - Validate JSON shape and numeric database bounds before choosing defaults or performing work. Malformed requests must have no side effects, and client errors must not expose raw database/provider diagnostics.
+- Apply analytics privacy rules to every collector, including third-party scripts. Disable automatic collection when manual sanitized events own the boundary; omit private routes, credentials, query strings, fragments and referrers that are not needed.
+- Recheck the current route and DNT/GPC preferences when a delayed analytics script loads. Cancel stale callbacks on navigation or unmount; sanitizing the initial event does not protect later SDK auto-events.
 
 ## Discriminating checks
 
@@ -37,6 +39,7 @@ A route checks that a user is signed in but not that they own the target busines
 - Does a real fetch using the guarded dispatcher reject an internal DNS answer before connecting? Include mixed DNS answers and IPv4-mapped IPv6, plus ordinary domains that resemble IP prefixes.
 - Does an oversized stream stop and cancel without buffering the remainder, including multibyte text under a dishonest Content-Length?
 - Do malformed bodies and rejected callback destinations fail safely before writes or external calls? Test the actual route, not only the schema helper.
+- Navigate from a public page to a private route before analytics loads, toggle privacy preferences before its callback, and unmount with a pending event. Assert no private/stale count and inspect the exact emitted fields.
 
 ## Common traps
 
@@ -56,3 +59,5 @@ The ctx/MCP SSRF incidents, vbrain JSON-LD boundary work, AdBrain tenant and Met
 AdBrain commit `8a87d5b` (2026-09-16), `src/lib/security/ssrf.ts` and `tests/ssrf.test.ts`, adds connection-time DNS rejection through the actual dispatcher, mapped-address cases, a shared redirect deadline, and streaming byte/cancellation checks. DNS and provider fixtures do not establish production egress policy or real provider success.
 
 AdBrain commit `fb5b0cf` adds direct auth-callback, autofill and API-route tests for local-only destinations, malformed bodies, bounded spend values and zero work on rejected inputs.
+
+Portfolio commit `556536a` (2026-09-16), `src/components/Analytics.test.jsx`, verifies manual sanitized counting, private-route suppression, DNT/GPC, delayed-load navigation and callback cleanup. This prevents new collection on the covered paths; it does not inspect or remediate previously stored analytics.
