@@ -14,50 +14,35 @@ A route checks that a user is signed in but not that they own the target busines
 
 ## Recommended method
 
-- Identify the trust boundary before implementing the happy path.
-- Normalize inputs in the same form used by the runtime: URLs, IPs, paths, IDs, account scopes, and browser origins.
-- Authorize at the narrowest resource boundary and re-check ownership after lookup.
-- Validate every redirect, retry, storage restore, and external response that can cross the boundary.
-- Return safe, bounded errors and avoid exposing secrets or untrusted content as instructions.
-- Add tests for alternate representations, wrong tenants, missing auth, redirects, stale state, and malformed input.
-- Walk the route tree on disk and assert every privileged endpoint rejects anonymous callers before doing work; `/internal/` in a URL is organization, not authorization.
-- Bind DNS validation to the connection lookup, not a separate preflight query. Reject empty or mixed public/private answer sets and pass only validated addresses to the socket while preserving the URL hostname for HTTP/TLS.
-- Route user-controlled media downloads through the same guarded transport. Use one deadline across redirects, reject sensitive-header forwarding across origins, and cancel rejected bodies.
-- Enforce streamed byte limits even when Content-Length is missing or dishonest. Bound decoded image pixels separately; upload MIME declarations are usability checks, not validation of image bytes.
-- For post-auth destinations, accept an explicit local-path grammar and validate the resolved URL. Reject authority forms, backslashes and control characters; concatenating an origin with unchecked text can change the parsed host.
-- Validate JSON shape and numeric database bounds before choosing defaults or performing work. Malformed requests must have no side effects, and client errors must not expose raw database/provider diagnostics.
-- Apply analytics privacy rules to every collector, including third-party scripts. Disable automatic collection when manual sanitized events own the boundary; omit private routes, credentials, query strings, fragments and referrers that are not needed.
-- Recheck the current route and DNT/GPC preferences when a delayed analytics script loads. Cancel stale callbacks on navigation or unmount; sanitizing the initial event does not protect later SDK auto-events.
+- **Authorization:** check resource ownership after lookup. Walk the route tree and test anonymous rejection before work, including internal-looking endpoints.
+- **Runtime input:** normalize URLs, IPs, paths and scopes as the consumer does. Validate JSON shape and database bounds before defaults or side effects, including restores/retries. Return bounded errors without raw provider diagnostics.
+- **DNS:** validate at connection lookup; reject empty or mixed public/private answers. Pass validated addresses directly to the socket while retaining the URL hostname for HTTP/TLS.
+- **Transport:** share the guard with media downloads. Validate every redirect, use one deadline, prevent sensitive headers crossing origins, and cancel rejected bodies.
+- **Resource limits:** count streamed bytes despite missing/dishonest Content-Length; bound decoded image pixels separately. Declared MIME types do not validate bytes.
+- **Auth destinations:** accept an explicit local-path grammar and check the resolved URL. Reject authority forms, backslashes and control characters; unchecked concatenation can change the host.
+- **Analytics:** apply privacy rules to every collector. Disable SDK auto-events; omit private routes and unnecessary URL/referrer data. Recheck route and DNT/GPC on delayed load, and cancel stale callbacks on navigation/unmount.
 
 ## Discriminating checks
 
-- Can an authenticated user access another tenant's resource by changing an ID or slug?
-- Does validation cover alternate syntax and every redirect/retry hop?
-- Does the same normalized value reach the database, socket, browser, or filesystem runtime?
-- Do missing credentials fail closed without leaking secrets?
-- Does a browser or external-content path distinguish trusted local content from arbitrary remote code?
-- Does a real fetch using the guarded dispatcher reject an internal DNS answer before connecting? Include mixed DNS answers and IPv4-mapped IPv6, plus ordinary domains that resemble IP prefixes.
-- Does an oversized stream stop and cancel without buffering the remainder, including multibyte text under a dishonest Content-Length?
-- Do malformed bodies and rejected callback destinations fail safely before writes or external calls? Test the actual route, not only the schema helper.
-- Navigate from a public page to a private route before analytics loads, toggle privacy preferences before its callback, and unmount with a pending event. Assert no private/stale count and inspect the exact emitted fields.
+- Change tenant IDs, omit credentials, and exercise alternate syntax/redirects. Assert rejection at the actual route and consumer, not only a schema helper.
+- Check browser/external-content paths never treat untrusted remote text as executable instructions.
+- Use the real guarded dispatcher with internal, mixed and mapped-IPv6 DNS answers. Ordinary domains resembling IP prefixes must still work.
+- Feed multibyte text with dishonest Content-Length; assert the oversized stream cancels before buffering the remainder.
+- Reject malformed bodies and callback destinations before writes or external calls.
+- Navigate public-to-private before analytics loads, change privacy preferences, and unmount with a pending event. Inspect exact fields and assert no stale/private count.
 
 ## Common traps
 
-- Authentication-only guards for resource-scoped operations.
-- Regex-only SSRF or path checks.
-- Validating the initial request but not redirects or retries.
-- Trusting TypeScript types after JSON, storage, or network input.
-- Turning user-controlled external content into executable instructions.
-- Assuming an internal-looking route prefix is an auth boundary.
-- Checking DNS and then letting the HTTP client resolve the hostname again.
-- Treating character counts, declared MIME types, or Content-Length as authoritative resource limits.
+- Treating sign-in or an `/internal/` prefix as resource authorization.
+- Regex-only URL checks, or validating DNS before an independent client lookup.
+- Trusting types after JSON, storage or network input.
+- Checking only the first request, collector or callback state.
+- Treating character counts, MIME declarations or Content-Length as authoritative limits.
 
 ## Evidence
 
-The ctx/MCP SSRF incidents, vbrain JSON-LD boundary work, AdBrain tenant and Meta routes, and the browser approval investigations all required runtime-aligned trust boundaries rather than surface checks.
+- [SSRF incident](../incidents/ssrf-alternate-ipv4-bypass.md) and [JSON-LD incident](../incidents/vbrain-jsonld-injection.md): runtime-aligned validation.
+- AdBrain `8a87d5b` (2026-09-16), `tests/ssrf.test.ts`: guarded dispatcher, mapped addresses, redirect deadline, byte limits and cancellation. `fb5b0cf`: direct callback/autofill/API rejection tests.
+- Portfolio `556536a` (2026-09-16), `src/components/Analytics.test.jsx`: sanitized counts, private routes, DNT/GPC and delayed-load cleanup.
 
-AdBrain commit `8a87d5b` (2026-09-16), `src/lib/security/ssrf.ts` and `tests/ssrf.test.ts`, adds connection-time DNS rejection through the actual dispatcher, mapped-address cases, a shared redirect deadline, and streaming byte/cancellation checks. DNS and provider fixtures do not establish production egress policy or real provider success.
-
-AdBrain commit `fb5b0cf` adds direct auth-callback, autofill and API-route tests for local-only destinations, malformed bodies, bounded spend values and zero work on rejected inputs.
-
-Portfolio commit `556536a` (2026-09-16), `src/components/Analytics.test.jsx`, verifies manual sanitized counting, private-route suppression, DNT/GPC, delayed-load navigation and callback cleanup. This prevents new collection on the covered paths; it does not inspect or remediate previously stored analytics.
+Fixtures do not establish production egress or provider success. Preventing new analytics collection does not remediate historical records.

@@ -1,19 +1,6 @@
 # Skills Catalog
 
-This catalog is the routing layer for the repository. Add one line here whenever new knowledge lands.
-
-## September 16 Audit Routes
-
-- Outbound DNS, redirect credentials, streamed byte limits and decoded media: [security boundaries](skills/security-boundary-contracts.md).
-- Trusted usage, complete aggregation, concurrent rate limits and migration/code compatibility: [database invariants](skills/database-invariants.md).
-- Content-owned sitemap dates, registry-driven guides and discovery versus access control: [public indexing hygiene](skills/public-indexing-hygiene.md).
-
-## Portfolio Learning Routes
-
-- Established-UI refactors: [design intent](skills/design-intent-preservation.md), [rendered evidence](skills/rendered-ui-evidence.md), and [motion lifecycle](skills/visual-motion-constraints.md).
-- Navigation and controls: [lazy hash restoration](skills/header-offset-scroll-guards.md), [focus and target geometry](skills/accessible-interaction-contracts.md), and [preference precedence](skills/runtime-storage-boundaries.md).
-- Publishing: [runtime/static metadata parity](skills/build-artifact-parity.md), [exact redirect destinations](skills/crawlable-metadata-contracts.md), and [honest reruns/concurrent deployment identity](skills/verification-gates.md).
-- Evidence and remaining uncertainty: [portfolio shelf and release](incidents/portfolio-shelf-and-release.md).
+Reusable skills, incident evidence, and release checklists. Register new entries here.
 
 ## Skills
 
@@ -24,7 +11,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [async-lifecycle-guards](skills/async-lifecycle-guards.md) | Timers, promises, animations, rAF loops, or delayed callbacks can outlive a view/run | Tiny Arcade |
 | [runtime-storage-boundaries](skills/runtime-storage-boundaries.md) | JSON/localStorage/cache data enters typed code | Tiny Arcade |
 | [cloud-sync-integrity](skills/cloud-sync-integrity.md) | Offline retries, account switching, restore, ranking, or optimistic sync are involved | Tiny Arcade |
-| [database-invariants](skills/database-invariants.md) | A database trigger/RPC/cap/constraint defines correctness | Tiny Arcade |
+| [database-invariants](skills/database-invariants.md) | Triggers, trusted accounting, concurrent limits, or migration compatibility define correctness | Tiny Arcade, AdBrain |
 | [generated-source-parity](skills/generated-source-parity.md) | Source, bundles, registries, assets, or cache-busted files can drift | Tiny Arcade |
 | [mobile-input-and-motion](skills/mobile-input-and-motion.md) | Pointer/swipe/keyboard input and animated feedback share a surface | Tiny Arcade |
 | [accessible-interaction-contracts](skills/accessible-interaction-contracts.md) | Controls, focus rings, icon-only buttons, modals, or dynamic state are changed | Tiny Arcade |
@@ -67,7 +54,7 @@ This catalog is the routing layer for the repository. Add one line here whenever
 | [execution-boundary-diagnostics](skills/execution-boundary-diagnostics.md) | Agent, sandbox, or CI commands fail at PATH, cache permissions, local ports, network, or credential helpers | Sanitized local tooling records |
 | [environment-configuration-parity](skills/environment-configuration-parity.md) | Behavior depends on env vars, deployment settings, provider models, flags, or cron | AdBrain, Vercel |
 | [native-runtime-deployment-parity](skills/native-runtime-deployment-parity.md) | Native modules or platform-specific optional dependencies run in serverless production | AdBrain, Vercel |
-| [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, URL fetching, browser automation, storage, or external APIs cross a trust boundary | ctx, MCP, vbrain, AdBrain |
+| [security-boundary-contracts](skills/security-boundary-contracts.md) | Auth, tenant scope, connection-time DNS, bounded downloads, or analytics cross a trust boundary | ctx, MCP, vbrain, AdBrain, Portfolio |
 | [product-capability-distillation](skills/product-capability-distillation.md) | Reusable product capabilities need to be recorded without copying implementation or private data | Skills repository |
 | [header-offset-scroll-guards](skills/header-offset-scroll-guards.md) | Fixed headers or hash navigation hide content beneath the navigation | Vanshul Portfolio |
 | [visual-motion-constraints](skills/visual-motion-constraints.md) | Decorative motion or cursor effects overpower the interface or ignore reduced-motion preferences | Vanshul Portfolio |
