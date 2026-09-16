@@ -2,6 +2,12 @@
 
 This catalog is the routing layer for the repository. Add one line here whenever new knowledge lands.
 
+## September 16 Audit Routes
+
+- Outbound DNS, redirect credentials, streamed byte limits and decoded media: [security boundaries](skills/security-boundary-contracts.md).
+- Trusted usage, complete aggregation, concurrent rate limits and migration/code compatibility: [database invariants](skills/database-invariants.md).
+- Content-owned sitemap dates, registry-driven guides and discovery versus access control: [public indexing hygiene](skills/public-indexing-hygiene.md).
+
 ## Portfolio Learning Routes
 
 - Established-UI refactors: [design intent](skills/design-intent-preservation.md), [rendered evidence](skills/rendered-ui-evidence.md), and [motion lifecycle](skills/visual-motion-constraints.md).
