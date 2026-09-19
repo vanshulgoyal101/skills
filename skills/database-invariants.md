@@ -27,6 +27,18 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 - Serialize count-and-insert decisions by rate-limit key. Read wall-clock time after acquiring the lock so waiting does not consume the new event's window.
 - Fail closed when shared production protection is unavailable. A per-instance development fallback is not equivalent protection across production instances.
 - Coordinate permission-changing migrations with compatible application code. Describe both deployment orders and keep trusted-client behavior in the rollback; never restore browser write access as a shortcut.
+- Apply one reviewed incremental migration to an explicitly verified target, with
+	separate authorization from code publication. Keep full-schema commands local;
+	require verified TLS for remote database connections.
+- Serialize migration application with a transaction-scoped advisory lock and
+	record filename/checksum atomically. Identical repeats skip, checksum drift
+	fails, and failed SQL leaves neither partial changes nor a success entry.
+- A new migration ledger does not describe all historical schema state. Inspect
+	existing columns and constraints before adoption; never replay a directory
+	because older applied migrations have no ledger entry.
+- Back up affected data and compare original columns inside the locked migration
+	transaction. Keep additive schema deployment separate from optional worker
+	activation; publishing worker code is not authorization to run its queue.
 
 ## Discriminating checks
 
@@ -40,6 +52,10 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 - Run fresh installation, ordered upgrade and repeated migration paths against temporary PostgreSQL, including authenticated tenant isolation and denied browser writes/RPC calls.
 - Race more concurrent requests than the available slots and assert the exact admitted count. Test unavailable shared protection separately from development fallback.
 - Seed beyond the API page limit and compare the owner-scoped aggregate with the complete expected total.
+- Apply the same migration twice, change its checksum, then force a SQL failure;
+	assert skip, rejection, rollback, and absence of a failed ledger entry.
+- Verify a pre-ledger upgraded database without replaying historical migrations;
+	assert original row values survive the approved additive migration.
 
 ## Common traps
 

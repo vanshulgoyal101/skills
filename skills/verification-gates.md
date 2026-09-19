@@ -71,6 +71,36 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 - Branch deletion is a separate cleanup decision. First prove containment;
 	do not delete branches or attached worktrees merely to make counts match.
 
+### Already-published changes in an older checkout
+
+- A large modified/untracked count can be an old local baseline, not missing
+	publication. Compare every changed path, including untracked contents, with
+	the fetched release tree before committing or deploying again.
+- For explicitly requested cleanup, first require an empty staged diff, correct
+	branch, fast-forward ancestry, and exact equality with the intended remote.
+	Any differing or missing path stops this procedure for separate review.
+- With writers paused and those conditions proved, a mixed reset to the verified
+	commit can align the branch/index without rewriting working files. This is a
+	narrow reconciliation operation, not a general dirty-worktree cleanup recipe.
+	Never substitute a hard reset, clean, or stash.
+- Fingerprint file contents, modes, and symlink targets before and after; verify
+	no working-file changes, clean status, and local/remote commit equality. Inspect
+	other worktrees independently rather than assuming they contain no new work.
+
+### Deployment state is not deployment completion
+
+- A project's production-target pointer can name an INITIALIZING deployment.
+	Require the exact commit's successful deployment state and canonical-host
+	evidence, then test the affected authenticated workflow. A preview success or
+	homepage response does not satisfy this gate.
+- If management access fails, report that failure separately. An exact-SHA
+	successful provider/GitHub deployment receipt plus canonical workflow evidence
+	can support a qualified report; do not invent an alias API verification.
+- Follow existing build events before requesting another deployment. A manual
+	fallback needs its own approval and must bind to the tested immutable SHA.
+	If the original catches up, reconcile duplicates and cancel only an owned,
+	redundant queued build; never promote an arbitrary preview to clear a queue.
+
 ## Evidence and authorization boundaries
 
 - Record code publication, migration, environment changes, deployment, and live
@@ -86,6 +116,10 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 - Date demo receipts and name their tested commit, request count, and writes.
 	A successful one-item generation does not validate a default multi-item batch.
 	Never repeat a paid rehearsal under an already-consumed approval.
+- A read-only provider estimate proves request acceptance and returned estimates,
+  not persisted configuration, exact geographic boundaries, delivery, or paid
+  output quality. Do not silently replace a saved-behavior gate with that result;
+  obtain an explicit decision and retain the limitation in the release receipt.
 
 ## Common traps
 
@@ -100,3 +134,9 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 ## Evidence
 
 See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md): local failures passed serial reruns, CI failed unchanged sculpture assertions before a successful failed-job rerun, and a concurrent descendant was the deployed revision. No assertions were weakened; failure causes remain uncertain.
+
+[AdBrain PR #18](https://github.com/vanshulgoyal101/adbrain/pull/18) (2026-09-19)
+recorded delayed deployment completion, exact-commit provider evidence, and
+canonical authenticated checks. Follow-up reconciliation found 93 local paths
+already equal to the released tree; all 490 fingerprinted working files remained
+unchanged while the old branch/index baseline was aligned with explicit approval.
