@@ -100,6 +100,14 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 	fallback needs its own approval and must bind to the tested immutable SHA.
 	If the original catches up, reconcile duplicates and cancel only an owned,
 	redundant queued build; never promote an arbitrary preview to clear a queue.
+- Distinguish a missing Git-triggered deployment from a queued build: check the
+	exact merge SHA in deployment records and verify project/repository/branch
+	linkage. Green CI and correct linkage alone do not prove delivery or explain
+	the missing trigger.
+- Obtain fallback approval for this release, not a previous one. Once approved,
+	recheck for an existing build, deploy the immutable Git source with existing
+	settings, and require READY plus canonical-alias verification. A successful
+	fallback does not establish that automatic Git delivery is repaired.
 
 ## Evidence and authorization boundaries
 

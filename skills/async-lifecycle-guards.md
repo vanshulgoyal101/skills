@@ -30,6 +30,14 @@ Choose the smallest lifecycle primitive that matches the scope:
 
 Invalidate before resetting or replacing the state that the old callback could touch.
 
+For persisted multi-step workflows:
+
+- **Recovery authority**: distinguish lookup uncertainty from a known operation's state. Accepting a known result clears lookup uncertainty; only confirmed terminal states permit editing. Missing/failed lookups and nonterminal operations stay locked.
+- **Replacement ordering**: invalidate the old review immediately, but retain the previous operation and recovery key until the replacement draft is saved. Validation/save failure must not erase the evidence needed to recover the old request.
+- **Session ownership**: scope transcript and request ownership to the entity and destination. Abort on exit and reject late responses, including transports that ignore abort. Hiding a mounted planner does not end its ownership.
+- **Retry payload**: persist the complete submitted payload before sending; explicit retry reuses it after failure or reopen. Cancellation cannot undo server work or guarantee exactly-once billing/saving. Warn about possible prior completion; do not auto-retry ambiguous writes.
+- **Completion handoff**: persist the completed transcript and clear pending work before notifying a parent that may immediately unmount the child. A later persistence effect may never run; if the completion write fails, attempt to clear stale recovery and do not claim durable persistence.
+
 For conversation scrolling, response validity and permission to move the reader are separate. Track whether the reader is near the bottom from the container's own scroll events, before new content arrives. Auto-follow only while that intent remains true; scrolling back suspends it, returning to the bottom resumes it. Ignore nested scroll events. Reset follow intent for a new conversation. If post-paint scrolling produces a visible jump, apply the guarded update before paint; changing effect timing alone does not protect the reader.
 
 ## Discriminating checks
@@ -39,6 +47,9 @@ For conversation scrolling, response validity and permission to move the reader 
 - Submit twice while the first network request is unresolved.
 - Start a second request before the first response arrives.
 - Assert no stale DOM classes, text, modal, score, or input remain.
+- Restore terminal, nonterminal, missing and failed operation lookups; verify only confirmed terminal outcomes permit destination changes. Fail replacement validation/save and assert the old recovery survives while its review action disappears.
+- Retry after failure/reopen and compare the entire submitted answer payload. Complete a request while the parent synchronously unmounts the child, then reopen: completion must remain completed, not pending retry.
+- Change destination/mode or close the planner before delivering an old response; assert no stale draft, destination or transcript is restored.
 - Hold a response pending in an already overflowing conversation, scroll back, deliver it, and assert the reader stays put. Repeat at the bottom and verify following resumes. A container too short to overflow cannot distinguish these cases.
 
 ## Common traps
