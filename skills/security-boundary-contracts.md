@@ -14,35 +14,31 @@ A route checks that a user is signed in but not that they own the target busines
 
 ## Recommended method
 
-- **Authorization:** check resource ownership after lookup. Walk the route tree and test anonymous rejection before work, including internal-looking endpoints.
-- **Runtime input:** normalize URLs, IPs, paths and scopes as the consumer does. Validate JSON shape and database bounds before defaults or side effects, including restores/retries. Return bounded errors without raw provider diagnostics.
-- **DNS:** validate at connection lookup; reject empty or mixed public/private answers. Pass validated addresses directly to the socket while retaining the URL hostname for HTTP/TLS.
-- **Transport:** share the guard with media downloads. Validate every redirect, use one deadline, prevent sensitive headers crossing origins, and cancel rejected bodies.
-- **Resource limits:** count streamed bytes despite missing/dishonest Content-Length; bound decoded image pixels separately. Declared MIME types do not validate bytes.
-- **Auth destinations:** accept an explicit local-path grammar and check the resolved URL. Reject authority forms, backslashes and control characters; unchecked concatenation can change the host.
-- **Analytics:** apply privacy rules to every collector. Disable SDK auto-events; omit private routes and unnecessary URL/referrer data. Recheck route and DNT/GPC on delayed load, and cancel stale callbacks on navigation/unmount.
+- Identify the trust boundary before implementing the happy path.
+- Normalize inputs in the same form used by the runtime: URLs, IPs, paths, IDs, account scopes, and browser origins.
+- Authorize at the narrowest resource boundary and re-check ownership after lookup.
+- Validate every redirect, retry, storage restore, and external response that can cross the boundary.
+- Return safe, bounded errors and avoid exposing secrets or untrusted content as instructions.
+- Add tests for alternate representations, wrong tenants, missing auth, redirects, stale state, and malformed input.
+- Walk the route tree on disk and assert every privileged endpoint rejects anonymous callers before doing work; `/internal/` in a URL is organization, not authorization.
 
 ## Discriminating checks
 
-- Change tenant IDs, omit credentials, and exercise alternate syntax/redirects. Assert rejection at the actual route and consumer, not only a schema helper.
-- Check browser/external-content paths never treat untrusted remote text as executable instructions.
-- Use the real guarded dispatcher with internal, mixed and mapped-IPv6 DNS answers. Ordinary domains resembling IP prefixes must still work.
-- Feed multibyte text with dishonest Content-Length; assert the oversized stream cancels before buffering the remainder.
-- Reject malformed bodies and callback destinations before writes or external calls.
-- Navigate public-to-private before analytics loads, change privacy preferences, and unmount with a pending event. Inspect exact fields and assert no stale/private count.
+- Can an authenticated user access another tenant's resource by changing an ID or slug?
+- Does validation cover alternate syntax and every redirect/retry hop?
+- Does the same normalized value reach the database, socket, browser, or filesystem runtime?
+- Do missing credentials fail closed without leaking secrets?
+- Does a browser or external-content path distinguish trusted local content from arbitrary remote code?
 
 ## Common traps
 
-- Treating sign-in or an `/internal/` prefix as resource authorization.
-- Regex-only URL checks, or validating DNS before an independent client lookup.
-- Trusting types after JSON, storage or network input.
-- Checking only the first request, collector or callback state.
-- Treating character counts, MIME declarations or Content-Length as authoritative limits.
+- Authentication-only guards for resource-scoped operations.
+- Regex-only SSRF or path checks.
+- Validating the initial request but not redirects or retries.
+- Trusting TypeScript types after JSON, storage, or network input.
+- Turning user-controlled external content into executable instructions.
+- Assuming an internal-looking route prefix is an auth boundary.
 
 ## Evidence
 
-- [SSRF incident](../incidents/ssrf-alternate-ipv4-bypass.md) and [JSON-LD incident](../incidents/vbrain-jsonld-injection.md): runtime-aligned validation.
-- AdBrain `8a87d5b` (2026-09-16), `tests/ssrf.test.ts`: guarded dispatcher, mapped addresses, redirect deadline, byte limits and cancellation. `fb5b0cf`: direct callback/autofill/API rejection tests.
-- Portfolio `556536a` (2026-09-16), `src/components/Analytics.test.jsx`: sanitized counts, private routes, DNT/GPC and delayed-load cleanup.
-
-Fixtures do not establish production egress or provider success. Preventing new analytics collection does not remediate historical records.
+The ctx/MCP SSRF incidents, vbrain JSON-LD boundary work, AdBrain tenant and Meta routes, and the browser approval investigations all required runtime-aligned trust boundaries rather than surface checks.
