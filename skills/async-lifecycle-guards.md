@@ -6,7 +6,7 @@ Use this skill whenever a callback can outlive the state that created it: `setTi
 
 ## Invariant
 
-A callback may mutate UI or state only if it still belongs to the active run/view/request that created it.
+A callback may mutate UI or state only if it still belongs to the active run/view/request that created it. A current response must also respect interaction state changed while it was pending.
 
 ## Failure pattern
 
@@ -30,6 +30,8 @@ Choose the smallest lifecycle primitive that matches the scope:
 
 Invalidate before resetting or replacing the state that the old callback could touch.
 
+For conversation scrolling, response validity and permission to move the reader are separate. Track whether the reader is near the bottom from the container's own scroll events, before new content arrives. Auto-follow only while that intent remains true; scrolling back suspends it, returning to the bottom resumes it. Ignore nested scroll events. Reset follow intent for a new conversation. If post-paint scrolling produces a visible jump, apply the guarded update before paint; changing effect timing alone does not protect the reader.
+
 ## Discriminating checks
 
 - Restart halfway through a transition and advance all fake timers.
@@ -37,6 +39,7 @@ Invalidate before resetting or replacing the state that the old callback could t
 - Submit twice while the first network request is unresolved.
 - Start a second request before the first response arrives.
 - Assert no stale DOM classes, text, modal, score, or input remain.
+- Hold a response pending in an already overflowing conversation, scroll back, deliver it, and assert the reader stays put. Repeat at the bottom and verify following resumes. A container too short to overflow cannot distinguish these cases.
 
 ## Common traps
 
@@ -45,3 +48,4 @@ Invalidate before resetting or replacing the state that the old callback could t
 - Assuming `await` cancels when the caller navigates away.
 - Using a single global generation for unrelated DOM targets.
 - Testing only after timers settle; race tests must sample during the pending window.
+- Unconditionally scrolling on each message/loading change, or recomputing follow intent only after the new content has already moved the bottom.

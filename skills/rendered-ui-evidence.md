@@ -2,7 +2,7 @@
 
 ## Trigger
 
-Use when changing responsive layouts, image framing, canvas/WebGL effects, or controls whose DOM presence does not prove usability.
+Use when changing responsive layouts, flickering scrollbars, editable fields, image framing, canvas/WebGL effects, or controls whose DOM presence does not prove usability.
 
 ## Invariant
 
@@ -34,6 +34,17 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 
 ## Discriminating checks
 
+### Scrollbars and editable fields
+
+- Identify the actual scrolling element. Styling conversation history does not fix an independently scrolling textarea. Put shared field behavior in the primitive and migrate raw fields that bypass it; preserve native props, refs, constraints and explicit overrides.
+- Separate stable geometry from visible paint. A reserved gutter can prevent width changes without preventing an overlay thumb from fading. Where a persistent track is required, use explicit vertical overflow and supported scrollbar styling; verify the result in each target engine rather than assuming CSS support.
+- Preserve native keyboard scrolling and vertical resizing. Constrain field width so resize gestures cannot widen the page; do not hide scrollbars or introduce auto-height loops as an unmeasured workaround.
+- Cross the overflow threshold repeatedly with short, exact-row and longer content. Compare client width/height, then inspect track/thumb pixels before and after idle. Enable scrollbar painting in headless browsers that hide it by default, and report that launch condition.
+- Exercise actual caret movement and drag resizing at desktop and narrow widths. Assert the fixture really overflows before testing scroll ownership, and allow native scroll events to run before releasing a delayed response.
+- For credential-free component checks, bundle the real component and application CSS, stub server actions to fail on unexpected writes, and fulfill or block every network request. Keep the harness in the repository with direct test dependencies. This proves component behavior, not authenticated integration or real-device Safari behavior.
+
+### Other rendered surfaces
+
 - Open a footer disclosure with pointer and keyboard; verify its controls are fully in view and focus is retained.
 - Sample a scene for nonblank pixels, containment, motion, drag response, and final cleanup across supported viewports.
 - Confirm reduced-motion and unsupported-device visits do not load excluded expensive modules.
@@ -51,3 +62,5 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 ## Evidence
 
 See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md). Shelf checks covered 1440/768/390/320px; earlier image and motion checks used their own viewport matrices. These sizes are examples, not universal requirements.
+
+In a 2026-09-19 editor regression, native overflow changed Chromium textarea client width by 15px. Shared styling kept geometry stable, and track/thumb pixel counts persisted through 1.6 seconds of idle in Chromium and WebKit at 1440/390/320px. Keyboard scrolling and native resizing passed. WebKit's original overlay geometry was already stable; this is not proof that every platform reproduced the reported flicker.
