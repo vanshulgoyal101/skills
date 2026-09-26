@@ -6,19 +6,51 @@ Use this skill for any change that crosses source, generated assets, shared modu
 
 ## Invariant
 
-The checked-in source, generated artifact, live behavior, and documentation agree before release.
+Every release claim is supported by evidence for the relevant source, dependencies,
+configuration and runtime. Before promotion, verify compatibility; after promotion,
+verify the actual deployment and affected workflow. Do not confuse those stages.
 
 ## Gate order
 
 1. **Focused behavior check**: reproduce the reported or hypothesized failure.
-2. **Narrow tests**: exercise the touched model, DOM path, or integration boundary.
-3. **Type/build check**: compile every consumer of changed shared code.
-4. **Artifact check**: promote and inspect generated references, asset versions, and URLs.
-5. **Full suite**: run all tests.
-6. **Browser check**: verify affected desktop/mobile interactions and accessibility states before publishing.
-7. **Live invariant check**: after authorized deployment, verify affected routes, content, or service behavior; database/sync changes also require their relevant integrity checks.
-8. **Diff hygiene**: inspect staged paths, preserve unrelated work, run whitespace checks.
-9. **Documentation**: update the catalog/skill/incident if the new knowledge is reusable.
+2. **Narrow tests**: exercise the changed model, DOM path, or integration boundary.
+3. **Affected consumers**: run applicable type, lint, schema and artifact checks;
+	 widen coverage when shared contracts or dependencies change.
+4. **Release gates**: run required CI on the exact candidate. Add browser or real
+	 integration checks for changed workflows, not merely to reproduce a receipt.
+5. **Live invariant check**: after authorized deployment, verify the exact source
+	 and affected workflow. A homepage response is not authenticated acceptance.
+6. **Handoff**: commit owned work, link evidence and state remaining limitations.
+
+This is an ordering rule, not a requirement to run every kind of test for every edit.
+Documentation-only changes need relevant documentation checks, not paid provider tests.
+Full local suites/builds are appropriate when required or when matching CI cannot
+cover the meaningful risk; do not repeat them solely because another worker joined.
+
+## Risk and evidence reuse
+
+| Changed surface | Minimum useful evidence |
+| --- | --- |
+| Documentation | Links/anchors, examples and source claims; preserve historical receipts |
+| Local behavior | Causal regression and affected tests; applicable lint/types |
+| Shared dependency or contract | Affected consumers, compatibility and changed dependency checks |
+| Tenant, financial or schema boundary | Authorization/invariant tests and relevant real database or integration behavior |
+| Release assembly | Changed integration edges, required exact-candidate CI, schema compatibility and deployed smoke |
+
+- Reuse evidence when the relevant source, dependency lock, configuration and runtime
+	match. A commit plus focused diff is usually enough to establish the changed scope;
+	full-tree hashes are for a real snapshot/identity question, not every status update.
+- QA can review while CI runs and accept an exact scope conditional on green required
+	checks. A second review session merely to transcribe success adds no assurance.
+- If the candidate changes, review the delta and its affected behavior. Do not replay
+	an accepted workflow because unrelated documentation or receipt text changed.
+- A lightweight isolated install may lack dependencies declared by another candidate.
+	Diagnose that input mismatch before treating its type errors as a source regression.
+- Owner-approved pre-customer production validation can replace elaborate staging or
+	rehearsal projects. It does not waive required checks, known financial defects,
+	tenant isolation, data preservation or a suitable recovery path for risky changes.
+- Distinguish source, mocked workflow, real database, hosted CI, provider transaction
+	and deployed-workflow evidence. A large test count does not convert one into another.
 
 ## Reporting standard
 
@@ -113,6 +145,13 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 
 - Record code publication, migration, environment changes, deployment, and live
 	provider mutations separately. Approval for one does not imply the others.
+- Record current standing authority by scope and target. Explicit newer authority
+	can supersede a historical approval hold; do not resurrect it from old receipts.
+	Still report factual readiness gaps. Broad software access is not a spending mandate.
+- Check how required CI is triggered. A feature-branch push may create zero checks
+	when workflows listen only to integration branches or targeted PRs. Obtain the
+	required checks through the authorized workflow rather than treating zero as green
+	or repeatedly asking for already-granted publication authority.
 - A preview URL or configured deployment-disable rule does not prove isolation.
 	Verify actual deployment behavior and credential/database targets before use.
 - Authenticate the intended owner and business before acceptance testing. An

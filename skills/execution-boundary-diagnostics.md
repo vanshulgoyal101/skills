@@ -20,7 +20,31 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 4. For npm cache write errors, inspect the configured cache and its permissions. A command-scoped writable cache such as `npm_config_cache="$TMPDIR/npm-cache" npm ci` can avoid changing global ownership; first verify the temporary directory is writable. Do not apply recursive permission changes to the home directory.
 5. A failed localhost request does not prove the server is down. Check its listener and inspect it from an authorized browser or execution context. An HTTP 403 is a response to investigate, not proof that every network operation is blocked.
 6. If a credential helper cannot access its keychain or temporary files, use the supported authentication flow in an authorized context. Do not copy credentials into commands or repositories, or disable the sandbox globally to fix one operation.
-7. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established; verify with a clean locked install before claiming release parity.
+7. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established. Reuse a matching verified installation; use a clean locked install for an actual mismatch rather than changing source to hide missing modules.
+8. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed.
+	 Inspect the current file/ref/resource before retrying a mutation. A compound
+	 command can report failure after an earlier push or write already succeeded.
+
+### Test and browser execution boundaries
+
+- On macOS, `/tmp` may resolve to `/private/tmp`. Canonicalize paths for test
+	selection and CLI-entry comparisons; a path filter matching no tests is not a pass.
+- Keep caches and temporary configuration outside a borrowed dependency tree.
+	Disable implicit environment loading and close programmatic test contexts.
+	Check the runner's current API rather than copying obsolete configuration flags.
+- Temporary network guards and artifacts may disappear between sessions. Verify
+	their existence and scope; do not silently drop protection when a path is missing.
+- Read-only review uses an immutable commit or detached overlay, not the author's
+	moving working files. A red regression belongs with the eventual repair.
+- A dependency's runtime export shape can differ by version, and an SDK factory
+	can ignore a typed option. Check installed runtime code and a focused transport
+	probe before adapting imports, endpoints or timeout behavior.
+- Hidden/streamed DOM content is not evidence of visible UI, and a hidden embedded
+	browser tab can distort the observation. Bring it into view; record and restore
+	any required focus emulation. Do not patch the DOM or weaken assertions to claim a pass.
+- Use the current snapshot or actual accessible name for a control. Visible text
+	inside an element does not always equal its computed accessible name. Avoid
+	recording sensitive account-page snapshots when only status labels are needed.
 
 ## Discriminating checks
 

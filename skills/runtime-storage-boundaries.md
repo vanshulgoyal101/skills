@@ -29,6 +29,25 @@ Create one small sanitizer boundary per domain or shared module:
 
 Do not silently turn corrupt cloud data into a valid-looking partial store unless the reconciliation policy explicitly says it is safe.
 
+### Recovery identities and client caches
+
+- A paid-operation recovery record is not a display preference. Corrupt or unavailable
+	storage must not silently become a fresh idempotency key and another paid request.
+	Persist identity before the request; use status/reconciliation for uncertain writes.
+- Scope server-state caches by owner, business and filter. Clear stale scope on
+	transitions/unmount and abort reads; do not use a global SSR singleton for tenants.
+- Define retry, polling, focus/reconnect refetch and stale behavior deliberately.
+	Library defaults are not automatically the product's data-fetching contract.
+- Seeded cache data can be evicted before a view subscribes when garbage collection
+	is immediate. Use a bounded handoff window and explicit cleanup; stale time and
+	retention time answer different questions.
+- Exercise initial data, search/status changes, account transitions, unmount and
+	strict lifecycle behavior in a real browser when timing differs from DOM tests.
+	Check exact requests/cancellation and rendered data, not only hook state.
+
+See [async lifecycle guards](async-lifecycle-guards.md) for ownership-safe cleanup
+and [payment reconciliation](payment-state-reconciliation.md) for financial recovery.
+
 ### Display preference precedence
 
 - Distinguish an absent preference from explicit saved on/off choices. Document the default, allowed values, unsupported-device behavior, and accessibility overrides.

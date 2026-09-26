@@ -20,6 +20,16 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 - Check monthly quota and prompt-cost limits before making the provider call.
 - Return a typed, actionable error when a budget task is not configured.
 - Keep this separate from availability cooldowns: cooldowns choose a healthy provider; budget routing chooses an allowed cost class.
+- Extract provider usage before rejecting a terminal/truncated response. HTTP success
+	can still be a failed generation with real billed tokens. Carry known usage and
+	provider/model identity on the failure; retain unknown costs as unknown.
+- Record a physical failed attempt inside the single-flight producer, not once per
+	waiter. Aggregation must preserve earlier failed attempts and report them once.
+- Do not reconstruct an original provider total by summing visible prompt/completion
+	fields when provider semantics differ. Preserve the supplied accounting receipt.
+- When adopting an SDK, verify endpoint, structured-output, usage and retry behavior
+	with focused transport tests. Disable SDK retries when the application already owns
+	retry policy; types or factory signatures alone do not prove runtime behavior.
 
 ## Discriminating checks
 
@@ -27,6 +37,10 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 - Quota exceeded: assert the request fails before any provider call.
 - Repeated request: assert usage ledger and cache/single-flight behavior do not double-charge unexpectedly.
 - Standard task with budget providers unavailable: assert the standard policy, not accidental fallback, decides the result.
+- Return nonempty truncated output with known usage: assert the error retains usage,
+	accounting runs once across concurrent waiters and no extra paid request is made.
+- Fail the instruction/constraint read before generation: assert no provider is called.
+	An empty successful instruction list is different from an unavailable safety input.
 
 ## Common traps
 

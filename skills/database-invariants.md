@@ -40,6 +40,25 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 	transaction. Keep additive schema deployment separate from optional worker
 	activation; publishing worker code is not authorization to run its queue.
 
+### Resumable imports and compatible rollout
+
+- Persist each imported page and its continuation checkpoint in the same transaction.
+	Fence stale writers with scoped run/version identity. Persist opaque cursors rather
+	than blindly following or storing token-bearing provider next-page URLs.
+- Re-import provider-owned fields without overwriting owner-managed status, notes or
+	existing source/campaign references. Do not guess attribution from a related form.
+- A later request failure does not undo earlier page commits. Expose partial progress
+	honestly and make saved rows discoverable through safe refresh/retry without duplicates.
+- Verify fresh canonical schema contains the new RPCs as well as ordered upgrades.
+	A harness that secretly appends missing SQL can hide a broken fresh installation.
+- If migrations are copied into a canonical schema, check exact inclusion/order and
+	update both with the reviewed migration. Tests/types/docs alone do not supply an RPC.
+- Grant revocation makes old application artifacts potentially incompatible. Validate
+	the chosen fallback against the post-migration schema; do not restore unsafe grants
+	to make an old build work. Prefer additive rollout where it preserves all real safeguards.
+- Label SQL contract probes accurately. They do not execute web handlers through
+	Auth/PostgREST, prove feature parity, create a production backup or rehearse deployment.
+
 ## Discriminating checks
 
 - Insert a negative value and assert the normalized value.
@@ -56,6 +75,10 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 	assert skip, rejection, rollback, and absence of a failed ledger entry.
 - Verify a pre-ledger upgraded database without replaying historical migrations;
 	assert original row values survive the approved additive migration.
+- Commit one import page, fail the next request, then resume: verify rows/checkpoint,
+	exact inserted count and follow-up fields survive without false completion.
+- Execute actual owner/wrong-owner/browser/service operations on the changed SQL.
+	A permission denial may raise an error rather than return an empty successful result.
 
 ## Common traps
 

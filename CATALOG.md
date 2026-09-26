@@ -49,6 +49,8 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 | [idempotent-tenant-isolated-seeding](skills/idempotent-tenant-isolated-seeding.md) | Demo data is seeded into an auth- and RLS-protected multi-tenant database | AdBrain |
 | [coverage-first-passage-ranking](skills/coverage-first-passage-ranking.md) | Multi-term passage search must reward distinct query-term coverage | ctx, MCP |
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
+| [multi-worker-delivery](skills/multi-worker-delivery.md) | Independent agents share ownership, review evidence, commits or a release queue | Multi-worker web-app delivery |
+| [payment-state-reconciliation](skills/payment-state-reconciliation.md) | Checkout consent, current funding, delayed attempts, callbacks, refunds and recovery interact | Verified local payment regressions |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
 | [regenerable-cache-disk-recovery](skills/regenerable-cache-disk-recovery.md) | Local disk pressure needs cleanup without risking personal data, source, secrets, databases, or active dev runtimes | macOS local machine |
 | [execution-boundary-diagnostics](skills/execution-boundary-diagnostics.md) | Agent, sandbox, or CI commands fail at PATH, cache permissions, local ports, network, or credential helpers | Sanitized local tooling records |

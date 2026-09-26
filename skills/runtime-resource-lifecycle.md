@@ -23,6 +23,15 @@ A detached dev server, browser process, timer, or worker survives the originatin
 - If workers immediately respawn, act on their supervisor or extension lifecycle rather than repeatedly killing children. Ask before disabling or uninstalling a feature; age, duplicate-looking commands, and a live parent do not establish whether it is needed.
 - For editor extensions, use the supported uninstall interface first. Registration, package files, and live workers are separate states: "not installed" can coexist with an old package folder and running children. Verify all three, and remove only the identified obsolete version; preserve current versions, other profiles, and shared editor state.
 - After stopping a confirmed leftover worker, check for new PIDs matching the same package path. Report summed RSS as the workers' observed footprint, not guaranteed system-wide RAM recovered; shared pages and compression affect the result.
+- Keep each worker's database sockets, browser fixtures and test caches isolated.
+	Resource contention is a reason to coordinate the actual shared resource, not
+	put every small test behind a global permission slot.
+- Reuse a healthy peer server only within its agreed scope; do not stop or reconfigure
+	it. Stop task-owned temporary servers and close runner/browser contexts after use.
+- Use the execution tool's completion/resume mechanism for long commands. Do not
+	confuse a background process, input prompt or partial buffer with a completed check.
+- Keep passwords, tokens and one-time codes out of model-mediated questions and
+	command history. The user handles secret prompts directly in the secure interface.
 
 ## Discriminating checks
 

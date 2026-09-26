@@ -14,12 +14,30 @@ A plan maps the whole repository before locating the owning abstraction, treats 
 
 ## Recommended method
 
+Start by naming the customer outcome and its release boundary. A large useful
+workflow can have small commits without becoming a collection of disconnected
+features. Defer speculative abstractions and rare-state polish, but not tenant,
+privacy, monetary or data-integrity protections.
+
 1. Start from the most concrete anchor: failing test, command, file, symbol, live symptom, or nearby implementation.
 2. State one local hypothesis about the controlling code path.
 3. Choose the cheapest discriminating check, preferably a focused test or runtime probe.
 4. Make the smallest edit that lets that check distinguish the hypothesis.
 5. Expand only after the focused check confirms the local path or identifies the next owning boundary.
 6. Record risks, non-goals, generated outputs, live configuration, and the final verification record.
+
+Before building a substantial capability, inspect existing dependencies and
+maintained provider SDKs. Verify current APIs, coverage, license, maintenance,
+security and operating cost. Keep custom code focused on product rules and thin
+integration boundaries; an SDK does not supply tenant authorization, durable
+local identity or permission to spend. Avoid broad replacement solely to adopt
+a library during an active release.
+
+Once the owning path and discriminating check are known, edit and run that check
+before more exploration. If it fails, repair the same slice or move one nearby
+hop based on evidence. A plan is not progress unless it leads to a checked change.
+For parallel work, use [multi-worker delivery](multi-worker-delivery.md) rather
+than adding coordinator approval to every local decision.
 
 ## Discriminating checks
 

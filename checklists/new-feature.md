@@ -1,6 +1,8 @@
 # New Feature Checklist
 
+- [ ] Choose a complete customer workflow or demonstrated blocker; identify what can ship independently and what it genuinely depends on.
 - [ ] Define the user-visible contract and the owning state abstraction.
+- [ ] Check existing dependencies and maintained SDKs before recreating commodity behavior; verify their current APIs and keep product authority in application code.
 - [ ] Start from a concrete anchor, write one falsifiable hypothesis, and choose the cheapest discriminating check.
 - [ ] Identify local, cloud, database, generated, and accessibility sources of truth.
 - [ ] Implement the smallest root change.
@@ -14,3 +16,4 @@
 - [ ] Check environment/configuration parity, resource ownership and cleanup, tenant/security boundaries, and product capability reuse.
 - [ ] Verify mobile, keyboard, focus, modal, offline, and error states.
 - [ ] Update the skill catalog and incident record when the lesson is reusable.
+- [ ] Commit coherent checked work before handoff; record exact source, meaningful checks, remaining blocker and next owner without waiting for an unrelated milestone.

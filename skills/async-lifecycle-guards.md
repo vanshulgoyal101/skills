@@ -37,6 +37,11 @@ For persisted multi-step workflows:
 - **Session ownership**: scope transcript and request ownership to the entity and destination. Abort on exit and reject late responses, including transports that ignore abort. Hiding a mounted planner does not end its ownership.
 - **Retry payload**: persist the complete submitted payload before sending; explicit retry reuses it after failure or reopen. Cancellation cannot undo server work or guarantee exactly-once billing/saving. Warn about possible prior completion; do not auto-retry ambiguous writes.
 - **Completion handoff**: persist the completed transcript and clear pending work before notifying a parent that may immediately unmount the child. A later persistence effect may never run; if the completion write fails, attempt to clear stale recovery and do not claim durable persistence.
+- **Storage cleanup ownership**: a late completion may remove only the persisted
+	intent it owns. Compare the current stored identity/payload with the completed
+	intent before removing it; condition local state clearing on the same identity.
+	Storage-read/removal failure must not erase recovery or claim durable success.
+	This prevents stale cleanup, not atomic cross-tab admission or server exactly-once work.
 
 For conversation scrolling, response validity and permission to move the reader are separate. Track whether the reader is near the bottom from the container's own scroll events, before new content arrives. Auto-follow only while that intent remains true; scrolling back suspends it, returning to the bottom resumes it. Ignore nested scroll events. Reset follow intent for a new conversation. If post-paint scrolling produces a visible jump, apply the guarded update before paint; changing effect timing alone does not protect the reader.
 
@@ -50,6 +55,10 @@ For conversation scrolling, response validity and permission to move the reader 
 - Restore terminal, nonterminal, missing and failed operation lookups; verify only confirmed terminal outcomes permit destination changes. Fail replacement validation/save and assert the old recovery survives while its review action disappears.
 - Retry after failure/reopen and compare the entire submitted answer payload. Complete a request while the parent synchronously unmounts the child, then reopen: completion must remain completed, not pending retry.
 - Change destination/mode or close the planner before delivering an old response; assert no stale draft, destination or transcript is restored.
+- In two views sharing storage, delay request A; recover A elsewhere, save request B,
+  then finish A through success, rejection or a late lookup. B's identity must survive.
+  Also inject storage read/remove failures. Multiple React roots in one test document
+  share element IDs unlike real tabs: scope form controls to the intended root.
 - Hold a response pending in an already overflowing conversation, scroll back, deliver it, and assert the reader stays put. Repeat at the bottom and verify following resumes. A container too short to overflow cannot distinguish these cases.
 
 ## Common traps
