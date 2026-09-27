@@ -20,10 +20,10 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 4. For npm cache write errors, inspect the configured cache and its permissions. A command-scoped writable cache such as `npm_config_cache="$TMPDIR/npm-cache" npm ci` can avoid changing global ownership; first verify the temporary directory is writable. Do not apply recursive permission changes to the home directory.
 5. A failed localhost request does not prove the server is down. Check its listener and inspect it from an authorized browser or execution context. An HTTP 403 is a response to investigate, not proof that every network operation is blocked.
 6. If a credential helper cannot access its keychain or temporary files, use the supported authentication flow in an authorized context. Do not copy credentials into commands or repositories, or disable the sandbox globally to fix one operation.
-7. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established. Reuse a matching verified installation; use a clean locked install for an actual mismatch rather than changing source to hide missing modules.
-8. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed.
-	 Inspect the current file/ref/resource before retrying a mutation. A compound
-	 command can report failure after an earlier push or write already succeeded.
+7. In VS Code Copilot, distinguish `chat.tools.terminal.autoApprove` from sandbox/resource permissions. A terminal rule suppresses command confirmation; it does not grant OS privileges or prove filesystem access. `chat.tools.global.autoApprove` is a broader, separate setting for tool approvals. Inspect each applicable setting and the effective runtime boundary independently.
+8. Treat a terminal auto-approval catch-all such as `/.*/: true` as approval for arbitrary commands, scripts, destructive operations, and network tools. Explicit deny patterns may take precedence over allows; do not assume a catch-all cancels them. If an owner explicitly requests blanket terminal approval, explain its consequences, validate the JSON/regex configuration, and keep other authorization boundaries separate. A static pattern check is not proof that the current Copilot session applies it.
+9. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established. Reuse a matching verified installation; use a clean locked install for an actual mismatch rather than changing source to hide missing modules.
+10. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed. Inspect the current file/ref/resource before retrying a mutation. A compound command can report failure after an earlier push or write already succeeded.
 
 ### Test and browser execution boundaries
 
@@ -60,6 +60,8 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 - Interpreting curl status `000` as an HTTP response; inspect its exit code and error instead.
 - Assuming an empty terminal buffer means a server exited.
 - Granting broad filesystem or network permissions based on stale machine notes.
+- Confusing command auto-approval with sandbox access; a terminal catch-all can
+  suppress prompts without changing what the process can actually read or write.
 - Calling tests against a sibling project's dependency tree equivalent to a clean install.
 
 ## Evidence
