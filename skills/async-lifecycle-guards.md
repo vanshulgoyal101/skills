@@ -42,6 +42,13 @@ For persisted multi-step workflows:
 	intent before removing it; condition local state clearing on the same identity.
 	Storage-read/removal failure must not erase recovery or claim durable success.
 	This prevents stale cleanup, not atomic cross-tab admission or server exactly-once work.
+- **Submitted revision**: tie success feedback to the revision actually submitted.
+	An edit, autofill or parent-supplied field change after submission must not inherit
+	an older Saved result. Keep pending edits and failed-save drafts; reverting text
+	does not automatically acknowledge a later revision as persisted.
+- **Dismissal versus discard**: closing a composer need not end its draft lifetime.
+	Scope retained state by owner/business and make discard explicit. A local reset
+	must not clear an unresolved operation identity or delete a saved server draft.
 
 For conversation scrolling, response validity and permission to move the reader are separate. Track whether the reader is near the bottom from the container's own scroll events, before new content arrives. Auto-follow only while that intent remains true; scrolling back suspends it, returning to the bottom resumes it. Ignore nested scroll events. Reset follow intent for a new conversation. If post-paint scrolling produces a visible jump, apply the guarded update before paint; changing effect timing alone does not protect the reader.
 
@@ -59,6 +66,12 @@ For conversation scrolling, response validity and permission to move the reader 
   then finish A through success, rejection or a late lookup. B's identity must survive.
   Also inject storage read/remove failures. Multiple React roots in one test document
   share element IDs unlike real tabs: scope form controls to the intended root.
+- Save revision A, edit to B, then complete A: B remains unsaved. Also test a
+	successful save followed by edit/revert, autofill, failure/retry and a second
+	successful save of B. Field updates must share the revision boundary.
+- Close/reopen with text, selections, mode and audience changed; verify exact
+	local state and focus. Cancel/confirm explicit discard, switch owner/business,
+	and ensure pending or uncertain external operations cannot be discarded away.
 - Hold a response pending in an already overflowing conversation, scroll back, deliver it, and assert the reader stays put. Repeat at the bottom and verify following resumes. A container too short to overflow cannot distinguish these cases.
 
 ## Common traps

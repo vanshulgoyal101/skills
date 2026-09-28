@@ -23,6 +23,16 @@ Every control has an accessible name, keyboard users retain a visible focus indi
 
 ## Discriminating checks
 
+- Hidden dialogs must be inert, not merely transparent or pointer-disabled.
+	Explicitly release focus held by hidden controls and verify actual browser focus.
+- Result-owned controls need an explicit reset on every new run or view change.
+	Dismissal can offer replay; reset must clear it without invoking dismissal or replay.
+- Finish, dismiss, restart through a different control, then enter new input.
+	Assert the old replay action is absent and cannot fire while hidden.
+- Repeat the complete cycle. A first-run screenshot does not exercise stale controls.
+- Enter on focused Share, Close, Mute, navigation or mode controls belongs to the
+	control, not to a global game shortcut. Check native Enter and Space in a browser.
+
 - Enumerate icon-only controls and assert non-empty accessible names.
 - At rest, controls should have no focus ring; after Tab, the focused control should have one.
 - Open/dismiss a modal with close button, Escape, backdrop, and replay paths.
@@ -40,5 +50,11 @@ Every control has an accessible name, keyboard users retain a visible focus indi
 - Adding `outline: none` after a shared focus rule can silently remove keyboard focus for a specific control type.
 
 ## Evidence
+
+The September 28 Arcade audit reproduced a dismissed-result replay pill covering
+an active Wordle keyboard, hidden dialog focus, and global Enter handlers overriding
+result/toolbar buttons. Shared lifecycle reset, inert dialogs, explicit focus handoff,
+and focused-control shortcut exclusions passed real result cycles in all twelve
+games. See [Arcade UI and lifecycle](../incidents/arcade-ui-and-lifecycle.md).
 
 Portfolio checks exposed switch distortion from global 44px input minima, footer settings expanding below the viewport, and a Home wrapper outline mistaken for a visual separator. Component geometry, viewport-aware disclosure behavior, and narrowly scoped noninteractive focus handling resolved those failures. See [rendered UI evidence](rendered-ui-evidence.md).

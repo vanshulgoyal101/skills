@@ -39,6 +39,26 @@ hop based on evidence. A plan is not progress unless it leads to a checked chang
 For parallel work, use [multi-worker delivery](multi-worker-delivery.md) rather
 than adding coordinator approval to every local decision.
 
+### Performance and repository-wide requests
+
+- A reported slow application is an observation; excessive bundle size is only
+	one possible cause. Separate server/auth/database waits, network/media transfer,
+	hydration and browser work before choosing caching, code splitting or refactoring.
+- Pin visible session, source/deployment, data size, actual viewport, CPU/network
+	profile and cache state. Compare cold and warm runs separately; input-to-feedback
+	is not operation-completion latency, and lab timing is not a field percentile.
+- Repository footprint and installed dependencies are not the shipped client
+	bundle. Measure transferred bytes, image dimensions, request waterfalls and
+	long tasks for the affected customer path; do not delete caches as a speed claim.
+- For a requested future whole-repo cleanup, record a deferred inventory/target-map
+	issue instead of starting a rewrite. Classify maintained, generated, vendor,
+	private and historical material; every maintained surface deserves assessment,
+	not necessarily an edit. Require evidence for removal and retain supported
+	behavior, migration identity and unique receipts through reversible batches.
+- A backlog issue, an approved objective and an active implementation assignment
+	are different states. Do not interrupt current work or spend money because a
+	future cleanup, pilot or performance goal was recorded.
+
 ## Discriminating checks
 
 - Can the suspected failure be reproduced with one focused test or command?

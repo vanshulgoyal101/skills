@@ -2,7 +2,7 @@
 
 ## Trigger
 
-Use this when a product calls paid LLM or image providers for tasks with different value, latency, or quality requirements, or when it has per-tenant AI quotas.
+Use this when a product calls paid LLM or image providers for tasks with different value, latency, or quality requirements, or when it has per-tenant AI quotas, concurrent variants or uncertain reservation lifetime.
 
 ## Invariant
 
@@ -31,6 +31,22 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 	with focused transport tests. Disable SDK retries when the application already owns
 	retry policy; types or factory signatures alone do not prove runtime behavior.
 
+### Concurrent work and reservation lifetime
+
+- Persist tenant-scoped immutable intent before paid work and atomically reserve
+	shared quota. A process-local single-flight or later usage callback cannot
+	serialize independent server instances competing for the same remaining budget.
+- Distinguish one failed variant from terminal failure of the entire request.
+	A child callback can arrive before siblings save or settle; do not release the
+	request reservation or make late results unreachable at that point.
+- Release unused exposure only after whole-request completion establishes that
+	no sibling work or unresolved liability remains. Proven all-no-provider failure
+	differs from mixed success/failure and an unknown provider outcome.
+- Keep late saved results recoverable as partial work. Timeout, lease expiry or
+	a missing response does not authorize another paid execution.
+- Label quota units, estimated exposure and provider-billed currency separately;
+	a reserved image count is not an audited monetary cost.
+
 ## Discriminating checks
 
 - Empty budget pool: assert no premium provider is called.
@@ -41,6 +57,12 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 	accounting runs once across concurrent waiters and no extra paid request is made.
 - Fail the instruction/constraint read before generation: assert no provider is called.
 	An empty successful instruction list is different from an unavailable safety input.
+- Reserve 100 units for two variants against a 150-unit limit. Fail one variant
+	before its sibling saves; a different 100-unit request must remain blocked.
+	Save the sibling later and verify partial recovery. Repeat with all variants
+	proven to fail before provider execution and with unresolved provider work.
+- Exercise the real callback-to-storage path as well as SQL flags directly;
+	a correct terminal flag in a database test does not prove the caller sends it.
 
 ## Common traps
 

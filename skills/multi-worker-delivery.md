@@ -25,6 +25,9 @@ repair or integrate the same file while the user sees a growing local backlog.
    smallest dependency-complete slice, not the smallest visible code change.
 2. Keep a short current dispatch with outcome, owner, exact source, real blocker
    and next action. Archive old decisions; do not reread the whole history to start.
+   Retire superseded repair, credential and deployment holds when their evidence
+   changes. A newer receipt does not help if the controlling assignment still
+   tells the next worker to wait or repeat the completed phase.
 3. Give authors isolated issue worktrees and authority for routine helpers, tests
    and scoped dependencies. One executor owns shared integration and production.
 4. Assign files and interfaces, not just role names. Parallelize UI and server
@@ -42,6 +45,13 @@ repair or integrate the same file while the user sees a growing local backlog.
 10. Resume idle independent chats through their real communication mechanism.
     A board update is not a wake-up, acknowledgement or lock. Leave workers idle
     when no independent useful work exists; do not invent audits to fill capacity.
+11. Close completed phases with the next executable handoff. Unverified real
+   payment or provider delivery is a separate milestone, not an automatic hold
+   on unrelated accepted software. Keep deployed, frontend-verified and actual
+   transaction/provider-verified outcomes distinct.
+12. Scope temporary ownership transfers to exact resources and operations. Record
+   the handoff, avoid concurrent writers, verify the result and return ownership;
+   a one-variable configuration upload does not authorize flags or deployment.
 
 ## Discriminating checks
 
@@ -58,6 +68,12 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Can a complete accepted feature ship independently of another feature? Check
   actual imports, schema/grants and configuration; never infer independence from
   a small diff or include unfinished work merely to empty the backlog.
+- Does an accepted UI delta sit on a rejected backend parent? Compare the complete
+   repaired stack and relevant file bytes; delta acceptance cannot approve its base.
+- Has the author stopped with a clean commit but no validation handoff? Ask for
+   the existing results and limitations, not another implementation or full suite.
+- Do reported production features have visible authenticated interaction evidence?
+   A deployment status or an API response cannot establish that a gated control works.
 
 ## Common traps
 
@@ -69,6 +85,8 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Using broad standing access as financial consent or applying one project's
   permissions to another repository.
 - Solving slow releases by removing required CI, tenant or money protections.
+- Leaving a rejected experimental follow-up described as a defect in the already
+   accepted production foundation, or treating a corrected verdict as still blocked.
 
 ## Related methods
 

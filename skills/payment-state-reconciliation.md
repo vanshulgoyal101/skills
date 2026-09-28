@@ -36,8 +36,10 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
    semantics; do not reinterpret an existing pre-tax contract as a tax-inclusive one.
 4. Bind consent to the displayed policy identity/hash. Changed or unavailable terms
    invalidate acceptance; renewed acceptance must submit the new identity explicitly.
-5. Revalidate current funding, account and connection authority before exposing or
-   reopening checkout, including saved-order reads and same/new-key replay paths.
+5. Revalidate prerequisites required by the order's policy before exposing or
+  reopening checkout, including saved reads and same/new-key replay. Funding
+  evidence is mandatory only for policies that require it; preserve the checks
+  on historical orders when a new operating policy removes that prerequisite.
    Keep the original order/evidence immutable. No checkout is different from no history.
 6. Authenticate callbacks against the stored order and verify actual provider capture,
    amount, currency, account and environment. Bound raw webhook bodies and verify
@@ -54,6 +56,21 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
     refunds. A ledger entry is not a transfer, and a merchant activation banner is
     not a settled transaction or permission to advertise with customer funds.
 
+### Spend observations and protection scope
+
+- Financial-hold protection must reach the same at-risk campaigns from scheduled
+  and on-demand paths. An optional weekly budget preference must not filter those
+  businesses out of the scheduled hold sweep.
+- Require explicit valid spend, matching currency/period and complete relevant
+  observations. Missing metrics are unknown, not zero; a dated response alone
+  does not prove the requested amount was supplied.
+- Exclude only provably unlaunched drafts from provider-spend coverage. Preserve
+  paused-but-spent, launched/uncertain and missing-active-binding cases rather
+  than filtering to whichever records have convenient observations.
+- Report partial pagination and uncertain remote/local pause separately from
+  confirmed protection. A daily job is not a real-time provider hard cap, and
+  reporting snapshots are not audited lifetime cost/tax/finality evidence.
+
 ## Discriminating checks
 
 - Accept A, refresh to B/unavailable, and assert checkout stays unavailable until
@@ -68,6 +85,10 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
   as the owner. Verify captured history without granting activation or duplicate credit.
 - Race order/refund claims, send wrong tenant/account/environment amounts, and deliver
   refund-before-capture or unmatched conflicts. Verify transaction-safe denials and holds.
+- Disable optional weekly protection while an active campaign has held funds;
+  the scheduled scope must still examine it. Omit spend from an otherwise dated
+  weekly response; it must not become a verified zero-spend observation. Add an
+  unrelated unlaunched draft; it must not cause a needless active-campaign pause.
 
 ## Common traps
 

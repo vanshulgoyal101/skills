@@ -51,6 +51,25 @@ cover the meaningful risk; do not repeat them solely because another worker join
 	tenant isolation, data preservation or a suitable recovery path for risky changes.
 - Distinguish source, mocked workflow, real database, hosted CI, provider transaction
 	and deployed-workflow evidence. A large test count does not convert one into another.
+- Report a selected regression run as selected passes plus skipped cases, not a
+	whole-suite pass. Source acceptance with old-base diagnostics does not waive a
+	clean combined typecheck or required integration CI.
+
+### Evidence levels for user-facing claims
+
+| Claim | Required observation |
+| --- | --- |
+| Implemented or source-accepted | Exact candidate and applicable author/independent checks |
+| Deployed | Exact successful deployment, canonical target and required configuration/schema |
+| Frontend-verified | Visible authenticated affected workflow with actual actions and states |
+| Provider or transaction verified | Actual authorized provider response/effect, with capture, signed delivery and settlement distinguished |
+
+A feature can be mounted in deployed source but hidden by configuration, blocked
+on auth or never exercised in a real browser. Preserve source acceptance while
+reporting that gap. Configuration-only redeployment can change enabled behavior
+without changing the Git SHA: retain deployment identity and configuration scope.
+An anonymous denial changing from disabled to sign-in-required is a useful gate
+signal, not evidence that checkout or a transaction completed.
 
 ## Reporting standard
 
@@ -90,6 +109,10 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 	or inspect `git log origin/main..<candidate>`. A historical release branch can
 	contain no missing work even when its tip differs from main. Use `git diff` to
 	establish exact tree equality when that is the requirement.
+- Selective cherry-picks can make ancestry and merge-base comparisons misleading
+	for a feature inventory. Compare production and candidate endpoint trees plus
+	relevant patch content before calling retained branches unshipped work. Integrate
+	a full accepted stack once; do not apply both its original commits and copies.
 - Preserve dirty work during a release. An isolated worktree can ship a reviewed
 	subset, but its cleanliness says nothing about the original checkout. List
 	excluded modified and untracked paths explicitly; `git diff` omits untracked

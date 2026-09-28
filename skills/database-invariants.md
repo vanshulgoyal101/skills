@@ -58,6 +58,16 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 	to make an old build work. Prefer additive rollout where it preserves all real safeguards.
 - Label SQL contract probes accurately. They do not execute web handlers through
 	Auth/PostgREST, prove feature parity, create a production backup or rehearse deployment.
+- Verify backup/PITR availability for the actual service plan. A metadata-only
+	before-state is not a data backup; an additive transaction and known forward-fix
+	path do not provide general disaster recovery. Record the limitation explicitly
+	and obtain the required recovery boundary before a risky migration.
+- A dashboard SQL editor can display an early statement's result from a multi-step
+	script. Independently read back the migration ledger/checksum, objects and role
+	permissions after commit rather than inferring completion from that result panel.
+- Preserve applied migration bytes, ordering and ledger identity during cleanup.
+	Verify a fresh canonical schema and ordered upgrades without replaying historic
+	migrations or silently appending missing SQL in the test harness.
 
 ## Discriminating checks
 

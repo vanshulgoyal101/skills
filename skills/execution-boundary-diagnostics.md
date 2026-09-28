@@ -24,6 +24,24 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 8. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed.
 	 Inspect the current file/ref/resource before retrying a mutation. A compound
 	 command can report failure after an earlier push or write already succeeded.
+9. Filter large API output before a subprocess captures it. For example, project
+	 Git metadata with the CLI's JSON query option before `execFileSync` buffering;
+	 a buffer-overflow exception can dump an entire response. Suppress raw error
+	 bodies for requests that might carry credentials or customer data.
+
+### Interactive input and command transport
+
+- A submitted command is not proof a hidden-input prompt is ready. Long multiline
+	terminal input can be garbled by concurrent manual pasting; characters entered
+	before no-echo mode may be displayed. Ask users to wait for the actual prompt.
+- For a nontrivial interactive operation, write a small owned temporary helper,
+	syntax-check it, and launch with a short command. Keep secret values out of
+	source/arguments/history; never send them through a chat question or tool result.
+- If command construction fails, identify whether parsing happened before any
+	side effect. Literal newlines in a single-quoted JavaScript string are invalid;
+	use correct quoting or structured input instead of retrying the same payload.
+- Cancel only the malformed command you own. Do not terminate worker terminals
+	or assume an empty output buffer means cancellation or successful persistence.
 
 ### Test and browser execution boundaries
 

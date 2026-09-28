@@ -2,7 +2,7 @@
 
 ## Trigger
 
-Use this skill when behavior depends on environment variables, local defaults, deployment settings, cron jobs, provider models, feature flags, or generated runtime configuration.
+Use this skill when behavior depends on environment variables, secret entry or upload, local defaults, deployment settings, cron jobs, provider models, feature flags, or generated runtime configuration.
 
 ## Invariant
 
@@ -49,12 +49,40 @@ A feature is implemented or tested against one environment while another silentl
 - Test/live payment configuration must be explicit and mutually constrained, not
 	selected from an ambiguous mixture of legacy and current key names.
 
+### Secret entry and bounded promotion
+
+- Git ignore protects version control, not editor/chat attachments. Hidden terminal
+	input does not protect an open secret file automatically included in a later
+	message. Close or exclude secret buffers; do not repeat exposed values.
+- Browser automation may return an automatic accessibility snapshot containing a
+	secret field even when the explicit script result is masked. Keep secret entry
+	out of that channel; use direct secure input or an authorized in-process transfer.
+- Read local environment data with a structured parser. Report only presence,
+	key mode and validation outcomes; preserve unrelated entries and owner-only
+	permissions. Never bulk-upload an environment file that mixes local/test/live data.
+- Upload an explicit variable allowlist to the verified project/team and target.
+	Use sensitive storage, keep values out of arguments/logs/error bodies, verify
+	API acknowledgement and metadata readback, and check unrelated settings remain
+	unchanged. Metadata alone does not prove provider authentication or signed delivery.
+- A provider account ID is not derived by replacing an API-key prefix. Keep
+	merchant identity, API credentials and independently generated webhook secrets
+	distinct; an internal configuration UUID may not be the dashboard webhook ID.
+- Local save, hosted storage, enable flags, deployment and actual service behavior
+	are different operations. State which were performed. Old deployment snapshots
+	do not change when hosted variables change; a rollback and a future redeploy
+	may therefore observe different configuration.
+- If existing authentication lacks access, distinguish target/team scope from
+	login failure. Use a supported isolated login when authorized, preserve other
+	workers' sessions and close the temporary session after the bounded operation.
+
 ## Discriminating checks
 
 - Does the type/schema boundary reject missing or malformed values before the feature runs?
 - Does a production-like environment exercise the same provider/model and cron/auth contract?
 - Can a diagnostic distinguish unset, empty, invalid, and valid without printing secrets?
 - Does the deployed route or scheduled job return the expected status for missing and incorrect credentials?
+- Can the change be limited to named Production-only variables without modifying
+	account pins, preview scope, unrelated keys, enable flags or deployment?
 - Are retired provider models or stale generated configuration detected before user traffic reaches them?
 
 ## Common traps

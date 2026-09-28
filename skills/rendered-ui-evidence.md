@@ -31,6 +31,29 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 - Wait for the specific image's load completion and nonzero natural dimensions
 	before capturing a lazy-loaded page. An early placeholder capture is not proof
 	that the stored asset is broken.
+- Record `document.visibilityState` and measured `innerWidth`/`innerHeight` for
+	deployed checks. A hidden embedded session may not expose streamed content as
+	expected; a requested resize may differ from the actual viewport. Foreground and
+	check once before calling the route globally broken; do not loop hidden reloads.
+- Establish network/mutation guards before navigation where feasible. A page can
+	automatically sync on mount or foreground even when the tester never clicks Sync.
+	A late guard cannot prove earlier side effects were absent.
+
+### Focus, identity and truthful interaction
+
+- Inspect visible paint, not CSS numbers alone: a nonzero outline width with
+	`outline-style: none` paints nothing. A keyboard-focused button at opacity zero
+	is not usable merely because it has an accessible name or receives focus.
+- In an input-plus-action group, Tab through both. The wrapper may paint an input
+	ring while a Clear button needs its own ring; avoid competing nested outlines
+	without removing the indication from the actionable child. Text fields can
+	match `:focus-visible` after pointer focus, so test both input modalities.
+- Duplicate titles/statuses need distinct useful accessible identities. Test that
+	pointer/keyboard selection reaches the intended saved record after filtering
+	and reordering, without exposing raw private IDs just to make labels unique.
+- Unsaved close/reopen checks exercise local state, not server persistence. Empty
+	lists cannot demonstrate real row selection or follow-up; mocked saves cannot
+	establish an authenticated save. State exactly which interactions occurred.
 
 ## Discriminating checks
 
