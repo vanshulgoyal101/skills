@@ -18,6 +18,13 @@ A gesture reaches the intended interaction exactly once, at the moment its inten
 - Animate transforms between model positions; keep scale/opacity effects independent from translation.
 - Preserve a reduced-motion mode.
 - Verify at narrow, medium, and desktop widths.
+- Immediate pointer handlers on native buttons still need keyboard/assistive click
+	activation. Filter secondary/nonprimary presses and avoid grading the pointer's
+	subsequent click twice. Test real Enter/Space, not only synthetic key events.
+- Reserve activation keys for focused controls without suppressing all game typing
+	after toolbar focus. Editable fields and browser shortcuts need separate handling.
+- Center keyboard-triggered visual feedback on the selected element; synthetic
+	click coordinates at zero are not a meaningful screen position.
 
 ## Discriminating checks
 
@@ -27,6 +34,8 @@ A gesture reaches the intended interaction exactly once, at the moment its inten
 - Rapidly perform a second gesture during the first animation.
 - Sample the transform mid-flight; it must be neither the old nor final position.
 - Assert no horizontal overflow at 320, 390, 480, and desktop widths.
+- Test finish/dismiss/restart and the next active input at narrow widths, not only
+	boot. Preserve full-size controls by wrapping layout rather than clipping them.
 
 ## Common traps
 
