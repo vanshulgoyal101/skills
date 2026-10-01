@@ -81,6 +81,11 @@ becomes a raw source image presented as a finished ad.
 - Assuming requested dimensions equal returned dimensions.
 - Silently falling back from a paid image provider to a free provider.
 - Calling a single sample proof of persuasive quality or product fidelity.
+- Running repairs strictly in series under one shared deadline. A repaired concept
+  can starve later variants; start the next variant's text request while a repair
+  runs, but keep validation and image work gated on accepted concepts.
+- Treating `completion_tokens == max_tokens` as a model failure. It is truncation;
+  raise or right-size the output cap before blaming the prompt.
 
 ## Evidence
 

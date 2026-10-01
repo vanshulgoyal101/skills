@@ -31,6 +31,10 @@ A green build ships without CSP, MIME-sniff protection, frame protection, or a r
 - Testing only the local response while the CDN or platform rewrites headers.
 - Using `X-Frame-Options` alone when nested framing policy needs `frame-ancestors`.
 - Adding `'unsafe-eval'` or wildcard origins to make a broken CSP disappear.
+- Shipping a validation library that compiles parsers with `new Function` under a
+  CSP without `unsafe-eval`. Zod v4 JIT crashed a result view with `EvalError`;
+  `z.config({ jitless: true })` at client entries fixed it with CSP unchanged.
+  Test the view with eval blocked, not only the API.
 - Forgetting that a static site can still need security headers.
 
 ## Evidence

@@ -81,6 +81,9 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 - Measuring only document overflow when a nested element clips its contents.
 - Calling screenshots golden baselines when no comparison occurs.
 - Claiming a device/backend path is covered because another path passed.
+- Driving several agent tabs in one shared browser. Only one tab is visible;
+  background tabs report `visibilityState: hidden`, pause animation frames and can
+  sit on a loading shell. Use a headless scripted session per check instead.
 
 ## Evidence
 

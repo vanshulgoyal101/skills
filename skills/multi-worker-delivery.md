@@ -57,6 +57,17 @@ repair or integrate the same file while the user sees a growing local backlog.
    unfinished merge or uncommitted board edit reappears as a pile of changes.
 14. When workers go idle, read their latest handoffs and assign each a concrete
    next slice in the same pass, with a paste-ready resume line per chat.
+15. Run work as label-driven queues: priority labels (`core`/`later`) plus an
+   owner label for who acts next. Workers pull their own queue, hand off by
+   label and start the next item; the coordinator only keeps labels honest.
+16. Let authors ship low-risk PRs themselves: branch from current main, open the
+   PR, enable auto-merge on green CI, then smoke production. Keep migrations,
+   money, tenant/auth, configuration and rollback with one release owner.
+17. Keep worktrees outside `/tmp` (it is wiped on restart) with dependencies
+   installed, so typecheck failures are real. Commits survive in the shared Git
+   object store; `git worktree prune` clears dangling registrations.
+18. Test the product's core loop in production before assigning side work. A
+   week of secondary releases can hide that the main flow still fails.
 
 ## Discriminating checks
 
@@ -96,6 +107,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    Cherry-picked releases change SHAs; compare patch content and issue state.
 - Keeping an investigation open after owner evidence settles the outcome. Record
    the residual gap at its real priority instead of blocking unrelated work.
+- Writing a not-yet-existing command into checked docs. A docs checker in CI
+   failed the branch; run the same checker locally before pushing board edits.
+- Long narrative handoffs. Five lines (change, proof, risk, PR, next) are faster
+   to write and read and lose nothing a reviewer needs.
 
 ## Related methods
 

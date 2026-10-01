@@ -84,6 +84,11 @@ request.
 - Catching a capability error and mutating the user's requested destination.
 - Validating a selected provider resource only when it was initially loaded.
 - Logging or returning access tokens and complete provider payloads.
+- Formatting every route error with one provider's formatter. An AI planner
+  truncation surfaced as "Meta rejected the budget settings" and sent debugging
+  to the wrong system. Classify by the stage that failed before choosing a message.
+- Labelling an activation as "Resume". In AdBrain, Resume reserved spend and set
+  the Meta campaign ACTIVE; test plans must treat it as spending, not as a toggle.
 
 ## Evidence
 
