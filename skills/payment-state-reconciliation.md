@@ -98,6 +98,9 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
 - Letting a late capture erase a refund/dispute hold.
 - Calling synthetic hosted-checkout UI or signed test captures live settlement evidence.
 - Using software-deployment authority as consent for live charges, refunds or mandates.
+- Reading a credited order as proof of webhook delivery. Reconciliation can
+  record a capture while the signed-event table stays empty; check both. Bank
+  settlement confirms the money, not that the backup webhook path works.
 
 ## Related methods
 

@@ -68,6 +68,14 @@ request.
 - Regression check: simulate an ambiguous POST, click retry, and assert exactly
    one mutation request plus read-only checks with the original identity. Cover
    partial/empty results, unauthorized reads, tenant filters, and safe DB errors.
+- Persist the provider's own request/generation ID for every attempt, including
+   failed and fallback attempts. Without it, settling an unknown outcome may need
+   an account-admin export that the application key cannot read.
+- A provider read failure is not an empty result. Do not report it as skipped or
+   unmatched; return a safe error before any local write.
+- Version reconciliation receipts so a new operator path refuses records created
+   before the evidence existed, and lock the parent row so late usage or output
+   inserts cannot land after the reconciliation audit.
 
 ## Common traps
 

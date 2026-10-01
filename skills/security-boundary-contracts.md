@@ -33,6 +33,8 @@ A route checks that a user is signed in but not that they own the target busines
 ## Common traps
 
 - Authentication-only guards for resource-scoped operations.
+- Returning resource-specific status (for example a reconciliation 409) before
+  the ownership check runs. Authorize first, then inspect stored detail.
 - Regex-only SSRF or path checks.
 - Validating the initial request but not redirects or retries.
 - Trusting TypeScript types after JSON, storage, or network input.

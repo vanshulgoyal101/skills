@@ -52,6 +52,11 @@ repair or integrate the same file while the user sees a growing local backlog.
 12. Scope temporary ownership transfers to exact resources and operations. Record
    the handoff, avoid concurrent writers, verify the result and return ownership;
    a one-variable configuration upload does not authorize flags or deployment.
+13. Keep the owner's own checkout clean. Workers write only in isolated worktrees;
+   the coordinator commits and pushes its dispatch edits immediately. An
+   unfinished merge or uncommitted board edit reappears as a pile of changes.
+14. When workers go idle, read their latest handoffs and assign each a concrete
+   next slice in the same pass, with a paste-ready resume line per chat.
 
 ## Discriminating checks
 
@@ -87,6 +92,10 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Solving slow releases by removing required CI, tenant or money protections.
 - Leaving a rejected experimental follow-up described as a defect in the already
    accepted production foundation, or treating a corrected verdict as still blocked.
+- Calling a commit "accepted but unreleased" because its SHA is missing from main.
+   Cherry-picked releases change SHAs; compare patch content and issue state.
+- Keeping an investigation open after owner evidence settles the outcome. Record
+   the residual gap at its real priority instead of blocking unrelated work.
 
 ## Related methods
 
