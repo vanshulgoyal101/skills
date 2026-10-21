@@ -73,6 +73,27 @@ becomes a raw source image presented as a finished ad.
 - Inspect at least one paid output and its receipt; do not infer quality from test
   counts or a successful deployment.
 
+### Diagnosing rejections
+
+- Record rejections per field, such as `schema:<field>:<validator code>`, without
+  storing the rejected copy. Three of four rejections in one run were an opaque
+  `schema-or-other`; per-field codes later named `schema:description:too_big`.
+- If rejected outputs were not stored, compare field lengths in saved outputs with
+  their caps. One internal field averaged 477 of 600 characters, 12 of 28 at 80% or
+  more, maximum 592; other fields had room. Widening only that internal cap while
+  the prompt still asks for 600 kept an uncited price rejected (verified in CI).
+- Fix deterministic formatting overruns in code before validation instead of
+  discarding paid output: clip a capped field at a word boundary, turn an empty
+  optional field into null. Run the grounding checks on the fixed text.
+- Record real outputs from every model you route to. Each new model broke a
+  different rule (an overlong rationale, an overlong 100-character description in
+  2 of 4 outputs, an out-of-range numeric field).
+- Before loosening a fact validator, check each rejected claim against the source
+  data. In one review every questioned claim was present in the saved brand facts.
+- More time and more parallelism do not fix rejection-driven failures. Raising the
+  deadline from 240s to 270s still saved 1 of 3; a fully parallel probe increased
+  paid repairs and was reverted.
+
 ## Common traps
 
 - Adding more adjectives to a static image prompt and calling it model improvement.

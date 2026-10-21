@@ -65,9 +65,56 @@ repair or integrate the same file while the user sees a growing local backlog.
    money, tenant/auth, configuration and rollback with one release owner.
 17. Keep worktrees outside `/tmp` (it is wiped on restart) with dependencies
    installed, so typecheck failures are real. Commits survive in the shared Git
-   object store; `git worktree prune` clears dangling registrations.
+   object store; `git worktree prune` clears dangling registrations. Cloning
+   `node_modules` copy-on-write from a cache keyed by the lockfile hash made a
+   warm worktree setup take 21s with typecheck green (verified locally only).
 18. Test the product's core loop in production before assigning side work. A
    week of secondary releases can hide that the main flow still fails.
+19. Split one issue into parallel subagent jobs: research, CI log reading,
+   running and summarizing tests, reviewing your own diff, a red test, a small
+   adjacent fix, the doc update. Do small cross-role tasks (a quick QA-style check
+   by DevOps) with your own subagent instead of routing them to another worker.
+   Hand off only what needs another owner's authority or independence: migrations,
+   money, production settings, secrets, rollback, independent review of a
+   high-risk change, or files someone is editing right now.
+20. The parent owns subagent output. Brief each one (goal, files it may change,
+   checks, what to return), review the result and commit it yourself. Guardrails:
+   the parent's or its own worktree, never the owner's checkout; one writer per
+   file; no paid runs, external writes, production settings or secrets unless the
+   brief allows them; at most one heavy job (full suite, build, dev server,
+   browser) per worker on a shared machine; read-only subagents may run in
+   parallel. One read-only research subagent read about 40 issues and PRs and
+   returned 67 structured lessons in one pass while the parent kept dispatching.
+   Adopted 2026-10-21; throughput effect not measured.
+21. Capture lessons as one `Lesson:` line when an issue closes (what failed, the
+   check that proved it, the fix). One coordinator publishes them in batches to
+   shared knowledge repositories, so concurrent agents do not collide there.
+22. Give every cross-owner action, especially a production setting change, one
+   named owner and a dated follow-up check. Comment-only requests ("tell me the
+   values", "@DevOps please set") left a fallback setting unapplied for 15 days
+   because neither agent was running; see
+   [the CI stall incident](../incidents/adbrain-two-week-ci-stall.md).
+23. Publish a pre-approved action list (one diagnostic call, paid runs within a
+   worker's share, auto-merging finished low-risk PRs, read-only production
+   queries). Waiting for permission the list already gives was the most common
+   delay; one diagnostic waited days before it was pre-approved.
+24. Give each worker a fixed share of paid test runs and log every run's result
+   in an append-only log (issue comments work). Derive the counter from the log:
+   a hand-kept dispatch said 2 of 10 runs were used when the log showed 6.
+25. Check in in a fixed order: CI on main and every long-lived branch; open PRs
+   (merge green-but-stuck ones); production serves main HEAD and its smoke is
+   green; idle workers get the next P0; only then dispatch and doc edits. Checking
+   CI first exposed a red gate and an unapplied setting that had stalled work
+   for two weeks.
+26. Under a stall, freeze everything except a few named P0 issues and let
+   every worker join them. After one such freeze, 14 PRs merged in 67 minutes,
+   including a core regression gate and a production guard (shipping volume
+   measured; the underlying reliability goal stayed open).
+27. Ship one change to a core routing path at a time. A second routing PR was
+   held and closed while another changed the same path, so a failed run had one
+   suspect.
+28. Answer the owner in a fixed shape: one line that answers first, a table of
+   what you saw / what it is / status, and at most one owner action.
 
 ## Discriminating checks
 
@@ -90,6 +137,16 @@ repair or integrate the same file while the user sees a growing local backlog.
    the existing results and limitations, not another implementation or full suite.
 - Do reported production features have visible authenticated interaction evidence?
    A deployment status or an API response cannot establish that a gated control works.
+- Before enabling auto-merge, does the PR's compare against current main list
+   only the intended files? Worktrees share refs, so `origin/main` can move between
+   a rebase and the merge; one stale merge would have reset 8 files and reverted
+   three merged PRs ([near-miss](../incidents/adbrain-core-gate-merge-near-miss.md)).
+- Before telling an author to "update the branch", merge the head into current
+   main in a throwaway worktree and run the failing tests. In one case the same 3
+   tests still failed because the test encoded an outdated provider order.
+- Does each budget counter equal a recount of its append-only log?
+- Is every cross-owner request older than one check-in owned by a named worker
+   with a verified result, or is it waiting on a comment nobody will read?
 
 ## Common traps
 
@@ -111,6 +168,12 @@ repair or integrate the same file while the user sees a growing local backlog.
    failed the branch; run the same checker locally before pushing board edits.
 - Long narrative handoffs. Five lines (change, proof, risk, PR, next) are faster
    to write and read and lose nothing a reviewer needs.
+- Letting a subagent commit, spend or touch production settings because the
+   parent could. The brief sets its authority; the parent reviews and commits.
+- Five agents writing the same knowledge repository at once. Collect `Lesson:`
+   lines and publish in one batch.
+- Two routing or model changes in flight on the core path at once. A failed run
+   then has no single suspect and no clean revert.
 
 ## Related methods
 

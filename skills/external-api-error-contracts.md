@@ -37,6 +37,15 @@ request.
 6. Validate external image URLs and schemes before fetching or uploading them.
 7. Test localized/opaque errors, malformed inputs, stale resources and unsupported
    capabilities at the adapter and route boundaries.
+8. Treat a 200 response with no usable result (a handoff, clarifying questions,
+   an invalid plan) as a failure path, not success. One production step returned
+   200 in 5s with no targeting and the editor showed an error.
+9. Drop values that carry no meaning in context before strict validation. A model
+   sent a 0 radius for city-only targeting where the schema requires 17-80; both
+   attempts failed validation until 0/null was dropped first. Replay the real reply
+   in a test.
+10. Give every AI step in the core flow a deterministic non-AI fallback (the user's
+   own choices plus safe defaults) and show the user a notice when it is used.
 
 ## Discriminating checks
 
@@ -87,6 +96,8 @@ request.
 - Formatting every route error with one provider's formatter. An AI planner
   truncation surfaced as "Meta rejected the budget settings" and sent debugging
   to the wrong system. Classify by the stage that failed before choosing a message.
+  The old test mocked the formatter and hid it; a failing test with the exact
+  payload through the real formatter caught it.
 - Labelling an activation as "Resume". In AdBrain, Resume reserved spend and set
   the Meta campaign ACTIVE; test plans must treat it as spending, not as a toggle.
 
@@ -101,3 +112,9 @@ creative retries and durable campaign-operation checkpoints. The creative test
 asserted one POST across two recovery attempts; it did not prove cross-reload
 idempotency or real-provider timeout recovery. Campaign failure tests retained
 known IDs and returned reconciliation when local persistence failed.
+
+October 2026: AdBrain's campaign Prepare step gained a non-AI fallback, then
+fell back on 200-with-handoff responses and dropped a zero radius before
+validation. Production returned 200 in 4.4s with real targeting; the handoff and
+radius fixes each have a core test that fails without them
+([incident](../incidents/adbrain-create-reliability-2026-10.md)).

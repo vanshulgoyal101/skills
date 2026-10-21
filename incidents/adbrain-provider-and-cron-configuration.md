@@ -33,3 +33,10 @@ Provider parsing, rotation, cooldown, model failure, environment validation, spe
 ## Residual risk
 
 External provider retirement, quota changes, and deployment-secret drift remain operational risks; monitoring and periodic production probes are still required.
+
+## Follow-up 2026-10
+
+The drift risk recurred: provider fallback merged 2026-10-06 but production
+`LLM_PROVIDER_ORDER` listed one provider until 2026-10-21. See
+[the two-week CI stall](adbrain-two-week-ci-stall.md) and
+[Create reliability](adbrain-create-reliability-2026-10.md).

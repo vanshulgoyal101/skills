@@ -81,6 +81,44 @@ Record exact counts and commands, distinguish warnings from failures, and call o
 - Align reporting keys and labels with the backend's calendar timezone. Test near midnight where the reporting date differs from UTC and the viewer's local date, as well as delayed responses after filter or auth changes.
 - Separate generated-page smoke checks, authenticated workflow tests, and deployed-byte checks. Visible sign-in controls do not prove OAuth consent or owner-only rendering.
 
+## Core regression gates
+
+A required merge gate for the product's core loop. AdBrain numbers are examples
+from [the Create reliability incident](../incidents/adbrain-create-reliability-2026-10.md).
+
+- Build it from recorded production responses, including their latencies, not
+	hand-written mocks: a known-good provider run, a real planner reply, real
+	provider campaign responses. Example: 28 tests in 6 files, about 4s offline;
+	the CI job took 2m0s including dependency install (verified in CI).
+- Mutation-check every gate: break the code on purpose and confirm it turns red.
+	Nine mutations did, including validator always-fail and always-pass, a
+	misclassified timeout, a loosened attempt limit, a removed key-skip, a narrowed
+	CSP directive, objects created active instead of paused and a removed fallback.
+- Test deadline budgets on a virtual clock that replays recorded latencies, plus
+	a separate worst-case test (every attempt at its limit). The replay can pass
+	while the worst case exceeds the deadline.
+- Set routing variables explicitly in each test or assert the production default.
+	A provider-order default change broke 3 recorded-path tests (expected 3 saved,
+	got 6) until the order was stubbed in setup.
+- Test a provider-dependent route twice: with the model call mocked, and through
+	the real SDK with recorded transport replies (success, all providers 503, a hang
+	that must fall back inside the route limit).
+- Every core production fix ships with a core test shown to fail on main first.
+- A stage-shaped synthetic fixture is temporary; replace it with a real capture
+	as soon as one exists.
+- Record provider fixtures from a disposable object created paused in an account
+	whose spend cap is already reached, through a recorder that redacts tokens.
+	This proves the API-client path only; the same flow through the UI is separate.
+- Production smoke is read-only by default: block writes, suppress automatic sync
+	and telemetry, print one PASS/FAIL line per step. Paid and provider-writing
+	modes are opt-in flags. Run it headless; hidden shared-browser tabs and expiring
+	shared sessions make browser-driven smoke unreliable.
+- Production database evidence goes through one read-only command: a fixed target,
+	a single SELECT/WITH statement, a read-only transaction, the token kept in memory.
+	Reject write-shaped input before any network call.
+- Done means repeated production success, for example two consecutive full runs,
+	not one pass. One 3/3 run at 265s of a 270s deadline was not proof.
+
 ## Failed checks and reruns
 
 - Read the specific failure before rerunning. Repair a repeatable touched-path defect and rerun the same check first.

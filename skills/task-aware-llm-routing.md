@@ -52,6 +52,35 @@ creative-generation settings.
 - Setting one global reasoning effort and token budget for every model/task.
 - Treating a successful HTTP response as proof the intended provider was used.
 
+## Latency, deadlines and model promotion
+
+- In multi-step generation, latency is the real cost. Measure tokens/s and
+  reasoning tokens per task: one reasoning model ran about 35 tokens/s, spent
+  about 300 reasoning tokens on a one-line answer and averaged 71s per concept
+  call over 26 calls, while total spend was negligible.
+- Do the worst-case arithmetic before shipping: attempt limit x sequential calls
+  + repairs + image time must fit the route deadline. A 90s attempt limit with
+  three calls plus an image is about 284s against a 270s deadline (open gap).
+- Interactive steps get fast providers and short attempt limits. A planner on a
+  slow model needed 30-90s against a 45s limit; fast providers at 20s per attempt
+  brought the production step to 4.4s.
+- Promote a model to primary only after a run under the real workload. Two models
+  that answered diagnostics in 0.8s and 3.6s failed as primary: one returned 503
+  after 16-43s on every key, the other hit a shared 429 limit.
+- Choose by speed and reliability before price when spend is already small.
+- Decide the revert trigger before shipping a routing change (for example "if the
+  next run is not 3/3, revert") and keep routing overridable by a setting so the
+  revert needs no release. Keep independent fixes from the reverted change.
+
+### Discriminating checks
+
+- Compute the worst case from configured limits, not from observed averages.
+- Replay the real multi-call workload on a candidate model before promotion.
+- Flip the routing setting back in a test and assert the previous order is used.
+
+AdBrain runs and status are in
+[the Create reliability incident](../incidents/adbrain-create-reliability-2026-10.md).
+
 ## Evidence
 
 AdBrain's website autofill inherited the paid OpenRouter creative route and failed

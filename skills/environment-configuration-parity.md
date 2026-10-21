@@ -75,6 +75,16 @@ A feature is implemented or tested against one environment while another silentl
 	login failure. Use a supported isolated login when authorized, preserve other
 	workers' sessions and close the temporary session after the bounded operation.
 
+### Code that depends on a setting is not live until the setting is
+
+- A merged feature that needs a new production value (a provider order, a model
+	list) does nothing until someone applies that value. One fallback chain shipped
+	2026-10-06 and stayed inert until the setting was applied on 2026-10-21; give
+	the setting change a named owner in the same PR handoff.
+- Record each production AI or provider setting change with before, after, how to
+	revert, read-back of the deployed value and a smoke afterward. Hosted variables
+	reach running code only with the next deployment; confirm which one.
+
 ## Discriminating checks
 
 - Does the type/schema boundary reject missing or malformed values before the feature runs?

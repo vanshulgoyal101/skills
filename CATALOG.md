@@ -64,6 +64,8 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 | [product-registry-maintenance](skills/product-registry-maintenance.md) | A public product family has a portfolio, links hub, sitemap, and live domains to keep aligned | Portfolio family |
 | [public-indexing-hygiene](skills/public-indexing-hygiene.md) | Public routes, canonicals, sitemaps, robots rules, or private surfaces affect discoverability | Portfolio family, vbrain |
 | [search-console-release-gates](skills/search-console-release-gates.md) | A public release changes crawlability or canonical URL ownership | Portfolio family |
+| [post-deploy-production-guard](skills/post-deploy-production-guard.md) | Merges auto-deploy to production and CI must smoke, roll back, run a daily smoke or alert on drift | AdBrain, Vercel |
+| [ci-merge-throughput](skills/ci-merge-throughput.md) | A required check blocks every PR, merges are frequent, or a suite must become a required check | AdBrain |
 
 ## Checklists
 
@@ -108,6 +110,10 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 - [codec-data-corruption](incidents/codec-data-corruption.md)
 - [reader-alternate-ipv4-ssrf](incidents/reader-alternate-ipv4-ssrf.md)
 - [macos-beta-disk-recovery](incidents/macos-beta-disk-recovery.md)
+- [adbrain-two-week-ci-stall](incidents/adbrain-two-week-ci-stall.md)
+- [adbrain-create-reliability-2026-10](incidents/adbrain-create-reliability-2026-10.md)
+- [adbrain-guard-superseded-false-alarms](incidents/adbrain-guard-superseded-false-alarms.md)
+- [adbrain-core-gate-merge-near-miss](incidents/adbrain-core-gate-merge-near-miss.md)
 
 ## Products
 

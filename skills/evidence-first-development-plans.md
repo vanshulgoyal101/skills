@@ -39,6 +39,21 @@ hop based on evidence. A plan is not progress unless it leads to a checked chang
 For parallel work, use [multi-worker delivery](multi-worker-delivery.md) rather
 than adding coordinator approval to every local decision.
 
+### Speed with structural protection
+
+- A fast policy can be: develop directly in production with small auto-merging
+	PRs, with deliberate brakes only on the core check, the production smoke, money
+	and secrets. Name the accepted trade-offs (for example, a dependency audit that
+	reports instead of blocking).
+- Remove process and add structural core protection in the same step, not one
+	after the other: staging, extra approvals and reports went; a recorded-response
+	core gate, a post-deploy smoke with automatic rollback, a daily smoke and a
+	production-drift alert came in. About 20 PRs merged the same evening and a
+	failing step went to 4.4s (2026-10-21). The rollback itself was never exercised,
+	so it remains unproven protection.
+- Ship the protection that already works; list the untested part (rollback, a
+	not-yet-required check) as open rather than treating the policy as complete.
+
 ### Performance and repository-wide requests
 
 - A reported slow application is an observation; excessive bundle size is only
