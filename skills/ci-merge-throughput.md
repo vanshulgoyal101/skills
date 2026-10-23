@@ -58,3 +58,5 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
 - Adding a suite to an existing job and expecting it to appear as a required check.
 - Accepting a non-blocking audit without recording the trade-off: high-severity
   advisories no longer stop merges.
+- Passing a short SHA to `gh pr merge --match-head-commit`: GraphQL coercion
+  rejects it and nothing merges. Pass the full 40-character SHA (#208).

@@ -42,6 +42,8 @@ failures. Observed in
 10. Treat an untested rollback as residual risk. Schedule an approved drill.
 11. Follow every rollback with an explicit promote. A Vercel rollback pinned
    production, so later deploys stayed unpromoted; alert while it is pinned (#111).
+12. Bound each slow step below the job timeout. A job timeout cancels the run and
+   skips `if: failure()` alerts; a step timeout fails, so the alert fires (#210).
 
 ## Discriminating checks
 
@@ -70,3 +72,5 @@ failures. Observed in
 - Counting the guard as full protection while rollback has never run.
 - Merging during a rollback drill: with promotion stopped it raises a false
   "still serves" alarm. Pause merges, then check drift on the real HEAD (#111).
+- Blaming the browser CDN for a slow `playwright install --with-deps`: the Ubuntu
+  apt mirror ran at 22 kB/s. Bound apt; fall back to a browser-only install (#210).
