@@ -70,3 +70,8 @@ The setting change has a recorded before/after and smoke in #98.
 cross-owner actions, check-in order) and
 [environment-configuration-parity](../skills/environment-configuration-parity.md)
 (code that depends on a setting is not live until the setting is).
+
+## Follow-up 2026-10-22
+
+Main-to-dev sync is now automatic: the sync workflow resolves doc-only conflicts
+toward main and still fails on code conflicts (#170).

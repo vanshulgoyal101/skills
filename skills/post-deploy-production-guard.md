@@ -40,6 +40,8 @@ failures. Observed in
 9. Keep the smoke read-only by default (see
    [verification gates](verification-gates.md#core-regression-gates)).
 10. Treat an untested rollback as residual risk. Schedule an approved drill.
+11. Follow every rollback with an explicit promote. A Vercel rollback pinned
+   production, so later deploys stayed unpromoted; alert while it is pinned (#111).
 
 ## Discriminating checks
 
@@ -54,6 +56,8 @@ failures. Observed in
 - Before reporting an incident, read the newest main commit's checks and confirm
   production serves it. A "6/7 checks" count with a green tick can include a job
   skipped by design; a red X on an older commit can be a superseded-deploy alarm.
+- Force a smoke failure and confirm the run turns red. Without `shell: bash`
+  (pipefail) in GitHub Actions, `smoke | tee log` exited 0 on a FAIL (#153).
 
 ## Common traps
 
@@ -64,3 +68,5 @@ failures. Observed in
 - Giving rollback a personal login token, or letting a daily smoke roll back.
 - Mixing scheduled and per-deploy jobs in one workflow.
 - Counting the guard as full protection while rollback has never run.
+- Merging during a rollback drill: with promotion stopped it raises a false
+  "still serves" alarm. Pause merges, then check drift on the real HEAD (#111).

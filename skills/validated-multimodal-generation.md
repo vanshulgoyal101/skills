@@ -39,6 +39,8 @@ becomes a raw source image presented as a finished ad.
    download or storage failure must not return a raw image as a completed ad.
 8. Test actual raster output across formats and text positions; mocks do not catch
    renderer crashes or clipping.
+9. Use the owner's real photo as the image itself (generated fallback) and tell the
+   copy model it cannot see it; a style reference alone gave generic scenes (#195).
 
 ## Discriminating checks
 
@@ -93,6 +95,10 @@ becomes a raw source image presented as a finished ad.
 - More time and more parallelism do not fix rejection-driven failures. Raising the
   deadline from 240s to 270s still saved 1 of 3; a fully parallel probe increased
   paid repairs and was reverted.
+- Validators misfire on real output: an all-caps rule counted a price like `$49,`.
+  Record a live probe of the failing variant before changing prompts (#98).
+- Carve layout terms ("55% of the frame", "free of detail") out of claim scans on
+  visual direction, and audit gold labels: one recorded the false positive (#202).
 
 ## Common traps
 
@@ -107,6 +113,10 @@ becomes a raw source image presented as a finished ad.
   runs, but keep validation and image work gated on accepted concepts.
 - Treating `completion_tokens == max_tokens` as a model failure. It is truncation;
   raise or right-size the output cap before blaming the prompt.
+- Keeping a model's explanation after a deterministic filter changed what it
+  describes. Re-derive it: a rationale kept interests the matcher dropped (#174).
+- Trusting a text-only judge for layout: it scored almost every ad 4-5. Check the
+  125-character "See more" fold, line count and image directly (#188, #194).
 
 ## Evidence
 

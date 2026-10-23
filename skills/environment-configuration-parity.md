@@ -74,6 +74,10 @@ A feature is implemented or tested against one environment while another silentl
 - If existing authentication lacks access, distinguish target/team scope from
 	login failure. Use a supported isolated login when authorized, preserve other
 	workers' sessions and close the temporary session after the bounded operation.
+- A local Vercel CLI 403 flagged `invalidToken` can be an expired cached login,
+	not a scope problem: run any CLI command to refresh it, then retry (#207).
+- Rotate a webhook secret in order: hosting value first, prove it with a signed
+	event the app ignores, then paste the same value into the provider (#178).
 
 ### Code that depends on a setting is not live until the setting is
 
@@ -84,6 +88,15 @@ A feature is implemented or tested against one environment while another silentl
 - Record each production AI or provider setting change with before, after, how to
 	revert, read-back of the deployed value and a smoke afterward. Hosted variables
 	reach running code only with the next deployment; confirm which one.
+- A CLI may store a new variable as sensitive, so it cannot be read back. Prove
+	the change by its effect, such as the model recorded on new usage rows (#98).
+
+### Scheduled routes have more than one caller
+
+- List every caller of a cron route (platform crons, CI schedules, dispatches)
+	before a "run X before the cron" workaround; a CI schedule defeated one (#208).
+- A CI schedule set to every 15 minutes fired only every few hours. Verify with
+	schedule-triggered runs (`gh run list -e schedule`), not a dispatch (#165).
 
 ## Discriminating checks
 

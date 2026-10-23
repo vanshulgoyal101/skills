@@ -46,6 +46,8 @@ request.
    in a test.
 10. Give every AI step in the core flow a deterministic non-AI fallback (the user's
    own choices plus safe defaults) and show the user a notice when it is used.
+11. Preflight rules a provider enforces late: it created a campaign and ad set,
+   then rejected an ad linking to its own site. Check before any write (#109).
 
 ## Discriminating checks
 
@@ -85,6 +87,8 @@ request.
 - Version reconciliation receipts so a new operator path refuses records created
    before the evidence existed, and lock the parent row so late usage or output
    inserts cannot land after the reconciliation audit.
+- Give each terminal state a way out, such as starting over with a note on what
+   sync will import. A lock only a new tab clears is a dead end (#143).
 
 ## Common traps
 
@@ -100,6 +104,12 @@ request.
   payload through the real formatter caught it.
 - Labelling an activation as "Resume". In AdBrain, Resume reserved spend and set
   the Meta campaign ACTIVE; test plans must treat it as spending, not as a toggle.
+- Matching provider error text. The user message follows the token owner's
+  locale; map by error code and subcode, checked against recorded bodies (#185).
+- Binding to "the first" item of a provider list. Lists can be newest-first, so
+  adding an ad set changed which one was first; bind by stored ID (#197).
+- Treating a default listing as complete. One hid archived ads until the status
+  filter was passed explicitly (#188).
 
 ## Evidence
 

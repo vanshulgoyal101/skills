@@ -3,7 +3,7 @@
 - **Date**: 2026-10-21
 - **Repository**: AdBrain
 - **Severity**: Medium
-- **Status**: Fixed for commits after PR #126; rollback untested
+- **Status**: Fixed for commits after PR #126; rollback drilled 2026-10-22 (#111)
 
 ## Symptom
 
@@ -56,3 +56,9 @@ superseded case is recorded.
 ## Portable lesson
 
 [post-deploy-production-guard](../skills/post-deploy-production-guard.md).
+
+## Follow-up 2026-10-22
+
+The rollback drill (#111) worked, but production then stayed pinned to the
+rolled-back deploy until a manual promote, and a merge during the drill raised a
+false alarm. Separately, `| tee` let a failed smoke pass until PR #159 (#153).

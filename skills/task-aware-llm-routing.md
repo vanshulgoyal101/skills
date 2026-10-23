@@ -71,6 +71,10 @@ creative-generation settings.
 - Decide the revert trigger before shipping a routing change (for example "if the
   next run is not 3/3, revert") and keep routing overridable by a setting so the
   revert needs no release. Keep independent fixes from the reverted change.
+- Measure each step on the real route before tuning. Parallel concept calls cut
+  Create from 63-79s to 36.5-48s; model or effort changes risked quality (#142).
+- A capped bake-off on the real route through a recorded harness chose model and
+  schedule cheaply; two consecutive production 3/3 runs followed (48s, 40s) (#98).
 
 ### Discriminating checks
 

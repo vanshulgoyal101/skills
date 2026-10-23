@@ -37,6 +37,8 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
 6. Merge main into long-lived branches after every release.
 7. To make a suite required, give it its own named CI job, then add that job
    name to branch protection. A suite inside `npm test` cannot be required alone.
+8. Edit shared docs on main only. Branch-side docs edits conflicted on every sync;
+   the sync job now resolves doc-only conflicts toward main, failing on code (#170).
 
 ## Discriminating checks
 

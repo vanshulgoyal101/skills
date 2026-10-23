@@ -3,7 +3,7 @@
 - **Date**: 2026-10-02 to 2026-10-21
 - **Repository**: AdBrain
 - **Severity**: Critical (core loop)
-- **Status**: Open (#98): two consecutive 3/3 production runs not yet achieved
+- **Status**: Closed 2026-10-22 (#98): two consecutive production 3/3 runs
 
 ## Symptom
 
@@ -85,3 +85,9 @@ renders 3 ads.
 [validated-multimodal-generation](../skills/validated-multimodal-generation.md),
 [verification-gates](../skills/verification-gates.md) and
 [external-api-error-contracts](../skills/external-api-error-contracts.md).
+
+## Follow-up 2026-10-22
+
+A capped real-route bake-off chose Haiku 5.5 with a parallel concept schedule
+(#142). Runs 10 and 11 saved 3/3 in a row in production (48s, 40s); #98 closed.
+Some 429s were stale quota holds, not usage (#138).

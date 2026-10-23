@@ -38,6 +38,10 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 - Establish network/mutation guards before navigation where feasible. A page can
 	automatically sync on mount or foreground even when the tester never clicks Sync.
 	A late guard cannot prove earlier side effects were absent.
+- Playwright's `page.route` cannot stream a response. Drive an NDJSON UI with an
+	`addInitScript` fetch wrapper that the test feeds line by line (#141).
+- Log each image with the page that loaded it. Grey cards came from three screens
+	loading ~2 MB originals; show thumbnails everywhere, original as fallback (#158).
 
 ### Focus, identity and truthful interaction
 

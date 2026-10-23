@@ -46,6 +46,8 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 	a missing response does not authorize another paid execution.
 - Label quota units, estimated exposure and provider-billed currency separately;
 	a reserved image count is not an audited monetary cost.
+- Shrink a hold to actual usage when work settles, partial runs included. Nine
+	settled partials held 1.67M tokens for 163k used and blocked new runs (#138).
 
 ## Discriminating checks
 
@@ -63,6 +65,8 @@ One provider order makes low-value summaries or extraction burn premium tokens. 
 	proven to fail before provider execution and with unresolved provider work.
 - Exercise the real callback-to-storage path as well as SQL flags directly;
 	a correct terminal flag in a database test does not prove the caller sends it.
+- Settle N partial runs in real Postgres, then assert a new request is admitted.
+	A 429 from your own quota can be stale holds, not usage (#98, #138).
 
 ## Common traps
 

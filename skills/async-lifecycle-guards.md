@@ -73,6 +73,7 @@ For conversation scrolling, response validity and permission to move the reader 
 	local state and focus. Cancel/confirm explicit discard, switch owner/business,
 	and ensure pending or uncertain external operations cannot be discarded away.
 - Hold a response pending in an already overflowing conversation, scroll back, deliver it, and assert the reader stays put. Repeat at the bottom and verify following resumes. A container too short to overflow cannot distinguish these cases.
+- Open a pre-filled form link while an older draft sits in session storage; the link's values must win over the restored draft (#134).
 
 ## Common traps
 
@@ -82,3 +83,4 @@ For conversation scrolling, response validity and permission to move the reader 
 - Using a single global generation for unrelated DOM targets.
 - Testing only after timers settle; race tests must sample during the pending window.
 - Unconditionally scrolling on each message/loading change, or recomputing follow intent only after the new content has already moved the bottom.
+- Reading React state inside an async handler that needs the latest streamed value; it sees a stale closure. Keep a local copy updated alongside `setState` (#177).

@@ -100,6 +100,7 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 - A `NOT VALID` constraint protects new writes but does not certify historical rows; audit and validate those separately without silently rewriting history.
 - Best-effort telemetry after paid work plus a quota preflight is not an atomic reservation or a hard provider spending cap.
 - Publishing code does not prove the matching migration has been applied to the intended database.
+- A data-modifying CTE runs on one snapshot; when a later step must see rows committed meanwhile, split it into two statements (#181).
 
 ## Evidence
 

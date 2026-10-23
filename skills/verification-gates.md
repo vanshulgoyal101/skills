@@ -238,6 +238,7 @@ from [the Create reliability incident](../incidents/adbrain-create-reliability-2
 - Committing generated output from another actor or leaving the tree dirty.
 - Treating rerun success as a diagnosed or repaired flaky test.
 - Claiming the deployed SHA is the agent's commit when a concurrent descendant was actually released.
+- Mocking a follow-up list reload as `results: {}`: it silently wipes the refreshed state under test. Return the stored result the server would send (#173).
 
 ## Evidence
 

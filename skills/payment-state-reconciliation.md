@@ -101,6 +101,8 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
 - Reading a credited order as proof of webhook delivery. Reconciliation can
   record a capture while the signed-event table stays empty; check both. Bank
   settlement confirms the money, not that the backup webhook path works.
+- Assuming a missing webhook was never sent. Read the route's logged status codes
+  first: a month of deliveries had failed as 400 signature mismatches (#178, #190).
 
 ## Related methods
 
