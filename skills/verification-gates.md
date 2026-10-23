@@ -239,6 +239,8 @@ from [the Create reliability incident](../incidents/adbrain-create-reliability-2
 - Treating rerun success as a diagnosed or repaired flaky test.
 - Claiming the deployed SHA is the agent's commit when a concurrent descendant was actually released.
 - Mocking a follow-up list reload as `results: {}`: it silently wipes the refreshed state under test. Return the stored result the server would send (#173).
+- Changing a pre-filled default without grepping the tests for its old value: every route test that asserts the default total shifts with it (#225).
+- Faking an auth outage with a 5xx in a unit test: Supabase auth-js treats every 5xx as retryable and backs off for seconds. Use a non-5xx error (a 429) or fake timers (#237).
 
 ## Evidence
 

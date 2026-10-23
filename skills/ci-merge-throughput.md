@@ -39,6 +39,10 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
    name to branch protection. A suite inside `npm test` cannot be required alone.
 8. Edit shared docs on main only. Branch-side docs edits conflicted on every sync;
    the sync job now resolves doc-only conflicts toward main, failing on code (#170).
+9. When many PRs append to one canonical file, freeze it and generate the tail from
+   the files each PR already adds. Any two migration PRs conflicted on it (#227).
+10. Vitest `--shard` splits by file count over hashed paths, not duration, and tests
+    in a file run serially. One slow file sets the floor, so split it first (#226).
 
 ## Discriminating checks
 
@@ -60,3 +64,5 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
   advisories no longer stop merges.
 - Passing a short SHA to `gh pr merge --match-head-commit`: GraphQL coercion
   rejects it and nothing merges. Pass the full 40-character SHA (#208).
+- A required aggregator that `needs:` the shards but lacks `if: always()`. A failed
+  shard skips it, and a skipped required check counts as passing (#226).

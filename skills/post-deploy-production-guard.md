@@ -62,6 +62,8 @@ failures. Observed in
   (pipefail) in GitHub Actions, `smoke | tee log` exited 0 on a FAIL (#153).
 - A merge's guard skips the smoke when production already serves a newer commit.
   Confirm that commit contains the merge, then read that commit's guard (#216).
+- Check `GET /v1/security/firewall/events?projectId=…&startTimestamp=…` (Vercel API)
+  before debugging an edge 403: it names the rule, IP, window and count (#240).
 
 ## Common traps
 
@@ -76,3 +78,5 @@ failures. Observed in
   "still serves" alarm. Pause merges, then check drift on the real HEAD (#111).
 - Blaming the browser CDN for a slow `playwright install --with-deps`: the Ubuntu
   apt mirror ran at 22 kB/s. Bound apt; fall back to a browser-only install (#210).
+- Bursts of headless browser loads from one machine drew the platform's DDoS
+  challenge (403) while curl passed. Pace browser walks; run bursts from CI (#240).

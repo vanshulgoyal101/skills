@@ -147,6 +147,8 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Does each budget counter equal a recount of its append-only log?
 - Is every cross-owner request older than one check-in owned by a named worker
    with a verified result, or is it waiting on a comment nobody will read?
+- Does an approval at an earlier head still apply? Only if `git patch-id` of its patch
+   against main equals the current head's (#259).
 
 ## Common traps
 
@@ -178,6 +180,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    Measure calls per poll before rollout: one repo-wide call cut 26 to 2 (#222).
 - Pushing to another worker's PR branch without re-reading its thread: a merge fix
    raced the author's assigned rebase and was replaced. Let the author fix it (#217).
+- Keying approval on "QA:": all agents post as one GitHub user, and handoffs to QA use
+   it too. Require explicit verdicts at the head SHA; replay real threads (#228, #245).
+- A release script that checks one reviewer silently drops a second required review;
+   a money and migration PR shipped without the CTO's. Encode every approval (#259).
 
 ## Related methods
 
