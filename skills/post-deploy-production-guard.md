@@ -60,6 +60,8 @@ failures. Observed in
   skipped by design; a red X on an older commit can be a superseded-deploy alarm.
 - Force a smoke failure and confirm the run turns red. Without `shell: bash`
   (pipefail) in GitHub Actions, `smoke | tee log` exited 0 on a FAIL (#153).
+- A merge's guard skips the smoke when production already serves a newer commit.
+  Confirm that commit contains the merge, then read that commit's guard (#216).
 
 ## Common traps
 

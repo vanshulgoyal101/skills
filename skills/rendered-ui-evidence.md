@@ -42,6 +42,8 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 	`addInitScript` fetch wrapper that the test feeds line by line (#141).
 - Log each image with the page that loaded it. Grey cards came from three screens
 	loading ~2 MB originals; show thumbnails everywhere, original as fallback (#158).
+- A desktop-sized nested scroll box hid stacked mobile cards. Cap it only where the
+	cards sit side by side; scroll new results to their heading, not the bottom (#169).
 
 ### Focus, identity and truthful interaction
 
@@ -81,6 +83,8 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 ## Common traps
 
 - Equating `toBeVisible` with being on-screen, unobscured, or usable.
+- Trusting `toBeInViewport()` alone. It passed a heading hidden under a sticky bar;
+  only a real 390 px walk caught it. Check `elementFromPoint` at its centre (#169).
 - Counting a mounted canvas as successful rendering.
 - Measuring only document overflow when a nested element clips its contents.
 - Calling screenshots golden baselines when no comparison occurs.

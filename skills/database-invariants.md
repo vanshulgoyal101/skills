@@ -103,6 +103,7 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 - A data-modifying CTE runs on one snapshot; when a later step must see rows committed meanwhile, split it into two statements (#181).
 - Synthetic provider IDs must pass the same validator as real ones: an underscore after `order_`/`pay_` failed the alphanumeric ID check (#212).
 - Rows one check adds to a shared fixture account shift every later count over that account; extra rows moved the webhook-health counts (#178, #212).
+- The Supabase Management API can return 503 (upstream reset) on a large migration body. Check `pg_stat_activity` and the migration ledger for a leftover transaction before retrying (#212).
 
 ## Evidence
 

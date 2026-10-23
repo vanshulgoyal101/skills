@@ -174,6 +174,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    lines and publish in one batch.
 - Two routing or model changes in flight on the core path at once. A failed run
    then has no single suspect and no clean revert.
+- Polling per issue from every chat on one shared token (5,000 requests/hour).
+   Measure calls per poll before rollout: one repo-wide call cut 26 to 2 (#222).
+- Pushing to another worker's PR branch without re-reading its thread: a merge fix
+   raced the author's assigned rebase and was replaced. Let the author fix it (#217).
 
 ## Related methods
 
