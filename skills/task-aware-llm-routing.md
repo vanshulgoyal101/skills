@@ -52,6 +52,10 @@ creative-generation settings.
 - Setting one global reasoning effort and token budget for every model/task.
 - Treating a successful HTTP response as proof the intended provider was used.
 
+- Picking models once. Models improve every few weeks; schedule a review (a cron that
+  opens one issue) that reruns the per-task quality/speed/cost check on recorded
+  inputs and switches only on a clear win, under a fixed evaluation budget.
+
 ## Latency, deadlines and model promotion
 
 - In multi-step generation, latency is the real cost. Measure tokens/s and

@@ -93,6 +93,10 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
   background tabs report `visibilityState: hidden`, pause animation frames and can
   sit on a loading shell. Use a headless scripted session per check instead.
 
+- Light-only UI on a phone in dark mode: with no dark styles, Chrome auto-dark or an
+  iOS extension repaints it unevenly (dark page, invisible inputs, muddy cards). Declare
+  `color-scheme: only light` (meta + CSS) unless you ship a real dark theme.
+
 ## Evidence
 
 See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md). Shelf checks covered 1440/768/390/320px; earlier image and motion checks used their own viewport matrices. These sizes are examples, not universal requirements.

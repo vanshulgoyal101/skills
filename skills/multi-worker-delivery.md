@@ -119,6 +119,16 @@ repair or integrate the same file while the user sees a growing local backlog.
    with your role. Check the convention against the wake script's real regexes (#287).
 30. Retire a shared branch by freezing its writers, then diffing from the last known tip
    before deleting. Two commits landed after the freeze; the diff caught both (#260).
+31. Keep the coordinator a manager: an owner request becomes an issue with done-criteria,
+   routed to its owner and tracked. Building it yourself skips review and starves the plan.
+32. Give every role a one-line card (owns / hands off) in the shared dispatch, and print it
+   from the wake script so each wake and each restart re-reads it.
+33. Make any chat restartable from one line: the wake script lists the role card, your
+   open items (including ones where you spoke last) and unpushed local work. GitHub and
+   git hold the state; chat memory holds nothing that matters.
+34. Before "make delivery faster", time each stage. CI was 59 s and the post-deploy
+   guard 100 s; the real losses were reviews waiting, environment friction and a
+   brittle smoke that froze deploys.
 
 ## Discriminating checks
 
@@ -202,6 +212,11 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Editing live, already-approved ads unannounced: even a no-content save in the ad
    manager sends the ad back through review and delays delivery. Post every live edit
    on the run's issue first (#157).
+- Reading a funnel without excluding internal accounts: three "real sign-ups" were QA
+   test accounts and nearly triggered owner outreach (#339). Exclude internal users by
+   default in every product query.
+- Giving every target a date but no owner, or an owner but no date: idle workers sat next
+   to a full backlog. Pair each open item with both, in one place.
 
 ## Related methods
 
