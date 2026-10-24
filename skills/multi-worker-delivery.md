@@ -194,6 +194,14 @@ repair or integrate the same file while the user sees a growing local backlog.
    a money and migration PR shipped without the CTO's. Encode every approval (#259).
 - Reusing an approval across a restack: against main, a stacked branch's patch also
    carries its parent PR (28 files, not 17). Re-request review after restacking (#259).
+- Sharing `node_modules` across worktrees by symlink: the source checkout was stale and
+   typecheck missed a package the branch needed. Install per worktree with `npm ci` (#282).
+- Running a coordination script from a stale checkout: it lagged `origin/main` by 43
+   lines. Run the current copy with `git show origin/main:<path> | node --input-type=module -`
+   when it imports only built-ins, or from a fresh worktree.
+- Editing live, already-approved ads unannounced: even a no-content save in the ad
+   manager sends the ad back through review and delays delivery. Post every live edit
+   on the run's issue first (#157).
 
 ## Related methods
 
