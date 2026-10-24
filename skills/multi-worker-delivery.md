@@ -115,6 +115,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    suspect.
 28. Answer the owner in a fixed shape: one line that answers first, a table of
    what you saw / what it is / status, and at most one owner action.
+29. Address handoffs with an arrow (`→ QA: ready at <sha>`) and sign your own comments
+   with your role. Check the convention against the wake script's real regexes (#287).
+30. Retire a shared branch by freezing its writers, then diffing from the last known tip
+   before deleting. Two commits landed after the freeze; the diff caught both (#260).
 
 ## Discriminating checks
 
@@ -149,6 +153,8 @@ repair or integrate the same file while the user sees a growing local backlog.
    with a verified result, or is it waiting on a comment nobody will read?
 - Does an approval at an earlier head still apply? Only if `git patch-id` of its patch
    against main equals the current head's (#259).
+- Is a stale unmerged branch archived before deletion? Push an `archive/<name>` tag and
+   confirm the remote tag's SHA equals the branch head (#260).
 
 ## Common traps
 
@@ -182,8 +188,12 @@ repair or integrate the same file while the user sees a growing local backlog.
    raced the author's assigned rebase and was replaced. Let the author fix it (#217).
 - Keying approval on "QA:": all agents post as one GitHub user, and handoffs to QA use
    it too. Require explicit verdicts at the head SHA; replay real threads (#228, #245).
+- Opening a handoff with the addressee's role ("QA: ready") under one shared user: it
+   reads as QA's own, so a wake script that skips self-authored comments misses it (#287).
 - A release script that checks one reviewer silently drops a second required review;
    a money and migration PR shipped without the CTO's. Encode every approval (#259).
+- Reusing an approval across a restack: against main, a stacked branch's patch also
+   carries its parent PR (28 files, not 17). Re-request review after restacking (#259).
 
 ## Related methods
 

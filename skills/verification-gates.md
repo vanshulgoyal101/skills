@@ -241,6 +241,9 @@ from [the Create reliability incident](../incidents/adbrain-create-reliability-2
 - Mocking a follow-up list reload as `results: {}`: it silently wipes the refreshed state under test. Return the stored result the server would send (#173).
 - Changing a pre-filled default without grepping the tests for its old value: every route test that asserts the default total shifts with it (#225).
 - Faking an auth outage with a 5xx in a unit test: Supabase auth-js treats every 5xx as retryable and backs off for seconds. Use a non-5xx error (a 429) or fake timers (#237).
+- Trusting a test run after editing through an editor tool: edits to two files stayed in unsaved editor buffers, so the tests ran the old files on disk. Check `git status` after editing (#229).
+- Using hex-looking test values in fields named `key` (`key: "0123456789ab"`): gitleaks `generic-api-key` flags them, and it scans every commit in a PR, so a later fix does not clear it (#258).
+- Pushing without a local secret scan: run `gitleaks git --log-opts=origin/main..HEAD --redact` first, and use low-entropy fixture values such as `aaaaaaaaaaaa` (#258).
 
 ## Evidence
 

@@ -48,6 +48,8 @@ request.
    own choices plus safe defaults) and show the user a notice when it is used.
 11. Preflight rules a provider enforces late: it created a campaign and ad set,
    then rejected an ad linking to its own site. Check before any write (#109).
+12. Record a `validate_only` reply for every object of a never-run Meta path first. Meta
+   checks the ad set against its parent campaign and the Page's WhatsApp link (#209).
 
 ## Discriminating checks
 
@@ -110,6 +112,12 @@ request.
   adding an ad set changed which one was first; bind by stored ID (#197).
 - Treating a default listing as complete. One hid archived ads until the status
   filter was passed explicitly (#188).
+- Assuming the Page's `whatsapp_number` must be set: Meta accepted a WhatsApp Business
+  Account number in `promoted_object.whatsapp_phone_number` with that field empty (#209).
+- Requiring `CONNECTED` WhatsApp numbers: one read `DISCONNECTED`/`NOT_VERIFIED` (its API
+  connection), yet its ad delivered and a chat was answered in the Business app (#286).
+- Filing a delivery-blocker fix before checking live outcomes. Hours of early 0
+  impressions can be the auction/learning phase, not a configuration fault (#286).
 
 ## Evidence
 

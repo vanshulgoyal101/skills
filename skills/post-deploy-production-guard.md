@@ -80,3 +80,5 @@ failures. Observed in
   apt mirror ran at 22 kB/s. Bound apt; fall back to a browser-only install (#210).
 - Bursts of headless browser loads from one machine drew the platform's DDoS
   challenge (403) while curl passed. Pace browser walks; run bursts from CI (#240).
+- A 100-load timing burst drew the same challenge. Paced passes (one sign-in, 2-3 cold
+  loads 5 s apart, abort on `x-vercel-mitigated`) gave stable before/after numbers (#230).
