@@ -129,6 +129,32 @@ repair or integrate the same file while the user sees a growing local backlog.
 34. Before "make delivery faster", time each stage. CI was 59 s and the post-deploy
    guard 100 s; the real losses were reviews waiting, environment friction and a
    brittle smoke that froze deploys.
+35. Treat a reloaded editor as a dead team. After a restart the old chats reject messages
+   ("Unknown chat owner") and return empty transcripts. Recover by starting one fresh chat
+   per role from a stored restart prompt (role, dispatch, label queue, today's P0, waiter).
+   All eight roles resumed within two minutes, with GitHub as the memory (#573).
+36. Check that a worker is alive by reading its chat's latest turn, not by counting its
+   recent issue comments. Workers stuck on a dead tool call look identical to workers
+   waiting for work in both the UI and the comment log; only the turn shows which.
+37. Steer a busy chat; queue for an idle one. A steer to an idle chat is refused, so
+   fall back to queueing the message, then confirm the chat picked it up.
+38. Rank the queue by its value to customers, from production data, at least daily.
+   An agent team fills empty queues with internal tooling (metrics, flaky-test
+   quarantine, skill programs). One production query showing no outside customers
+   re-ranked the whole team toward the core loop and first pilots (#679, #681).
+39. Give a core-focus sprint one owner per product step and a production baseline per
+   step. "Prepare: 0 of 89 runs fully succeeded" sets the order better than a walk alone.
+40. Refill idle queues from production failure data (top error codes per route), not
+   from a wishlist. Each item then arrives with a target and a recorded response.
+41. A role is live only when its wake script accepts it on the deployed branch. A new
+   role merged to a staging branch failed `--me <role>` on main with a usage error, and
+   the worker sat idle for hours (#575).
+42. A decision posted as a PR review is invisible to a waiter that polls only issue
+   comments. Either poll reviews too or mirror the verdict in a comment (#390).
+43. A handoff on an item the next owner doesn't own is invisible. Make the waiter check
+   who spoke last on every owned item, not only new events (#354).
+44. When an owner-only step needs a browser, open the page yourself and tell the owner
+   which tab to use. "Sign in to the shared browser" means nothing when no tab exists.
 
 ## Discriminating checks
 
@@ -217,6 +243,16 @@ repair or integrate the same file while the user sees a growing local backlog.
    default in every product query.
 - Giving every target a date but no owner, or an owner but no date: idle workers sat next
    to a full backlog. Pair each open item with both, in one place.
+- Re-approving a byte-identical rebased patch by hand: a two-hour wait for a one-line
+   re-approval blocked three releases. Compare the PR's own changed lines
+   (`git diff -U0` against its merge base) and carry the approval when they match (#524).
+- Deleting branches by pattern in a shared-`.git` worktree setup: delete only branches
+   you created, by exact name (#390).
+- Starting a rebalanced issue without checking `gh pr list --search <n>` and the
+   previous owner's worktree: work gets done twice (#470).
+- Carrying a change across branches with `git checkout <branch> -- <dir>`: it copies
+   whole directories. Use `git diff <base> <tip> | git apply` and check the PR's file
+   list before enabling auto-merge (#372).
 
 ## Related methods
 

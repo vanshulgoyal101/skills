@@ -118,6 +118,24 @@ request.
   connection), yet its ad delivered and a chat was answered in the Business app (#286).
 - Filing a delivery-blocker fix before checking live outcomes. Hours of early 0
   impressions can be the auction/learning phase, not a configuration fault (#286).
+- Reading Meta insights without `date_preset`: it silently means last_30d excluding
+  today. Always set the window (#406).
+- Showing Meta's human-readable fields as-is: Graph localizes errors and
+  `ad_review_feedback` to the token user's locale. Send `locale=en_US` on every read
+  whose text reaches the UI, and record the fixture both ways (#635).
+- Trusting `validate_only` on an inline creative: it passed while the real
+  create-creative-then-ad sequence failed. Record the real sequence and check Meta's
+  per-format previews (#333).
+- Blaming the launch path for a `meta.<purpose>` failure: it can come from a page-render
+  read. Join on `meta.graph` by timestamp or request ID first (#615).
+- Trusting a free provider's `Retry-After`: Pollinations says 1 s but allows one image
+  per 45 s per IP, and the retries produced 404s. Pace to the documented limit (#634).
+- Checking a write path against a customer's live data without an agreed undo (delete
+  route or ops cleanup): check reads only until one exists (#335).
+- Treating a fire-and-forget call as a user commitment: verify a UI promise ("we'll
+  WhatsApp you") by blocking its request in a test (#336).
+- Calling a strict 60-minute per-item throttle exactly hourly: every other call is
+  skipped. Call more often than the throttle, or give it slack (#274).
 
 ## Evidence
 

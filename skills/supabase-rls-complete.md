@@ -23,6 +23,17 @@ Treat tenant isolation as a database invariant. Enable RLS on every exposed tabl
 - Test storage object access with an object belonging to another tenant.
 - Inspect new migrations for tables or buckets added without a policy.
 
+## Production-state checks
+
+- Run variant checks against production `pg_proc`, not migration files: `proconfig` and
+  `proacl` show the live state, and `has_schema_privilege(role,'public','CREATE')` shows
+  who can plant objects (#673).
+- Base funnel steps on durable tables; `product_events` gets pruned (#338).
+- Exclude internal accounts by id or domain from one module, never by email in a public
+  repo, and attribute background events by business owner (#339, #379).
+- Two-tenant checks on isolated Postgres can pass while the real gap is a shared
+  credential. Read the credential path too (#617).
+
 ## Common traps
 
 - Relying on a server-side `owner_id` filter as the only protection.

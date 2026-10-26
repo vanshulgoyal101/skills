@@ -96,6 +96,31 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 - Light-only UI on a phone in dark mode: with no dark styles, Chrome auto-dark or an
   iOS extension repaints it unevenly (dark page, invisible inputs, muddy cards). Declare
   `color-scheme: only light` (meta + CSS) unless you ship a real dark theme.
+- Testing a phone fix only in jsdom: it has no layout. Assert the `max-sm` rules in unit
+  tests and measure `getBoundingClientRect` in a headless 390 px walk of production (#305).
+- Filing a grey tile as a broken image: wait for `img.complete && naturalWidth > 0`;
+  the first try was a 3.4 MB lazy load (#280).
+- Testing a sticky element with one "scroll down": sweep through its own container.
+  `sticky top-0` inside content also slides under a sticky app header when the page,
+  not the box, scrolls (#344).
+- Walking a phone flow on a stable network only: change the network once mid-stream.
+  That's how a stream that never times out surfaced (#616, #666).
+- Showing an action's error in a page-level banner: on a phone it's off-screen. Show it
+  where the action was tapped and test inside the card's `article` (#662, #667).
+- Showing a button the server will always refuse: decide eligibility at render time and
+  turn the 409 into the alternative path (#662).
+- Making a review that can't proceed look like one that can: use a warning colour and a
+  'Fix N items' heading, not a green card missing its action (#637).
+- Overlaying UI on a rendered ad's top band: the brand lockup spans its full width, so
+  put chips under the picture (#367).
+- An `opacity-0` placeholder on an LCP image: LCP waits for hydration even when the image
+  arrived early. Check `loading`, `fetchPriority` and opacity together (#360).
+- Trusting a free image provider's 'no logo' flag: check generated images by eye in the
+  walk (#661).
+- Making text goldens on macOS: Pango renders through CoreText there, so take goldens
+  from CI, which prints the actual PNG as base64 on a mismatch (#300).
+- Comparing UI gate runs from different setups: compare like with like and re-run a
+  single LCP spike before believing it; it is often remote-DB noise (#417).
 
 ## Evidence
 

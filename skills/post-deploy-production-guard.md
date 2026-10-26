@@ -44,6 +44,20 @@ failures. Observed in
    production, so later deploys stayed unpromoted; alert while it is pinned (#111).
 12. Bound each slow step below the job timeout. A job timeout cancels the run and
    skips `if: failure()` alerts; a step timeout fails, so the alert fires (#210).
+13. Change the smoke in the same PR as any login or UI step it walks. Otherwise the
+   guard rolls back and every later deploy waits for a manual promote (#316).
+14. After a rollback, fix forward and confirm promotion resumed before reading later
+   guard failures; each frozen deploy opens its own misleading bug (#319, #322).
+15. Give every new secret a read-only health check in the guard from day one (#520).
+16. Never pass a token as a CLI argument in CI. A failing CLI echoes argv, and the guard
+   posted it to a public issue. Pass secrets by env and redact before posting (#413).
+17. On a metered deploy plan, merges are a budget. Batch them through a train branch,
+   gate on the provider's own refusal rather than a proxy count, and guard on changed
+   files, not commit counts, when branches merge into each other (#461, #468).
+18. Docs-only merges still deploy unless an ignore step says otherwise (#461).
+19. When a change adds background network calls, run the smoke's sequence against it
+   before merging. Start any in-step request allowance before the user action that can
+   trigger it, since prefetches move requests earlier (#504, #531).
 
 ## Discriminating checks
 
