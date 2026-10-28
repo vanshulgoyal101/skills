@@ -108,3 +108,13 @@ A browser can forge usage events, an API row limit truncates monthly totals, or 
 ## Evidence
 
 AdBrain commit `1dbb4e9` (2026-09-16), its trusted-usage/rate-limit migration and `scripts/check-meta-connect-db.mjs`, records fresh and ordered-upgrade checks, browser privilege denial, tenant isolation, 1,100-event aggregation and twelve concurrent requests competing for three slots. The dated security audit records local PostgreSQL evidence, not remote migration completion.
+
+## Lessons (Oct 28)
+
+- Stamp a "first X" timestamp in the same guarded update as the state change it
+  measures (`... where workflow_status = 'new'`). Otherwise backfilled or old rows
+  record bogus firsts (#1140).
+- Versioned legal or terms text that the DB rebuilds and compares needs a new
+  version plus a migration to change; keep the old version for old orders (#1235).
+- Before excluding a data class (e.g. Meta test leads) everywhere, check the
+  recorded test fixtures. The only real recorded lead may be a test lead (#1149).

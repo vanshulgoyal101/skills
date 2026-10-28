@@ -66,3 +66,11 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
   rejects it and nothing merges. Pass the full 40-character SHA (#208).
 - A required aggregator that `needs:` the shards but lacks `if: always()`. A failed
   shard skips it, and a skipped required check counts as passing (#226).
+- A migration PR opened against a train branch must be retargeted to `main` before
+  release, and core approval needs QA plus CTO or Reviewer, so ask for both at once (#1138).
+- In a train repo, a version bump is in production as soon as it merges to `next`. Run
+  the "before promotion" checks before setting auto-merge (#1208).
+- A flag flip needs a behavioural before/after (signed-in page text), not just the
+  env var listing; the var only takes effect on the next deploy (#1016).
+- Before building a lever's "smallest option", write the recorded test of today's
+  path first. It can show no product change is needed (#1211).

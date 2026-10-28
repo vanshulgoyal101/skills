@@ -178,3 +178,18 @@ fell back on 200-with-handoff responses and dropped a zero radius before
 validation. Production returned 200 in 4.4s with real targeting; the handoff and
 radius fixes each have a core test that fails without them
 ([incident](../incidents/adbrain-create-reliability-2026-10.md)).
+
+## Meta lessons (Oct 28)
+
+- Meta's `template_category_update` fires twice: 24 h ahead (`correct_category`,
+  with `new_category` still UTILITY) and when the change happens. Act on the first,
+  and test against Meta's documented payloads, not a hand-made shape (#1139).
+- A retry fix in the shared client misses every caller that builds its own `fetch`.
+  A CI check that greps `graph.facebook.com` outside the client, with an
+  allow-list, catches new ones (#1215).
+- Before blaming disconnects on Vercel, check `supportsCancellation`. Without it the
+  server always finishes (#1265).
+- When a default changes (form → WhatsApp), find every caller that relied on
+  "missing means the old default", including copies of old records (#1216).
+- A copy fix written by code must follow the ad's language, or a Hindi ad gets an
+  English line (#1198).

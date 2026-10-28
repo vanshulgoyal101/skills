@@ -152,3 +152,19 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
 See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md). Shelf checks covered 1440/768/390/320px; earlier image and motion checks used their own viewport matrices. These sizes are examples, not universal requirements.
 
 In a 2026-09-19 editor regression, native overflow changed Chromium textarea client width by 15px. Shared styling kept geometry stable, and track/thumb pixel counts persisted through 1.6 seconds of idle in Chromium and WebKit at 1440/390/320px. Keyboard scrolling and native resizing passed. WebKit's original overlay geometry was already stable; this is not proof that every platform reproduced the reported flicker.
+
+## AdBrain lessons (Oct 28)
+
+- Folding controls behind `<details>` breaks every "jump to the field" path. Search
+  for programmatic focus (`getElementById` → `focus`) and open the fold first; a
+  mutation check proves the test bites (#1155).
+- For "background stops at N px" reports, check a scrolled viewport screenshot
+  before changing CSS. Full-page captures don't repeat sticky elements (#1156).
+- Scope e2e role queries to the main region. At 1440 the sidebar's "Review" link
+  also matched `getByRole('link', {name: /review/i})` (#1152).
+- Anything that lands in a visible field is owner text. Chips that call
+  `reset(prompt)` fill the goal box too, so check every caller (#1153).
+- When chips compete for few slots, rank short festivals above long seasons;
+  calendar order alone hid Chhath behind the Diwali season (#1210).
+- Showing "you pay ₹X" next to "ad budget ₹Y" reveals the margin by subtraction.
+  To hide a fee, never put both amounts on the same screen (#1235).

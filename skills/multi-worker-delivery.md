@@ -183,6 +183,25 @@ repair or integrate the same file while the user sees a growing local backlog.
    how duplicates get made.
 54. Prefer the owner's stated experience over a one-run test when they conflict and the
    test hasn't spent yet ("WhatsApp always beats lead forms" ended a ₹0 arm).
+55. Keep a single register of paused work, with what was built and the event that
+   restarts it, and label it `parked`. "Delete as you go" otherwise deletes paused
+   branches. Before deleting any branch or worktree, `git cherry origin/main <branch>`
+   must show no `+` lines. GitHub keeps every PR's commits at `pull/<n>/head` after
+   branch deletion, so closed PRs are recoverable.
+56. When the priority order changes, remove `ready` from parked items in the same pass.
+   Otherwise the pool still offers them and workers build paused work (two devs built
+   upload slices for an hour after the owner put core and UI first).
+57. A worker silent for 2+ hours on a P0 after two pings is stuck, not busy. Compare
+   per-role comment counts against the queue, and restart with a direct, ordered brief.
+58. A pool of 10 is not enough if every item is one lane. Count the ready pool
+   per lane (dev, design, product, research, qa, ops) at every review.
+59. When pinging about a red PR, ping the branch's author (`dev3/...`), not only the
+   issue's owner. Otherwise both wait for the other.
+60. Check the owner's latest scope before a cleanup PR. A lean-codebase pass deleted a doc
+   the owner had just said to keep, and it had to be restored.
+61. Research briefs belong on the issue, not as docs in git.
+62. Before approving a test that needs Meta writes, check the test workspace is
+   actually Meta-connected. A tab that is already signed in can replace an owner step.
 
 ## Discriminating checks
 
