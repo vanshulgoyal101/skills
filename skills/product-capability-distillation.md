@@ -40,3 +40,21 @@ A product catalog becomes either marketing prose with no engineering value or a 
 ## Evidence
 
 The skills repository's `PRODUCT_CATALOG.md` and `SOURCES.md` establish a capability-level map across AdBrain, Arcade, ctx, MCP, Tools, portfolio, vbrain, Reader, and personal sites.
+
+
+## Market research lessons (AdBrain, Oct 28)
+
+- Before choosing a target segment, check the profession's advertising rules. In India
+  the medical ethics code bars doctors from soliciting patients, so ads put the
+  customer's licence at risk; check regulated trades with counsel first.
+- Use Google Maps' signed-out results data for real ratings and review counts when
+  listing directories hide them.
+- Meta Ad Library keyword search pulls in unrelated advertisers; filter by page and text,
+  and use "started running" age as the signal for what works.
+- Google Trends by state (5 years, monthly) shows seasonality cheaply; demand peaks
+  aren't always at the obvious festival.
+- When a public price comes from another city, quote it as a range.
+- Position against adjacent tools by workflow step: tools that manage chats don't run
+  ads, so the product is the step before them.
+- Before comparing vendors, read your own usage events per provider and status; an
+  "outage" may be credit, not price or quality.

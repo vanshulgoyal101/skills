@@ -124,3 +124,9 @@ AdBrain's structured concept pipeline caught an uncited "free assessment" during
 live evaluation, rejected it before image execution, and caught a Satori crash
 that had previously been hidden by a raw-photo fallback. Twelve real PNG renders
 across four formats and three text positions passed after the renderer fix.
+
+
+## Lesson (AdBrain, Oct 28)
+
+- Code-drawn SVG "art" converges on one look. When the brief is a different artistic
+  style per asset, use a real image model, and show the owner 3 samples before the set.

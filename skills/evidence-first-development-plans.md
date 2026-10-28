@@ -92,3 +92,14 @@ than adding coordinator approval to every local decision.
 ## Evidence
 
 The skills repository's intake protocol and repeated cross-repository fixes use the anchor, hypothesis, discriminating-check, root-fix, and focused-validation sequence.
+
+
+## Lessons from small-sample ad tests (AdBrain, Oct 28)
+
+- A single run with ~35 conversions can't prove a fixed percentage bar (7/35 has a 95%
+  range of 8–37%). Size pass/fail bars with exact binomial ranges and add one extend step.
+- Before writing "compared with past runs", put a Poisson range on the count; at 6
+  results the cost-per-result range spans ~6×, so pool ≥ 20 results first.
+- Small local campaigns rarely exit Meta's learning phase (~50 results a week), so
+  "Learning limited" is normal; judge them on the business result (chats, enquiries).
+- Re-read a paused run's numbers a day later; platforms add late results.
