@@ -36,3 +36,15 @@ The first client render is identical to the server HTML. Nondeterministic values
 ## Evidence
 
 AdBrain fixed seasonal/date hydration and cached-image flicker with deterministic IST formatting and mounted-state guards in `cee48bc`, `e91129c`, and `c94b482`.
+
+## AdBrain lessons (Oct 28)
+
+- Date tests passed only because the Mac runs in IST; run focused tests with `TZ=UTC`
+  to match CI (#1290).
+- A value (not a component) exported from a "use client" module is a client reference
+  in server code: unit tests pass and the page crashes. Keep shared constants in a
+  plain module and render the page once before merging (#1272).
+- One `await getUser()` in a public page makes the route dynamic (no CDN, a round trip
+  per visit). Do per-user redirects in the proxy (#1376).
+- When a click handler gains an await, set any state another callback reads before the
+  await (#1333).

@@ -74,3 +74,12 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
   env var listing; the var only takes effect on the next deploy (#1016).
 - Before building a lever's "smallest option", write the recorded test of today's
   path first. It can show no product change is needed (#1211).
+- Run `tsc` on new test files; vitest strips types, so a test can pass locally and fail
+  CI's build (#1580).
+- Match CI's Node version locally (nvm Node 24 first in PATH); jsdom crashed on Node 22
+  (#1551).
+- When mocking a module wholesale, spread `importOriginal()` so new helpers aren't
+  silently undefined (#1468).
+- Make a review habit into a CI rule with an AST inventory plus a mutation check (#1518).
+- Run a new lint or copy rule against the whole repo before merging; the first rule
+  flagged hex colours (#1291).

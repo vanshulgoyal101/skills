@@ -118,3 +118,9 @@ AdBrain commit `1dbb4e9` (2026-09-16), its trusted-usage/rate-limit migration an
   version plus a migration to change; keep the old version for old orders (#1235).
 - Before excluding a data class (e.g. Meta test leads) everywhere, check the
   recorded test fixtures. The only real recorded lead may be a test lead (#1149).
+- Check a metric's start column against real rows before building on it
+  (`leads.created_at` was import time, 18 h after Meta's `created_time`) (#1284).
+- "Went live" can't rest on a field only one code path sets; ask production which rows
+  exist before choosing the rule (#1403).
+- Deleting `auth.sessions` doesn't end access: issued JWTs live until expiry, and linked
+  identities and MFA survive an email change (#1477).

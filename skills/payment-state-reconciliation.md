@@ -110,3 +110,16 @@ webhooks and out-of-order refund evidence. A successful happy path does not cove
 and [verification gates](verification-gates.md) cover the storage, ownership and
 evidence boundaries. These cases are based on reproduced local failures and
 passing targeted repairs; they do not certify a provider's live settlement path.
+
+
+## AdBrain lessons (Oct 28–29)
+
+- Margin leaks hide in JSON, not just screens: strip responses with a strict view schema
+  at the boundary and pin derived numbers to literals so a test fails if one returns
+  (#1497).
+- Show money totals from the same helper the server's check uses, so the screen and the
+  refusal can't disagree (#1271).
+- A pending snapshot means every writer to the live object must refuse while it waits;
+  grep for the shared guard before review (#1146).
+- Hashed, versioned terms can't be reworded; retire the old version for new payments
+  instead (#1536).

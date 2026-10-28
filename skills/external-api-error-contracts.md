@@ -193,3 +193,19 @@ radius fixes each have a core test that fails without them
   "missing means the old default", including copies of old records (#1216).
 - A copy fix written by code must follow the ad's language, or a Hindi ad gets an
   English line (#1198).
+
+## More lessons (Oct 28–29)
+
+- Retry only idempotent GETs, once, within the route's time budget; one 15 s try on
+  every Meta read turned a slow GET into a failed launch (#1199).
+- Check each provider's real refusal before classifying it: Gemini returns 400
+  API_KEY_INVALID for a bad key; Workers AI returns 429 for both quota (3036) and busy
+  (3040) (#1569, #1516).
+- Meta's geo search misses common local names (Zirakpur, New Chandigarh); check pilot
+  areas against the real `search` endpoint (#1550).
+- An event named after a permission gate isn't an operation count; read the operations
+  table before chasing failures (#1540).
+- Drive money-path error copy from the real SQL `raise` messages so a changed refusal
+  fails the core test (#782).
+- Before appending to a text position ("the last line"), grep every consumer of that
+  position (#1147).

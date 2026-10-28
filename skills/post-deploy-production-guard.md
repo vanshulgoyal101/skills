@@ -109,3 +109,18 @@ failures. Observed in
   challenge (403) while curl passed. Pace browser walks; run bursts from CI (#240).
 - A 100-load timing burst drew the same challenge. Paced passes (one sign-in, 2-3 cold
   loads 5 s apart, abort on `x-vercel-mitigated`) gave stable before/after numbers (#230).
+
+
+## AdBrain lessons (Oct 28–29)
+
+- Verify which build is live from the app itself (a release header), not a timer (#1457).
+- After a rollback, promote **main HEAD's** deployment and check the domain serves it
+  (#1329, #1347). Check the rollback token exists before you need it (#1745).
+- `vercel.json` is read from the pushed commit, so a branch without main's history
+  ignores main-only rules (#1337).
+- On a guard failure, capture `requestfailed` before judging the release; "Failed to
+  fetch" was our own route block (#1329).
+- Two schedulers on one route make benign lost-race 5xx errors; look for a second
+  invocation in the same minute (#1416).
+- A smoke step can fail on a renamed role (button → link) while the product works;
+  assert on the role users see (#1227).

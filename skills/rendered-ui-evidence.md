@@ -168,3 +168,25 @@ In a 2026-09-19 editor regression, native overflow changed Chromium textarea cli
   calendar order alone hid Chhath behind the Diwali season (#1210).
 - Showing "you pay ₹X" next to "ad budget ₹Y" reveals the margin by subtraction.
   To hide a fee, never put both amounts on the same screen (#1235).
+
+## AdBrain lessons (Oct 28–29)
+
+- Anything a background request produces (a success note or an error) needs a reserved
+  slot near its control, not a banner above content. Test it by delaying and failing the
+  request in Playwright (#1286).
+- Verify CSS or deploys by reading the served chunk the page's HTML references, not the
+  commit; immutable chunk URLs can be fetched from any deployment (#1346).
+- Measure tap targets with the gate's own function, copied verbatim (#1287).
+- Server-side SVG or sharp text needs a bundled font on Vercel; a Mac has Arial, so
+  check the exported picture in production (#1375).
+- Measure step pages as a logged-in first-timer, not the smoke account, which never
+  sees the guided flow (#1277).
+- Smoke full-screen image views mid-load as well as after; slow networks show a
+  half-painted ad (#1502).
+- "Never on the same screen" is enforced by rendering one tab at a time, so the other
+  numbers aren't in the DOM at all (#1358).
+- Find drifted empty states with a code grep for zero-data branches; most can't be
+  reached with test data (#1463).
+- Tailwind v4 `text-*` reads `var(--text-*--line-height)`, so one `:lang(hi)` block can
+  re-tune the type scale for a script (#1503).
+- Clip customer-facing copy to a sentence or clause, never a word (#1544).

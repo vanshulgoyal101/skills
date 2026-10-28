@@ -202,6 +202,34 @@ repair or integrate the same file while the user sees a growing local backlog.
 61. Research briefs belong on the issue, not as docs in git.
 62. Before approving a test that needs Meta writes, check the test workspace is
    actually Meta-connected. A tab that is already signed in can replace an owner step.
+63. A "next item" waiter is not enough: a worker that posted last on an item is never
+   woken for it. The waiter must hand each worker its oldest actionable owned item
+   before waiting, and keep a floor of ≥ 3 actionable items for **every** role, not only
+   devs. Probe every role's waiter output after changing it.
+64. When you pause a worker's activity, say in the same message when it resumes. A
+   careful worker stops and waits for an all-clear that never comes.
+65. Check process state, not comment counts: `ps` for waiters, and the chat's live
+   transcript. A role with a recent comment can still be stalled.
+66. Before each review pass, list everything addressed to the coordinator (→ CEO,
+   `decision` labels). A deliverable waited 1.5 h for review because only worker
+   activity was being checked.
+67. Before approving anything the owner will see, check it against the owner's exact
+   words point by point and against what's live now. Show the owner 3 samples before
+   the full set (30 "artistic" ads shared one style and were rejected).
+68. Size the team to the machine: 12 agent chats on 8 GB pushed load to 140. Restart in
+   batches of 3–4, measure load and free memory between batches, and set limits:
+   targeted tests only, no local builds or full suites, browsers only for QA roles,
+   closed after each check.
+69. A team kill switch must stop only the team. The supervisor's OFF switch also
+   stopped production's scheduled jobs; keep production dispatch separate.
+70. After a pause or restart, check `gh pr list --head <branch> --state all` before
+   rebuilding anything; it may have shipped. `git branch -vv` `[gone]` doesn't mean
+   merged.
+71. Keep secrets to two env files (app secrets, test logins). One-off env files per
+   test account multiply fast and leak into the owner's checkout.
+72. Write engineering standards into the handbook *and* the PR template ("build every
+   layer properly; refactor in its own small PR; never hold a release for a refactor"),
+   so reviewers can block on them.
 
 ## Discriminating checks
 
