@@ -58,6 +58,19 @@ failures. Observed in
 19. When a change adds background network calls, run the smoke's sequence against it
    before merging. Start any in-step request allowance before the user action that can
    trigger it, since prefetches move requests earlier (#504, #531).
+20. A UI copy change on a step the smoke reads must update the smoke in the same PR, and
+   the core-approval paths should include the components the smoke walks.
+21. GitHub `schedule:` is best effort (gaps of 2–5 h, as low as 1 run in 14). Run real
+   work on pg_cron or your own dispatcher, and alert from a trigger you can prove.
+22. Free-plan databases may have no backups (`GET /database/backups` → `[]`). A nightly
+   encrypted logical dump by CI, a fresh dump gate before every migration and a weekly
+   restore drill cover it for ₹0, with at most a day of data at risk.
+23. Anything run by launchd gets an empty env and its own worktree: reproduce with
+   `env -i` plus the plist PATH, and check that worktree's dependencies.
+24. A 0-job CI run on a fresh merge ref is GitHub not ready yet; rerun once, but stop at
+   once on a failure that ran jobs. A cancelled suite's checks can read 'failure'.
+25. Token-looking test fixtures need a fingerprint allowance in the same PR, and stale
+   remote branches are scanned by the train too; delete merged branches.
 
 ## Discriminating checks
 

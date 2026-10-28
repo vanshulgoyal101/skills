@@ -33,6 +33,10 @@ Treat tenant isolation as a database invariant. Enable RLS on every exposed tabl
   repo, and attribute background events by business owner (#339, #379).
 - Two-tenant checks on isolated Postgres can pass while the real gap is a shared
   credential. Read the credential path too (#617).
+- Check `has_column_privilege('authenticated', …, 'UPDATE')` per column, not only the
+  policies: an ALL policy plus default grants lets the browser write every column of its
+  own rows.
+- Before a cleanup on shared data, take a backup and assert row counts.
 
 ## Common traps
 

@@ -155,6 +155,34 @@ repair or integrate the same file while the user sees a growing local backlog.
    who spoke last on every owned item, not only new events (#354).
 44. When an owner-only step needs a browser, open the page yourself and tell the owner
    which tab to use. "Sign in to the shared browser" means nothing when no tab exists.
+45. A waiter that exits after N idle minutes must be followed by running it again, not
+   by stopping. A rule of "when it exits, stop" shut down every role after one quiet
+   half-hour. Print "run me again" in the waiter's own exit message, so even workers you
+   can't message see it.
+46. "Idle" usually means an empty queue, not a stuck worker. Compare actionable items per
+   role, rebalance from the busiest, and file work for the empty ones; waiters woke 9 of
+   10 roles within two minutes once items were labelled.
+47. Give every long-lived role its own session. Chats nested in one coordinator session
+   share its direct-message cap (100 per process) and its fate, and chats can't be
+   deleted from inside the session that owns them.
+48. Use direct chat messages only to wake an idle chat or stop harm. A message queued
+   to a busy chat sits unread until its turn ends; a steered one is folded into the
+   running turn and looks lost. GitHub is the work channel.
+49. A machine-local team stops when the machine sleeps. A laptop on battery went dark
+   for 12 hours twice; nothing in software fixes a power setting. Check `pmset -g log`
+   before debugging a silent team.
+50. Supervisors that start headless one-shot runs leave a finished session behind each
+   time; delete them in the same tick, or the owner's sidebar fills with dozens.
+51. A hold comment doesn't cancel auto-merge. Leave auto-merge off on a PR that needs a
+   verdict, run `gh pr merge <n> --disable-auto` to hold one, and make the approval a
+   required check on core paths so the rule is mechanical.
+52. A required check must also be satisfiable by bot-opened PRs (a train's sync and
+   promotion PRs trigger no workflows), or the train stops.
+53. Ask each role's restart prompt to re-read the issue's latest state and check for
+   existing objects before any external write. A restarted worker with a stale plan is
+   how duplicates get made.
+54. Prefer the owner's stated experience over a one-run test when they conflict and the
+   test hasn't spent yet ("WhatsApp always beats lead forms" ended a ₹0 arm).
 
 ## Discriminating checks
 
@@ -253,6 +281,15 @@ repair or integrate the same file while the user sees a growing local backlog.
 - Carrying a change across branches with `git checkout <branch> -- <dir>`: it copies
    whole directories. Use `git diff <base> <tip> | git apply` and check the PR's file
    list before enabling auto-merge (#372).
+- Two workers in one worktree: a commit landed on the other's branch. Check
+   `git branch --show-current` and `git status` right before every commit.
+- Pushing review fixes after the PR already auto-merged: the fixes never ship. Check
+   `gh pr view <n> --json state` first, and open a follow-up PR if it's merged.
+- A squash from a stale branch silently reverting someone else's tests: read
+   `git diff --stat origin/next...HEAD` for unexpected deletions before merging. Bring a
+   red test over with cherry-pick, never by checking out a whole file.
+- Committing research write-ups or prospect lists to a public repo: findings go on the
+   issue; outreach data goes to a private store.
 
 ## Related methods
 

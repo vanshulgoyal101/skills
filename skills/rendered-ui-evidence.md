@@ -121,6 +121,31 @@ A disclosure is CSS-visible but opens below the viewport. An image loads but cro
   from CI, which prints the actual PNG as base64 on a mismatch (#300).
 - Comparing UI gate runs from different setups: compare like with like and re-run a
   single LCP spike before believing it; it is often remote-DB noise (#417).
+- Checking that an error shows without checking where: two correct blockers sat about
+  3,000 px from the field they named on a phone. Measure where the message lands.
+- A silently disabled primary button: keep it tappable (`aria-disabled`) and say what's
+  missing beside the field. Playwright treats `aria-disabled` as disabled, so click it
+  with `force` in tests.
+- A streamed request without an idle timeout: a silent stream never errors, so recovery
+  never runs. Found only by switching networks mid-walk.
+- An awaited server action inside `startTransition` with no try/catch turns a network
+  drop into the app error boundary. Test the rejected promise, not only `{ ok: false }`.
+- With React 19 async transitions, state set after an await renders before `isPending`
+  clears; wait for the control to be enabled, not just the text.
+- Tap targets: a CSS-module rule like `.contact a { min-height }` out-ranks a utility class
+  on nested links. Measure with `boundingBox` in the real page.
+- Spacing around sticky elements: judge from a scrolled viewport screenshot plus
+  measured gaps, not a full-page capture.
+- Deleting CSS with a whole-line regex removed shared selector lists (`.safety, .faq`).
+  Edit shared lists by hand and re-check every section at 390 px.
+- Painting a button onto an ad image: it looks tappable but isn't. Check what the
+  platform already shows next to the picture.
+- 9:16 creatives: check Reels' safe zone (bottom ~35% under caption and CTA), not just
+  Stories' bars; a pixel-box render test catches it for free.
+- A hidden element (closed `<details>`) times out exactly like a missing one; reproduce
+  the smoke step locally before changing a selector.
+- A first-time-owner walk finds trust and wording problems pass/fail walks miss; run
+  one after any burst of merges.
 
 ## Evidence
 

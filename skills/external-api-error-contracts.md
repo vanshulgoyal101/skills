@@ -136,6 +136,30 @@ request.
   WhatsApp you") by blocking its request in a test (#336).
 - Calling a strict 60-minute per-item throttle exactly hourly: every other call is
   skipped. Call more often than the throttle, or give it slack (#274).
+- Editing targeting on a Meta Advantage+ ad set after create: it's refused once the ad
+  set has interests, and WhatsApp (CONVERSATIONS) ad sets refuse any in-place targeting
+  update (100/1359202). Put every targeting rule (location exclusions included) in the
+  create payload; probe with `validate_only` on a PAUSED test campaign.
+- A targeting edit on a live ad set restarts review, and delivery stops meanwhile.
+- Meta's per-ad-set write limit (613, about 30 s) counts `validate_only`: validate in the
+  preview, not right before the write.
+- A new lifetime-budget ad set activated in the evening can show 0 impressions for about
+  12 h (pacing into the morning). Read hourly insights before calling it broken.
+- Account "room" (spend_cap − amount_spent) ignores lifetime budgets already promised;
+  read each ACTIVE ad set's `budget_remaining` at the same moment.
+- Shared ad accounts make campaign ids non-unique across businesses; ownership needs an
+  explicit rule in sync.
+- An empty child list isn't proof of a binding error; a deleted campaign still answers
+  `GET {id}`, so read the object's own status.
+- Label provider failures by HTTP code before counting validation failures; 20 of 44
+  "validation" errors were 503/429s. A catch-all error name stamped on every row of a
+  failed unit hides the real step.
+- Record what was actually sent (the payload), not the code constant.
+- A write after slow external calls must re-read the row and change only its own keys.
+- A fleet cron's per-customer failure belongs in a keyed list in the body, not the HTTP
+  status, or one customer masks every real outage.
+- A multi-step create must clean up what it made before the first child exists, and a
+  gate at activation (not only create) protects objects built before a rule existed.
 
 ## Evidence
 

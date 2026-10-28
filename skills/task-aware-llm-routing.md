@@ -70,6 +70,18 @@ creative-generation settings.
   when a validator rule changes (#284).
 - Sizing an advisory AI review larger than the free tier: Groq's 8k TPM cap sets the
   diff budget. Cap the diff and list skipped files instead of failing (#423).
+- On a 429, go straight to the fastest healthy provider instead of waiting out the next
+  one's timeout serially.
+- Before fixing a 0% success metric, check it isn't a logging artefact (a ready plan was
+  never logged as success).
+- Rules applied on every generation need negative tests from everyday copy ("Fix your
+  appointment", "broke down"); substring matches ("cure" in "secure") cost paid repairs.
+- Check the platform's own free feature before pricing third-party AI (Meta's image
+  animation turned a ₹35–₹400-per-ad question into a ₹0 test).
+- A free eval tier that gives one conclusive run a day can't gate releases; approve a
+  small capped paid before/after run with an explicit no-worse gate.
+- Verify a model's "invented" facts against the exact text the route reads, not a
+  tag-stripped copy.
 
 ## Latency, deadlines and model promotion
 
