@@ -88,3 +88,17 @@ is caught by a human days later, if at all.
   One sentence shown in several places gets identical strings under an i18n test
   (#2046); a test that scans every rendered pricing line for a forbidden word kept the
   pages consistent (#1652).
+- A doc that lists config values drifts silently. Parse the source (workflow cron lines,
+  deploy config, the last schedule per migration) and diff both ways against the doc's
+  table; a regex needs no YAML dependency (#2267).
+- A doc-vs-app label check needs n-gram matching (one slot per template gram, splitting
+  on separators and sentence ends) plus exemptions for customer words. A naive substring
+  match gave 234 false hits; the n-gram version gave 0 and still caught a made-up label
+  (#2252).
+- Quote-matching checks skip non-Latin quotes. Check translated labels in a new table
+  against the message catalog separately (#2287).
+- Read a component's render conditions before writing help for it: a control that shows
+  only before launch, or only beside a warning, must be documented with its condition
+  (#2304).
+- Documenting one row per reason finds mislabels. Writing up each automatic pause reason
+  showed the activity feed gave all four the same 'at your cap' label (#2313, #2321).

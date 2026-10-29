@@ -276,3 +276,7 @@ unchanged while the old branch/index baseline was aligned with explicit approval
 - A scheduled job is live when its log line appears, not when it merges: the supervisor
   runs main and may skip ticks under load. Grep the logged text, not the script name
   (#1856, #1857).
+- A flow whose tests mock the gatekeeper can't fail. Every entry path that depends on a
+  check (preflight, a planner) needs one test through the real gatekeeper; three draft
+  paths skipped it while all tests were green, and a smoke now drives it on every deploy
+  (#2243, #2257, #2299, #2260).

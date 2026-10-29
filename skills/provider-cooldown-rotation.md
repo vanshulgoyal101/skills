@@ -78,3 +78,6 @@ wait still open.
 
 - When a free provider saturates, park it for a short window after the first capped
   timeout instead of making every request pay the full timeout (#2153).
+- When a success rate misses by one request, group usage events by request id with
+  `HAVING NOT bool_or(status = 'success')` to get the failed request's whole provider
+  chain in one query (#2242).
