@@ -75,3 +75,16 @@ is caught by a human days later, if at all.
 - Related but distinct from [generated-source-parity](generated-source-parity.md):
   that guards machine-generated artifacts against source; this guards
   human-authored assertions against a registry.
+
+## AdBrain lessons (Oct 29)
+
+- Owner pages, support replies and UI copy may state only what the code does today.
+  Check each claim against source: a "waits until you pay" line had no consumer, and a
+  "request review" button only opened the provider's manager (#1919, #2023, #2206).
+- Each row on a fact page names its source file, and the page says to change both in
+  one PR; link checks don't catch stale values (#1921). When a change deletes customer
+  data, update the owner-facing docs in the same PR (#2170).
+- Copy that quotes a number reads it from the same aggregate the logic uses (#1307).
+  One sentence shown in several places gets identical strings under an i18n test
+  (#2046); a test that scans every rendered pricing line for a forbidden word kept the
+  pages consistent (#1652).

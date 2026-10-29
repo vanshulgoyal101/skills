@@ -103,3 +103,13 @@ The skills repository's intake protocol and repeated cross-repository fixes use 
 - Small local campaigns rarely exit Meta's learning phase (~50 results a week), so
   "Learning limited" is normal; judge them on the business result (chats, enquiries).
 - Re-read a paused run's numbers a day later; platforms add late results.
+
+## AdBrain lessons (Oct 29)
+
+- Measure the user-facing failure before building a migration path for data that may
+  not exist (#1807).
+- Measure before a big cleanup: a dead-code scan of a mature repo found 40 lines; the
+  bloat was in docs and process (#1786).
+- Before adding a policy guard, grep for the existing one (#1977).
+- Pre-register the decision threshold before the count; 0-of-0 then reads as a clean
+  "not now" instead of a debate (#2168).

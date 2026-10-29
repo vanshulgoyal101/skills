@@ -73,3 +73,8 @@ October 2026 evidence and status per item is in
 failure codes, typed exhaustion and deadline classification verified in
 production; 5xx key-skip and capped `Retry-After` verified in CI; shared-limit
 wait still open.
+
+## AdBrain lesson (Oct 29)
+
+- When a free provider saturates, park it for a short window after the first capped
+  timeout instead of making every request pay the full timeout (#2153).

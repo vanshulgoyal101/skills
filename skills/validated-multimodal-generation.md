@@ -130,3 +130,16 @@ across four formats and three text positions passed after the renderer fix.
 
 - Code-drawn SVG "art" converges on one look. When the brief is a different artistic
   style per asset, use a real image model, and show the owner 3 samples before the set.
+
+## AdBrain lessons (Oct 29)
+
+- A claim backed by several brand facts must be checked against the brand, not only
+  the fact the model quoted (#1676).
+- Number and claim checks must normalise non-ASCII digits (Unicode `Nd` → ASCII) before
+  any regex; a Hindi or Punjabi ad can carry an invented price that `\d` never sees.
+  Add a red row per script (#2166).
+- JS `\b` is ASCII-only and never matches beside Devanagari. Use the `u` flag and a
+  `(?![\p{L}\p{M}\p{N}])` lookahead; `\p{M}` keeps vowel signs inside the word (#2120).
+- Provenance without tools: list PNG chunks (`caBX`, `iTXt`, `eXIf`) or WebP chunks
+  (`VP8X`, `XMP `, `EXIF`) with the stdlib; none means no embedded credentials. Only a
+  watermark detector or the platform's own view can say more (#1988).

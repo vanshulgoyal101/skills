@@ -47,3 +47,9 @@ A detached dev server, browser process, timer, or worker survives the originatin
 AdBrain's orphaned Next server consumed several gigabytes and extreme CPU; capping its dev heap, excluding generated caches, and cleaning the detached process recovered memory. Arcade and browser-game fixes separately verify run-scoped lifecycle cancellation.
 
 On 2026-09-14, CSS Peek was absent from the extension registry but still had an old package directory and 13 workers totaling about 408 MiB RSS. Removing the identified package and stopping its workers left zero matching processes in the follow-up check. Earlier child-only termination had caused immediate respawns. This supports supervisor-level cleanup, not blanket removal of language servers.
+
+## AdBrain lesson (Oct 29)
+
+- An orphan-exit test must SIGKILL the process's direct parent (a subreaper reparents
+  it otherwise) and capture the exit code through an `--import` preload, since the
+  grandparent can't wait on it. Mutation-test it with the orphan check removed (#2051).

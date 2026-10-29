@@ -190,3 +190,22 @@ In a 2026-09-19 editor regression, native overflow changed Chromium textarea cli
 - Tailwind v4 `text-*` reads `var(--text-*--line-height)`, so one `:lang(hi)` block can
   re-tune the type scale for a script (#1503).
 - Clip customer-facing copy to a sentence or clause, never a word (#1544).
+
+## AdBrain lessons (Oct 29)
+
+- A load failure must never reuse empty-state words: fetch failed ≠ nothing there
+  (#2006). State-specific copy keys on status as well as counts (#1929), and a card
+  state that reuses its badge text must not repeat it (#1841).
+- Messages that can't be triggered on demand in production get gallery cards on an
+  internal page so they can be walked (#1645).
+- Headless Chromium's classic scrollbar shows a ~15 px strip in a 390 px screenshot;
+  check `scrollWidth > innerWidth` for overflow instead of judging margins by eye
+  (#1632).
+- With equal specificity the later rule wins: a general `:not()` rule beat a targeted
+  one. Put the targeted rule last and test the order (#1819).
+- To undo a test edit on a live account, read the original from the database, type it
+  back and confirm with a read; autosave may ignore a cleared field (#1966). Read-only
+  walks only reach the empty path; seed a labelled row with approval and delete it
+  through the app's own undo (#1702).
+- Pin translated strings exactly in an i18n test; Hindi honorific agreement (आप … हैं)
+  needs checking on every new line (#1945).

@@ -209,3 +209,19 @@ radius fixes each have a core test that fails without them
   fails the core test (#782).
 - Before appending to a text position ("the last line"), grep every consumer of that
   position (#1147).
+
+## Meta lessons (Oct 29)
+
+- Graph error 100/33 means "doesn't exist **or** no permission"; never treat it as
+  deleted on its own (#1678).
+- Minimum budgets and the spend-cap floor are live per ad account (`minimum_budgets`,
+  `min_campaign_group_spend_cap`), not constants. Read them, prove with `validate_only`
+  at floor−1 and at the floor, and record that response as the fixture (#1799).
+- The `X-FB-Ads-Insights-Throttle` header reports the app's access tier; one GET
+  answers "which tier are we on" (#1843).
+- Check which field a guarantee sentence qualifies: "best effort" applied to
+  `*_min_spend_target`, not `lifetime_budget`. A missing guarantee means unknown, not
+  soft (#2048).
+- A past approval or a pending review isn't current entitlement, and a renamed gate
+  isn't a change in it; record historical approval and current status as separate
+  rows (#2049).

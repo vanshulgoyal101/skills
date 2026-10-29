@@ -48,3 +48,8 @@ AdBrain fixed seasonal/date hydration and cached-image flicker with deterministi
   per visit). Do per-user redirects in the proxy (#1376).
 - When a click handler gains an await, set any state another callback reads before the
   await (#1333).
+
+## AdBrain lesson (Oct 29)
+
+- Mark the language on the Hindi words (`lang`, WCAG 3.1.2), not on `<html>` from a
+  cookie: a cookie read in the root layout makes every static page dynamic (#1895).

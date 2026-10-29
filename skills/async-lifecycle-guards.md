@@ -84,3 +84,9 @@ For conversation scrolling, response validity and permission to move the reader 
 - Testing only after timers settle; race tests must sample during the pending window.
 - Unconditionally scrolling on each message/loading change, or recomputing follow intent only after the new content has already moved the bottom.
 - Reading React state inside an async handler that needs the latest streamed value; it sees a stale closure. Keep a local copy updated alongside `setState` (#177).
+
+## AdBrain lesson (Oct 29)
+
+- Revoke an object URL given to an `<img>` in the cleanup of an effect keyed on that
+  URL, not after the next fetch; an early revoke blanks the preview on re-render
+  (#2036).

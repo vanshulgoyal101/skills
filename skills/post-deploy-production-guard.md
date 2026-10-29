@@ -124,3 +124,18 @@ failures. Observed in
   invocation in the same minute (#1416).
 - A smoke step can fail on a renamed role (button → link) while the product works;
   assert on the role users see (#1227).
+
+## AdBrain lessons (Oct 29)
+
+- Serializing guard jobs doesn't serialize deployments; re-check the served SHA at the
+  rollback mutation itself (#2014).
+- A guard has many skipped runs per SHA (non-production deployment statuses); pick the
+  run by conclusion, not recency (#2138).
+- A cancelled or timed-out job never runs `if: failure()`; put the stall check in a
+  separate job that isn't cancelled with it (#2029).
+- Smoke a production edit by blocking every non-GET request in Playwright except the
+  free preview route, so the shared account never changes (#1904).
+- A state that needs an account you can't safely create can't be smoked; check that
+  production serves its words and rely on the recorded core test (#1990).
+- The free hosting tier can't allowlist its DDoS challenge; keep heavy smokes on CI
+  runners, not one office IP (#1814).

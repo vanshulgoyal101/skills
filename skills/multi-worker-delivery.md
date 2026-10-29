@@ -230,6 +230,31 @@ repair or integrate the same file while the user sees a growing local backlog.
 72. Write engineering standards into the handbook *and* the PR template ("build every
    layer properly; refactor in its own small PR; never hold a release for a refactor"),
    so reviewers can block on them.
+73. Before closing an issue as done, check `gh pr view <n> --json state` and
+   `git cherry origin/next <branch>`, and grep main for the final string if a label was
+   renamed mid-PR; memory and the PR title don't prove it shipped (#1740, #1641). A
+   mockup issue closes when its last build slice is live; name that PR on it (#1251).
+74. Before starting a refilled brief, read the issue's latest comments and `git grep`
+   main for its number; one had shipped a day earlier, another already had a used
+   summary (#1136, #1514).
+75. Verify every quote in a helper's or researcher's draft yourself: a sentence marked
+   "unverified" was in the official guide, and checking a research rule list against
+   the code found a real bug (#2050, #1782).
+76. Ask research to end in copy-ready replacement text for the decision record; it then
+   lands as one docs PR (#2048).
+77. Put review verdicts on the slice PRs; an umbrella tracker only adds re-check pings
+   (#872).
+78. Conflict recipes: when a stacked PR's base was squash-merged, take the target
+   wholesale for files the PR never touched and keep only your hunks; when a docs split
+   lands under an open PR, merge the target and move the paragraph (a rebase discards
+   the approved head); when copy collides with an in-flight translation PR, take the
+   target's `t()` lines and add new keys to every locale with a test (#1920, #1627,
+   #1530).
+79. Budget a shared API token across all workers together: authenticated conditional
+   requests, read the rate-limit headers, and type-check any imported JS contract as
+   well as running it (#2021).
+80. Before filing a bug against a team tool, check which branch it runs from; the waiter
+   ran `main`, which trailed `next` by hours while the train was blocked (#2162).
 
 ## Discriminating checks
 

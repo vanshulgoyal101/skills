@@ -119,3 +119,8 @@ A feature is implemented or tested against one environment while another silentl
 ## Evidence
 
 AdBrain's provider outage and cron/spend work showed that retired model names and unset deployment secrets can disable otherwise correct product paths. The repo uses typed environment validation and deployment/runtime checks as the durable boundary.
+
+## AdBrain lesson (Oct 29)
+
+- Gate review-dependent copy on one env flag that defaults to today's truth when unset,
+  so shipping needs no config change and the later flip is a single setting (#1989).

@@ -44,3 +44,16 @@ A route checks that a user is signed in but not that they own the target busines
 ## Evidence
 
 The ctx/MCP SSRF incidents, vbrain JSON-LD boundary work, AdBrain tenant and Meta routes, and the browser approval investigations all required runtime-aligned trust boundaries rather than surface checks.
+
+## AdBrain lessons (Oct 29)
+
+- A signed upload URL accepts any bytes, so browser re-encoding doesn't guarantee
+  metadata (EXIF) removal; strip it server-side at finalize (#2001).
+- An injection red test over the final validators found 8 gaps in one pass; write it
+  before the audit fix (#1889).
+- Public repo hygiene: grep a body for 15+ digit ids before posting and use opaque
+  keys; strip whole id lists, since 10-digit comment ids look like phone numbers to a
+  scanner; an API edit leaves the old value in the comment's edit history, so check the
+  scanner's allowlist before redacting (#1605, #2151, #2126).
+- After every env change, run a read-only secrets sweep that prints paths and file
+  modes, never values; encrypt exports when they are written, not later (#1834).

@@ -124,3 +124,19 @@ AdBrain commit `1dbb4e9` (2026-09-16), its trusted-usage/rate-limit migration an
   exist before choosing the rule (#1403).
 - Deleting `auth.sessions` doesn't end access: issued JWTs live until expiry, and linked
   identities and MFA survive an email change (#1477).
+
+## Lessons (Oct 29)
+
+- A DB function fix needs a guard on the final definition after all migrations; a later
+  `create or replace` silently reverts it. Review a migration against the newest body
+  on any open PR, not main's (#2022, #1864). For a SECURITY DEFINER release with no
+  traffic yet, `md5(prosrc)` against the file body plus overload and grant reads is a
+  complete proof (#2177).
+- A "recipient owns nothing" check needs a lock keyed on the recipient, not just the
+  transfer row: two hand-overs to one recipient both passed under READ COMMITTED. A
+  temporary delay trigger made the race test red; `pg_advisory_xact_lock` on the
+  recipient made it green. Test concurrency across different rows that share one
+  invariant (#1670, #2071).
+- Count real leads from the leads table with test and smoke rows filtered in the query
+  and the phone format validated, not from events, so the number matches the owner's
+  inbox (#1942, #1965).

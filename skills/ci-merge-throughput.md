@@ -83,3 +83,31 @@ PRs. Long-lived branches drift and fail CI on old dependencies. Observed in
 - Make a review habit into a CI rule with an AST inventory plus a mutation check (#1518).
 - Run a new lint or copy rule against the whole repo before merging; the first rule
   flagged hex colours (#1291).
+
+## AdBrain lessons (Oct 29)
+
+- A job that is neither required nor in the required aggregator's `needs` can go red
+  without stopping auto-merge; read branch protection
+  (`gh api repos/<o>/<r>/branches/<b>/protection/required_status_checks`) before
+  calling it a gate (#1918). A size or import ratchet that isn't required drifts within
+  hours; make it required on every base, hotfix branches included, in the release that
+  adds it (#2071, #2157).
+- A `--write-baseline` run always exits green and rewrites every ceiling: it raises
+  grown files and lowers untouched ones, racing parallel PRs into red. Rebuild from the
+  target branch, edit only your own entries, and review the baseline diff (#2167,
+  #2096). A shrink-only baseline change belongs to the author's own extraction (#2157).
+- Never enable auto-merge on a PR whose base is another feature branch: it merges there
+  at once with no checks or review. Enable it after retargeting (#1255).
+- A "skip the gate for the release train" rule must bind repository and base, not the
+  branch name; on a public repo a fork can name its branch `next` (#1740).
+- Dependabot reads the default branch; verify a real bot PR after the config reaches
+  it (#1772).
+- Two PRs that pass alone can break the target together. When a PR adds a hook-using
+  child to a shared page, grep the tests that render that page and add the mock in the
+  same PR (#1624).
+- A move or split on the integration branch conflicts with any production hotfix to the
+  old file and stalls the sync. Check with `git merge --no-commit origin/main`, carry
+  the edit in a merge-commit back-merge PR (not squash), then confirm with
+  `git merge-base --is-ancestor` (#1851, #2106).
+- A component's real debounce in a test costs seconds in every test that triggers it;
+  spy on that one timer in the describe (#1509).
