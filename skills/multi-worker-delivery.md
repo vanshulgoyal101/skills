@@ -255,6 +255,29 @@ repair or integrate the same file while the user sees a growing local backlog.
    well as running it (#2021).
 80. Before filing a bug against a team tool, check which branch it runs from; the waiter
    ran `main`, which trailed `next` by hours while the train was blocked (#2162).
+81. Coordinate through shared state, not announcements (stigmergy). Agents start
+   from the same training, so the code on the integration branch, CI, production,
+   labels and PR state can be the status. If every agent announces every change to
+   every other agent, the messages grow much faster than the work. One week's count
+   was about 4.4 posts and 3.5 hand-off pings per merged PR, while the real outcome
+   targets stayed unmet. Comment only to hand off, record a decision or attach
+   evidence (#2360; adopted Oct 30, effect measured weekly there).
+82. Don't negotiate a change in advance: make it. If it breaks work that already
+   merged, fixing that is part of the change. Work merged later has to fit the new
+   state. One owner carries an issue from code to production smoke and hands off
+   only at a hard gate.
+83. Fix forward with a janitor. A red integration branch or a non-core production
+   break gets a new fix on top from whoever sees it first, instead of an
+   undo-and-redo cycle through the author. Keep roll-back-first for the core path
+   and for anything that can't be undone.
+84. Review inside the author's own team: before asking a human gate, a helper agent
+   that did not write the change tries to break it, and its one-line result goes in
+   the PR. Keep human or hard-coded gates only for actions in the outside world that
+   can't be undone: money, ad delivery, migrations, secrets.
+85. Run process changes as measured experiments: record a baseline from existing
+   metrics (posts per merged PR, hand-offs per PR, change-failure rate, time to
+   restore, plus the business outcome), define keep/adjust/drop targets, and review
+   weekly on one issue. Without a baseline, "the new rule helped" can't be checked.
 
 ## Discriminating checks
 
