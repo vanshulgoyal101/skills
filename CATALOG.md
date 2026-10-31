@@ -62,6 +62,7 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 | [visual-motion-constraints](skills/visual-motion-constraints.md) | Decorative motion or cursor effects overpower the interface or ignore reduced-motion preferences | Vanshul Portfolio |
 | [build-artifact-parity](skills/build-artifact-parity.md) | Generated public artifacts like sitemaps, feeds, or OG files drift from the source of truth | Vanshul Portfolio |
 | [product-registry-maintenance](skills/product-registry-maintenance.md) | A public product family has a portfolio, links hub, sitemap, and live domains to keep aligned | Portfolio family |
+| [link-hub-registry-design](skills/link-hub-registry-design.md) | A links hub or directory must stay scannable and match the live project list | Vanshul Links |
 | [public-indexing-hygiene](skills/public-indexing-hygiene.md) | Public routes, canonicals, sitemaps, robots rules, or private surfaces affect discoverability | Portfolio family, vbrain |
 | [search-console-release-gates](skills/search-console-release-gates.md) | A public release changes crawlability or canonical URL ownership | Portfolio family |
 | [post-deploy-production-guard](skills/post-deploy-production-guard.md) | Merges auto-deploy to production and CI must smoke, roll back, run a daily smoke or alert on drift | AdBrain, Vercel |
