@@ -278,6 +278,11 @@ repair or integrate the same file while the user sees a growing local backlog.
    metrics (posts per merged PR, hand-offs per PR, change-failure rate, time to
    restore, plus the business outcome), define keep/adjust/drop targets, and review
    weekly on one issue. Without a baseline, "the new rule helped" can't be checked.
+86. Make a team waiter's alerts count only real blockers. A "systemic CI failure" alert
+   must skip runs with zero jobs and branches that have since gone green (#2382);
+   frozen ("later") and parked PRs don't count as stale (#2376); a low queue doesn't
+   wake the lead mid-wait, because queue depth is not the outcome (#2374). Each false
+   wake costs a full context reload for the woken agent.
 
 ## Discriminating checks
 

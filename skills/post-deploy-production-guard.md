@@ -139,3 +139,16 @@ failures. Observed in
   production serves its words and rely on the recorded core test (#1990).
 - The free hosting tier can't allowlist its DDoS challenge; keep heavy smokes on CI
   runners, not one office IP (#1814).
+
+## AdBrain lessons (Oct 31)
+
+- A smoke that saves data must clean up after a FAIL as well as a PASS. Leftover ads
+  from failed runs fed a repeat check that compares new copy with the last 12 ads, so
+  each failure made the next likelier (3/3 → 2/3 → 1/3 passing) (#2189).
+- A single-item smoke hides 1-of-N failures. Schedule one run at the real batch size
+  (a daily 3-ad create) so a partial batch turns it red (#2145).
+- A green result can hide a fallback. Assert where each output came from (which
+  provider, how many reused) and fail on more than one reuse or on no output from the
+  expected provider (#2412).
+- Budget smoke frequency against quotas shared with customers: a 2-hourly image check
+  spent 12 of about 57 free daily images; every 4 h spends 6 (#2405).

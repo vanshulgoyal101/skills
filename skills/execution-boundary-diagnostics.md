@@ -20,13 +20,15 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 4. For npm cache write errors, inspect the configured cache and its permissions. A command-scoped writable cache such as `npm_config_cache="$TMPDIR/npm-cache" npm ci` can avoid changing global ownership; first verify the temporary directory is writable. Do not apply recursive permission changes to the home directory.
 5. A failed localhost request does not prove the server is down. Check its listener and inspect it from an authorized browser or execution context. An HTTP 403 is a response to investigate, not proof that every network operation is blocked.
 6. If a credential helper cannot access its keychain or temporary files, use the supported authentication flow in an authorized context. Do not copy credentials into commands or repositories, or disable the sandbox globally to fix one operation.
-7. In VS Code Copilot, distinguish `chat.tools.terminal.autoApprove` from sandbox/resource permissions. A terminal rule suppresses command confirmation; it does not grant OS privileges or prove filesystem access. `chat.tools.global.autoApprove` is a broader, separate setting for tool approvals. Inspect each applicable setting and the effective runtime boundary independently.
-8. Treat a terminal auto-approval catch-all such as `/.*/: true` as approval for arbitrary commands, scripts, destructive operations, and network tools. Explicit deny patterns may take precedence over allows; do not assume a catch-all cancels them. If an owner explicitly requests blanket terminal approval, explain its consequences, validate the JSON/regex configuration, and keep other authorization boundaries separate. A static pattern check is not proof that the current Copilot session applies it.
-9. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established. Reuse a matching verified installation; use a clean locked install for an actual mismatch rather than changing source to hide missing modules.
-10. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed.
-	 Inspect the current file/ref/resource before retrying a mutation. A compound
-	 command can report failure after an earlier push or write already succeeded.
-11. Filter large API output before a subprocess captures it. For example, project
+7. In VS Code Copilot, distinguish `chat.tools.terminal.autoApprove` from sandbox/resource permissions, external-file read approvals, macOS Full Disk Access, and administrator authentication. Terminal approval suppresses the command confirmation only; it grants neither OS privileges nor filesystem access. `sudo` remains subject to macOS authentication. External-file reads are a separate tool permission; do not enable global tool auto-approval merely to suppress a read prompt.
+8. Terminal approval settings are VS Code user/profile policy, not per-chat grants; a terminal catch-all affects chats using that profile. `chat.tools.global.autoApprove` is broader still and approves non-terminal tools. Inspect each setting independently. A separate VS Code profile/instance can isolate policy between work contexts, but not between chats within one profile.
+9. Treat a terminal auto-approval catch-all such as `/.*/: true` as approval for arbitrary commands, scripts, destructive operations, and network tools only after checking built-in policy. VS Code ships terminal auto-approval defaults that include always-ask commands (for example, `ps` in the inspected 1.140 build); built-in denies are evaluated before user allows. `chat.tools.terminal.ignoreDefaultAutoApproveRules: true` removes those defaults, so a user catch-all can approve them. If an owner explicitly requests blanket terminal approval, explain its consequences, make a verified settings backup, validate JSON/regex configuration, user deny rules and this built-in override, and provide a rollback path. A static pattern check is not proof that the live Copilot session applies it.
+10. Shell history is forensic context, not an execution audit: entries may be stale, incomplete, multiline, shared across shell sessions, and missing exit status. It cannot identify which chat issued a command. Review only the minimum needed, redact arguments that may contain secrets/private paths, and do not infer success from a saved history line.
+11. Rerun the same focused check after the boundary fix. If dependencies cannot be installed, report that limitation. Borrowed or symlinked dependencies are diagnostic only unless lockfile, version, platform, and resolution equivalence are established. Reuse a matching verified installation; use a clean locked install for an actual mismatch rather than changing source to hide missing modules.
+12. Treat an interrupted or `outcome_unknown` tool result as unknown, not failed.
+    Inspect the current file/ref/resource before retrying a mutation. A compound
+    command can report failure after an earlier push or write already succeeded.
+13. Filter large API output before a subprocess captures it. For example, project
 	 Git metadata with the CLI's JSON query option before `execFileSync` buffering;
 	 a buffer-overflow exception can dump an entire response. Suppress raw error
 	 bodies for requests that might carry credentials or customer data.
@@ -82,6 +84,8 @@ Private operational notes recorded npm cache write failures, shell-dependent Nod
 - Granting broad filesystem or network permissions based on stale machine notes.
 - Confusing command auto-approval with sandbox access; a terminal catch-all can
   suppress prompts without changing what the process can actually read or write.
+- Assuming the terminal allow-all rule grants administrator privileges, Full Disk Access, or per-chat isolation; these are separate OS/tool/profile boundaries.
+- Treating saved shell history as a complete, timestamped, per-chat command audit or publishing raw command arguments that may contain secrets.
 - Calling tests against a sibling project's dependency tree equivalent to a clean install.
 
 ## Evidence

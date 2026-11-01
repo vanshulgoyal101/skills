@@ -23,6 +23,8 @@ A detached dev server, browser process, timer, or worker survives the originatin
 - If workers immediately respawn, act on their supervisor or extension lifecycle rather than repeatedly killing children. Ask before disabling or uninstalling a feature; age, duplicate-looking commands, and a live parent do not establish whether it is needed.
 - For editor extensions, use the supported uninstall interface first. Registration, package files, and live workers are separate states: "not installed" can coexist with an old package folder and running children. Verify all three, and remove only the identified obsolete version; preserve current versions, other profiles, and shared editor state.
 - After stopping a confirmed leftover worker, check for new PIDs matching the same package path. Report summed RSS as the workers' observed footprint, not guaranteed system-wide RAM recovered; shared pages and compression affect the result.
+- For a sluggish low-memory Mac, take a short `memory_pressure`, `vm_stat`, and `sysctl vm.swapusage` snapshot, then sample CPU twice and rank compact RSS/CPU process columns. Attribute high usage using full command, parent, age, working directory, listeners, and active consumers before stopping anything. A large editor renderer or extension host may belong to the user's live session; do not kill it as an orphan based only on RSS or age.
+- If confirmed swap is consuming disk, preserve OS-managed swap files and recover them only through a normal restart after saving/ending active work. Verify pressure and swap afterward; do not promise lasting recovery if the workload remains.
 
 ## Discriminating checks
 
@@ -32,6 +34,7 @@ A detached dev server, browser process, timer, or worker survives the originatin
 - Does the command's working directory and port match the current workflow?
 - Does the resource stop when the owning task is cancelled or restarted?
 - Does memory/CPU recover after removing only the confirmed stale resource?
+- Is high VM-volume usage corroborated by `vm.swapusage`, and can the suspected pressure source be attributed to an active workload rather than a stale child?
 
 ## Common traps
 
@@ -40,6 +43,7 @@ A detached dev server, browser process, timer, or worker survives the originatin
 - Treating PID 1 as proof that a process is unnecessary without checking listeners and consumers.
 - Leaving dev servers detached after browser validation.
 - Using an unbounded default heap on a low-memory machine.
+- Treating a one-shot CPU sample, RSS sum, or compressed-memory reading as a complete performance diagnosis; compare repeated samples and distinguish physical free, compressed, swapped, and purgeable memory.
 - Fixing a timer race without invalidating pending callbacks from the previous run.
 
 ## Evidence
