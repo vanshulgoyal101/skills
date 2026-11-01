@@ -146,9 +146,11 @@ repair or integrate the same file while the user sees a growing local backlog.
    step. "Prepare: 0 of 89 runs fully succeeded" sets the order better than a walk alone.
 40. Refill idle queues from production failure data (top error codes per route), not
    from a wishlist. Each item then arrives with a target and a recorded response.
-41. A role is live only when its wake script accepts it on the deployed branch. A new
-   role merged to a staging branch failed `--me <role>` on main with a usage error, and
-   the worker sat idle for hours (#575).
+41. A role is live only when its wake script accepts it on the branch the worker
+   actually runs. Register it across the accepted-name matcher, lane/queue map,
+   worker list, supervisor ordering, role card and test expectations; probe every
+   role on the deployed branch. A role merged to staging failed `--me <role>` on
+   main and sat idle for hours (#575).
 42. A decision posted as a PR review is invisible to a waiter that polls only issue
    comments. Either poll reviews too or mirror the verdict in a comment (#390).
 43. A handoff on an item the next owner doesn't own is invisible. Make the waiter check
@@ -283,6 +285,23 @@ repair or integrate the same file while the user sees a growing local backlog.
    frozen ("later") and parked PRs don't count as stale (#2376); a low queue doesn't
    wake the lead mid-wait, because queue depth is not the outcome (#2374). Each false
    wake costs a full context reload for the woken agent.
+87. After a feature PR merges, do not sleep or poll for the deploy train. Start the
+   next owned item and smoke the deployed change on the next pass. Ten of thirteen
+   workers were blocked by waits of up to 45 minutes; stopping the loops and handing
+   off the next executable task removed that wait (#2472).
+88. A pre-tool hook enforcing a soft workflow rule should fail open on malformed
+   input, timeout or internal error, with no deny output and a short timeout; test
+   each path and provide a narrow explicit escape hatch. This is not appropriate
+   for authorization or security boundaries, which must fail closed (#2481).
+89. A red check mark is not by itself a production failure. Identify the exact run,
+   event, PR head and deployed commit; draft/WIP commit failures and cancelled
+   deploys superseded by newer runs are different from a failed production smoke.
+   Squash feature PRs so `next`/`main` history shows the finished green result, but
+   retain merge commits where the deploy train requires them (#2479, #2483).
+90. A waiter that watches only issue comments misses changes in shared state, such
+   as a red integration branch or failed deployment. Wake on those events and
+   provide an explicit manual wake; probe each path against a running worker, not
+   only a pure matcher test (#2473).
 
 ## Discriminating checks
 
