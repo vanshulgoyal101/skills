@@ -188,8 +188,12 @@ repair or integrate the same file while the user sees a growing local backlog.
 55. Keep a single register of paused work, with what was built and the event that
    restarts it, and label it `parked`. "Delete as you go" otherwise deletes paused
    branches. Before deleting any branch or worktree, `git cherry origin/main <branch>`
-   must show no `+` lines. GitHub keeps every PR's commits at `pull/<n>/head` after
-   branch deletion, so closed PRs are recoverable.
+   must show no `+` lines **and** `git log --merges origin/main..<branch>` must be empty:
+   `git cherry` skips merge commits, so a branch whose only unique work is a divergent
+   merge shows no `+` lines (AdBrain #2491/#2586). An open PR is not proof either. Never
+   delete backup refs, dirty worktrees or deploy-train refs, and check no writer is
+   active. GitHub keeps every PR's commits at `pull/<n>/head` after branch deletion, so
+   closed PRs are recoverable.
 56. When the priority order changes, remove `ready` from parked items in the same pass.
    Otherwise the pool still offers them and workers build paused work (two devs built
    upload slices for an hour after the owner put core and UI first).
