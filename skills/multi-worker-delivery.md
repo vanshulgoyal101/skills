@@ -306,6 +306,13 @@ repair or integrate the same file while the user sees a growing local backlog.
    as a red integration branch or failed deployment. Wake on those events and
    provide an explicit manual wake; probe each path against a running worker, not
    only a pure matcher test (#2473).
+91. Worker sessions must not be children of the coordinator's session: deleting a
+   stalled coordinator deleted 19 nested workers with it. Start workers as
+   independent sessions; before any handover, snapshot each dirty worktree to a
+   `wip/<date>/<worktree>` branch, recreate missing roles from restart prompts, then
+   rescan worktrees (newer edits belong to the new chats). An empty snapshot is not
+   lost work: confirm the branch tip is pushed (#2476; incident
+   [adbrain-nested-session-handover](../incidents/adbrain-nested-session-handover.md)).
 
 ## Discriminating checks
 
@@ -416,6 +423,8 @@ repair or integrate the same file while the user sees a growing local backlog.
 
 ## Related methods
 
+- [Agent team orchestration](agent-team-orchestration.md) to set up the whole team (roles,
+  waiter, gates, deploy train, restarts) from the [kit](../templates/agent-team/README.md).
 - [Evidence-first development](evidence-first-development-plans.md) for the first edit.
 - [Verification gates](verification-gates.md) for risk and evidence reuse.
 - [Runtime resource lifecycle](runtime-resource-lifecycle.md) for owned services.

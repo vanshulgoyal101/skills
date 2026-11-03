@@ -50,6 +50,7 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 | [coverage-first-passage-ranking](skills/coverage-first-passage-ranking.md) | Multi-term passage search must reward distinct query-term coverage | ctx, MCP |
 | [evidence-first-development-plans](skills/evidence-first-development-plans.md) | A change spans multiple modules or the owning behavior is not yet clear | Cross-repo workflow |
 | [multi-worker-delivery](skills/multi-worker-delivery.md) | Independent agents share ownership, review evidence, commits or a release queue | Multi-worker web-app delivery |
+| [agent-team-orchestration](skills/agent-team-orchestration.md) | Setting up or recovering a standing team of AI agent roles that coordinate through GitHub and ship to production | AdBrain |
 | [payment-state-reconciliation](skills/payment-state-reconciliation.md) | Checkout consent, current funding, delayed attempts, callbacks, refunds and recovery interact | Verified local payment regressions |
 | [runtime-resource-lifecycle](skills/runtime-resource-lifecycle.md) | Servers, browser sessions, timers, workers, tests, or subscriptions can outlive their owner | AdBrain, Arcade, VS Code |
 | [regenerable-cache-disk-recovery](skills/regenerable-cache-disk-recovery.md) | Local disk pressure needs cleanup without risking personal data, source, secrets, databases, or active dev runtimes | macOS local machine |
@@ -82,6 +83,7 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 - [skill](templates/skill.md)
 - [incident](templates/incident.md)
 - [development-plan](templates/development-plan.md)
+- [agent-team kit](templates/agent-team/README.md): rules, dispatch, board, restart prompts, waiter, merge gate, deploy train, labels, automations, metrics
 
 ## Incidents
 
@@ -115,6 +117,7 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 - [adbrain-create-reliability-2026-10](incidents/adbrain-create-reliability-2026-10.md)
 - [adbrain-guard-superseded-false-alarms](incidents/adbrain-guard-superseded-false-alarms.md)
 - [adbrain-core-gate-merge-near-miss](incidents/adbrain-core-gate-merge-near-miss.md)
+- [adbrain-nested-session-handover](incidents/adbrain-nested-session-handover.md)
 
 ## Products
 

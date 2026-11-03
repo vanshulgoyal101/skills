@@ -1,0 +1,37 @@
+{
+  "repo": "owner/name",
+  "boardIssue": 1,
+  "roles": {
+    "ceo": "CEO",
+    "cto": "CTO",
+    "dev": "Dev",
+    "dev2": "Dev 2",
+    "qa": "QA",
+    "reviewer": "Reviewer",
+    "devops": "DevOps"
+  },
+  "coordinatorRole": "ceo",
+  "coordinatorLabel": "decision",
+  "holdLabels": ["waiting-owner", "blocked", "parked", "later", "decision", "standing"],
+  "quietLabels": ["waiting-owner", "blocked", "parked", "later"],
+  "timerHoldLabels": ["waiting-owner", "parked", "later"],
+  "readyLabel": "ready",
+  "priorityLabel": "core",
+  "laneOf": {
+    "dev": "lane:dev",
+    "dev2": "lane:dev",
+    "qa": "lane:qa",
+    "reviewer": "lane:review",
+    "devops": "lane:devops"
+  },
+  "gate": {
+    "paths": ["^db/migrations/", "^src/payments/"],
+    "approverRoles": ["qa", "reviewer", "cto"],
+    "statusContext": "merge-gate"
+  },
+  "roleCardsPath": "docs/team/orchestration.md",
+  "ignoreBots": true,
+  "worktreeRoot": "~/work-wt",
+  "baseBranch": "next",
+  "productionBranch": "main"
+}

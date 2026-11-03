@@ -30,6 +30,9 @@ Pick a skill from the [catalog](CATALOG.md), then either:
 
 ## Start with these
 
+- [agent-team-orchestration](skills/agent-team-orchestration.md): run a standing team of
+  AI agent roles (coordinator, builders, QA, release) on one repo; the paste-ready kit is
+  in [templates/agent-team](templates/agent-team/README.md).
 - [multi-worker-delivery](skills/multi-worker-delivery.md): several agents share one repo
   and one main branch without blocking or overwriting each other.
 - [verification-gates](skills/verification-gates.md): what to run before claiming a change

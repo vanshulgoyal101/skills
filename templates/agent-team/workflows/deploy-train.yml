@@ -1,0 +1,112 @@
+name: Deploy train
+# PRs merge into the integration branch (`next`) on green CI. Every 30 minutes this promotes `next` to the
+# production branch (`main`) in one merge, only when `next`'s latest commit has all its checks green.
+# It opens (or reuses) a PR next → main titled "Deploy train: <sha7>" and merges it with a MERGE COMMIT: a squash
+# would rewrite next's commits on main, so the two branches would never compare clean again.
+#
+# Known pitfalls (learned the hard way):
+# - GITHUB_TOKEN merges trigger no workflows. The merge below fires no `push` workflow on main, so a deploy
+#   that runs as a GitHub Actions workflow on push won't start. Set DEPLOY_WORKFLOW to dispatch it (allowed with
+#   GITHUB_TOKEN), or use a GitHub App token. Webhook-based deploys (Vercel, Netlify Git integrations) still run.
+# - Required checks must be satisfiable by bot PRs. A PR opened with GITHUB_TOKEN triggers no pull_request
+#   workflows, so main's required checks must be ones that already ran on the push of this exact commit to
+#   next, and main must not require a human review for it (use a ruleset bypass for this workflow). The
+#   merge-gate status is set below because merge-gate.yml never runs for this PR.
+# - Sync main back into next after every hotfix or migration released straight to main. While main holds file
+#   changes next lacks, the train refuses (it would ship a merged tree no CI has seen). Merge main into next with
+#   a PR (merge commit, not squash); merge-gate exempts that sync PR.
+# - Protect `next` (and `main`). Repos with "Automatically delete head branches" would otherwise delete `next`
+#   after the train PR merges.
+# - The concurrency group below is never cancelled in progress, but GitHub keeps only one PENDING run per group
+#   and replaces older pending runs (they show as cancelled). Harmless: each run reads the latest state.
+on:
+  schedule:
+    - cron: "7,37 * * * *" # every 30 minutes, off the top of the hour
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: deploy-train
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # the merge writes to main
+      pull-requests: write # open, retitle and merge the train PR
+      statuses: write # merge-gate status on the train commit
+      checks: read # read check runs on next's tip
+      actions: write # only for DEPLOY_WORKFLOW dispatch; remove if you don't set it
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NEXT_BRANCH: next
+      PRODUCTION_BRANCH: main
+      GATE_CONTEXT: merge-gate # equal to gate.statusContext in team.config.json; empty if you don't use the gate
+      DEPLOY_WORKFLOW: "" # e.g. deploy.yml: dispatched on main after a promotion
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Promote a green next to main
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          stop() { echo "Not promoting: $1"; echo "### Deploy train: not promoting" >>"$GITHUB_STEP_SUMMARY"; echo "$1" >>"$GITHUB_STEP_SUMMARY"; exit 0; }
+
+          ahead=$(gh api "repos/$repo/compare/$PRODUCTION_BRANCH...$NEXT_BRANCH" --jq .ahead_by)
+          [ "$ahead" -gt 0 ] || stop "$NEXT_BRANCH has nothing $PRODUCTION_BRANCH lacks."
+          # Count changed files, not commits: every train leaves a merge commit on main that changes nothing.
+          lacks=$(gh api "repos/$repo/compare/$NEXT_BRANCH...$PRODUCTION_BRANCH" --jq '.files | length')
+          if [ "$lacks" -gt 0 ]; then
+            echo "::warning::$PRODUCTION_BRANCH changes $lacks file(s) $NEXT_BRANCH lacks (a hotfix?). Merge $PRODUCTION_BRANCH into $NEXT_BRANCH by PR first."
+            stop "$PRODUCTION_BRANCH has changes $NEXT_BRANCH lacks; sync them into $NEXT_BRANCH first."
+          fi
+
+          sha=$(gh api "repos/$repo/commits/$NEXT_BRANCH" --jq .sha)
+          short=${sha::7}
+          # Latest run per check name (a re-run replaces an old failure), then the combined commit status.
+          runs=$(gh api --paginate "repos/$repo/commits/$sha/check-runs?per_page=100" \
+            --jq '.check_runs[] | {name, id, state: (.conclusion // .status)}' | jq -s 'group_by(.name) | map(max_by(.id))')
+          red=$(jq -r '[.[] | select(.state | IN("failure", "cancelled", "timed_out", "action_required", "startup_failure", "stale")) | .name] | join(", ")' <<<"$runs")
+          waiting=$(jq -r '[.[] | select(.state | IN("success", "skipped", "neutral") | not) | .name] | join(", ")' <<<"$runs")
+          read -r status_state status_count < <(gh api "repos/$repo/commits/$sha/status" --jq '"\(.state) \(.total_count)"')
+          total=$(( $(jq length <<<"$runs") + status_count ))
+          [ "$total" -gt 0 ] || stop "$short has no checks yet."
+          [ -z "$red" ] || stop "$short has failing checks: $red. Fix forward on $NEXT_BRANCH."
+          if [ "$status_count" -gt 0 ] && [ "$status_state" != success ]; then stop "$short commit statuses are $status_state."; fi
+          [ -z "$waiting" ] || stop "$short checks still running: $waiting."
+
+          title="Deploy train: $short"
+          body="Automatic promotion of \`$NEXT_BRANCH\` at $short ($ahead commits) to \`$PRODUCTION_BRANCH\`. Merged PRs: see the commits."
+          pr=$(gh pr list -R "$repo" --state open --base "$PRODUCTION_BRANCH" --head "$NEXT_BRANCH" --json number --jq '.[0].number // empty')
+          if [ -n "$pr" ]; then
+            gh pr edit "$pr" -R "$repo" --title "$title" --body "$body" >/dev/null
+          else
+            pr=$(gh pr create -R "$repo" --base "$PRODUCTION_BRANCH" --head "$NEXT_BRANCH" --title "$title" --body "$body")
+            pr=${pr##*/}
+          fi
+          # merge-gate.yml never runs for a GITHUB_TOKEN PR; every PR in this train was gated into next.
+          if [ -n "$GATE_CONTEXT" ]; then
+            gh api -X POST "repos/$repo/statuses/$sha" -f state=success -f context="$GATE_CONTEXT" \
+              -f description="Deploy train: its PRs were gated into $NEXT_BRANCH" >/dev/null
+          fi
+
+          # A just-created PR can briefly report "not mergeable"; retry. --match-head-commit refuses a moved next.
+          merged=""
+          for _ in $(seq 1 12); do
+            if gh pr merge "$pr" -R "$repo" --merge --match-head-commit "$sha"; then merged=1; break; fi
+            head=$(gh pr view "$pr" -R "$repo" --json headRefOid --jq .headRefOid)
+            [ "$head" = "$sha" ] || stop "$NEXT_BRANCH moved past $short while promoting; the next run takes the new tip."
+            sleep 10
+          done
+          if [ -z "$merged" ]; then
+            echo "::error::#$pr could not be merged in 2 minutes. Check main's branch protection: required checks must have run on the push of $short to $NEXT_BRANCH, and no human review may be required for this PR."
+            exit 1
+          fi
+          echo "Promoted $short to $PRODUCTION_BRANCH via #$pr." | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ -n "$DEPLOY_WORKFLOW" ]; then
+            gh workflow run "$DEPLOY_WORKFLOW" -R "$repo" --ref "$PRODUCTION_BRANCH" || echo "::warning::could not dispatch $DEPLOY_WORKFLOW"
+          fi
