@@ -1,0 +1,45 @@
+name: PR base
+# Sends ordinary PRs opened against the production branch to the integration branch, where they merge on green
+# CI; the deploy train promotes the integration branch to production. Hotfixes (label `hotfix`) and migration PRs
+# stay on the production branch for the release owner.
+# Security: pull_request_target runs with a write token, so this job NEVER checks out or runs PR code. It only
+# reads PR metadata (labels, file names) through the API and changes the base branch.
+on:
+  pull_request_target:
+    types: [opened, reopened]
+    branches: [main] # keep equal to PRODUCTION_BRANCH below
+
+permissions: {}
+
+jobs:
+  retarget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR: ${{ github.event.pull_request.number }}
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      PRODUCTION_BRANCH: main
+      NEXT_BRANCH: next
+      HOLD_LABELS: hotfix # comma-separated labels that keep a PR on the production branch
+      MIGRATIONS_PATH: "^db/migrations/" # extended regex; PRs touching it stay on the production branch
+    steps:
+      - name: Retarget to the integration branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          if [ "$HEAD_REF" = "$NEXT_BRANCH" ] && [ "$HEAD_REPO" = "$repo" ]; then echo "The deploy train itself."; exit 0; fi
+          labels=$(gh pr view "$PR" -R "$repo" --json labels --jq '[.labels[].name] | join(",")')
+          IFS=',' read -r -a holds <<<"$HOLD_LABELS"
+          for hold in "${holds[@]}"; do
+            if grep -Eq "(^|,)${hold}(,|$)" <<<"$labels"; then echo "Labelled $hold: stays on $PRODUCTION_BRANCH."; exit 0; fi
+          done
+          # Read the whole list first: `| grep -q` can SIGPIPE gh, and pipefail would read that as "no migration".
+          files=$(gh pr diff "$PR" -R "$repo" --name-only)
+          if grep -Eq "$MIGRATIONS_PATH" <<<"$files"; then echo "Migration PR: released to $PRODUCTION_BRANCH by the release owner."; exit 0; fi
+          gh pr edit "$PR" -R "$repo" --base "$NEXT_BRANCH"
+          gh pr comment "$PR" -R "$repo" --body "Retargeted to \`$NEXT_BRANCH\`: PRs merge there and the deploy train promotes \`$NEXT_BRANCH\` to \`$PRODUCTION_BRANCH\`. For a production hotfix, label it \`hotfix\` and set the base back to \`$PRODUCTION_BRANCH\`."

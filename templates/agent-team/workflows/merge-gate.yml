@@ -1,0 +1,48 @@
+name: Merge gate
+# Required check: PRs touching gate.paths in scripts/team.config.json need an approver role's approval of the
+# current head commit. Sets the commit status gate.statusContext (default `merge-gate`) on the PR head.
+# Security: it checks out the DEFAULT branch, never the PR, and only reads PR metadata through the API, so a PR
+# can't change the gate that judges it. Fork PRs get a read-only token on pull_request and can't set the status:
+# for public repos with fork contributions, require maintainers to re-run it or approve via a comment.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled, edited, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  issue_comment:
+    types: [created, edited, deleted]
+
+permissions: {}
+
+concurrency:
+  group: merge-gate-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  verdict:
+    if: github.event_name != 'issue_comment' || github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Set the merge-gate status on the PR head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number || github.event.issue.number }}
+        run: |
+          # The script runs from the default branch; until it is merged there, skip quietly.
+          if [ ! -f scripts/merge-gate.mjs ] || [ ! -f scripts/team.config.json ]; then
+            echo "scripts/merge-gate.mjs or scripts/team.config.json is not on the default branch yet; skipping."
+            exit 0
+          fi
+          node scripts/merge-gate.mjs --pr "$PR"
