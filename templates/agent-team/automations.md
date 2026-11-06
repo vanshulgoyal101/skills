@@ -27,7 +27,7 @@ Rules for every run:
 | Experiments scorecard | weekly | CEO | One comment: each metric vs. baseline, keep/adjust/drop per experiment, `Next read` next week |
 | Lessons publishing | weekly | CTO | Collects `Lesson:` lines, drops weak ones, PRs public ones to the skills repo and private ones to the private repo, re-syncs skills into the product repo |
 | Team refresh | daily, before the workday | CEO | The only routine chat renewal: saves every worktree, starts a new CEO that starts every role, verifies each, then deletes the old chats. Runs at most once a day (an attempt marker written before the first create) |
-| Team health check | hourly | CEO | Checks, unholds, assigns and wakes. Never renews chats; a dead role's urgent work moves to a live role in the same lane until the next refresh |
+| Team health check | hourly | CEO | Checks, unholds, assigns and wakes. Never creates, archives or deletes a chat and never runs another automation, with no exceptions; duplicates, a missing coordinator and outages are recorded for the next refresh, and a dead role's urgent work moves to a live role in the same lane |
 | Machine cleanup | hourly | none | Frees RAM and disk through one guarded helper script that refuses protected paths and processes |
 
 ## Skeletons
@@ -104,11 +104,14 @@ Read-only: only navigate and open menus; never click anything that writes, pays,
 ### Team health check (hourly)
 
 ```text
-<Product> CEO team check. Never create, replace or delete role chats; never spend or edit code.
+<Product> CEO team check. Never create, replace, archive or delete any chat and never run another
+automation, with no exceptions; never spend or edit code.
 1. If the daily refresh holds the team lock, or the team is paused, exit.
-2. Remove duplicate chats per role, always keeping one. Create a CEO only if none exists.
+2. Duplicates: pick one keeper per role, tell each extra once to push its edits and stop, and record
+   them for the daily refresh. CEO missing: do its routine duties yourself and record it.
 3. Read each role's latest turn. Unhold, assign and wake roles that have actionable work.
 4. A dead or stalled role waits for the daily refresh; move its urgent item to a live role in its lane.
-5. If at least half the team is down and no refresh ran in 20 h, trigger the daily refresh once early.
+5. If at least half the team is down, write a team-down marker and alert the owner once: they may
+   start the daily refresh by hand (its guard allows one extra run after an outage).
 6. Record only a real change or blocker in one comment on #<team issue>; otherwise do nothing.
 ```
