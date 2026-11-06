@@ -26,7 +26,8 @@ Rules for every run:
 | UI walk | daily 10:00 | QA 2 | Read-only production walk at phone and desktop sizes; files at most 3 new visual bugs |
 | Experiments scorecard | weekly | CEO | One comment: each metric vs. baseline, keep/adjust/drop per experiment, `Next read` next week |
 | Lessons publishing | weekly | CTO | Collects `Lesson:` lines, drops weak ones, PRs public ones to the skills repo and private ones to the private repo, re-syncs skills into the product repo |
-| Team utilisation | hourly | CEO | Replaces dead role chats (archive, then one independent replacement) only when the role has actionable work; never deletes or interrupts a running chat |
+| Team refresh | daily, before the workday | CEO | The only routine chat renewal: saves every worktree, starts a new CEO that starts every role, verifies each, then deletes the old chats. Runs at most once a day (an attempt marker written before the first create) |
+| Team health check | hourly | CEO | Checks, unholds, assigns and wakes. Never renews chats; a dead role's urgent work moves to a live role in the same lane until the next refresh |
 | Machine cleanup | hourly | none | Frees RAM and disk through one guarded helper script that refuses protected paths and processes |
 
 ## Skeletons
@@ -86,14 +87,28 @@ Read-only: only navigate and open menus; never click anything that writes, pays,
 3. Close the browser and delete the screenshots.
 ```
 
-### Team utilisation
+### Team refresh (daily)
 
 ```text
-<Product> CEO team check. Act only on real, unblocked work; never create issues, edit code, kill processes or spend.
-1. Read the board's Everyone row; if the team is paused, exit.
-2. List sessions and read each role's latest turn. A role is dead only if idle with an empty transcript or
-   unreachable. Never delete or interrupt a running session or start a second chat for a role.
-3. For a dead role with actionable work: archive the dead session, create one independent replacement titled
-   "<Product> <Role>" with that role's restart prompt plus its first issue.
-4. Record only a real change or blocker in one comment on #<team issue>; otherwise do nothing.
+<Product> daily team refresh. At most once a day; never spend, merge, or touch production.
+1. Take the shared team lock (atomic mkdir; wait for a running health check). If the team is paused, exit.
+2. If the attempt marker is under 20 h old, exit. Write the attempt marker before creating anything.
+3. Remove duplicate chats per role, always keeping one. Postpone a busy role by one day at most.
+4. Push each role's uncommitted work to wip/rotate-<date>/<worktree> and note a resume pointer.
+5. Start a new CEO; it starts every role with its restart prompt (reserve a spawn id per role first).
+   Create a role yourself only after the CEO replied or ended without starting it.
+6. Delete each old chat only after its replacement is verified live. Write the success marker,
+   run one health check and post one line on #<team issue>.
+```
+
+### Team health check (hourly)
+
+```text
+<Product> CEO team check. Never create, replace or delete role chats; never spend or edit code.
+1. If the daily refresh holds the team lock, or the team is paused, exit.
+2. Remove duplicate chats per role, always keeping one. Create a CEO only if none exists.
+3. Read each role's latest turn. Unhold, assign and wake roles that have actionable work.
+4. A dead or stalled role waits for the daily refresh; move its urgent item to a live role in its lane.
+5. If at least half the team is down and no refresh ran in 20 h, trigger the daily refresh once early.
+6. Record only a real change or blocker in one comment on #<team issue>; otherwise do nothing.
 ```
