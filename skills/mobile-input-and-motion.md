@@ -44,3 +44,7 @@ A gesture reaches the intended interaction exactly once, at the moment its inten
 - Rewriting text in layout cells looks like no animation at all.
 - `transform` animations conflict when scale and translation share the property.
 - A hidden browser tab throttles rAF; use deterministic DOM/model tests for timer endings.
+- `showModal()` focuses the first link, and WebKit shows `:focus-visible` after a tap;
+  focus the dialog itself (`tabIndex=-1`). iOS data detectors join adjacent text into
+  one tappable address; keep decorative letters out of the text run (CSS `attr()`) and
+  set `format-detection` (#2747).

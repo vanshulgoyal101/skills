@@ -106,6 +106,9 @@ creative-generation settings.
   Create from 63-79s to 36.5-48s; model or effort changes risked quality (#142).
 - A capped bake-off on the real route through a recorded harness chose model and
   schedule cheaply; two consecutive production 3/3 runs followed (48s, 40s) (#98).
+- One request deadline shared across a repair loop needs a per-attempt reserve for the
+  last provider, or a hang → valid-but-rejected → hang sequence leaves the fallback no
+  time. Prove it with a virtual-time test of exactly that sequence (#2462).
 
 ### Discriminating checks
 
