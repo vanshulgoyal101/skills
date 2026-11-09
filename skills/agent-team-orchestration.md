@@ -174,7 +174,7 @@ self-running. Paths refer to [templates/agent-team](../templates/agent-team/READ
 
 ## Related methods
 
-- [Multi-worker delivery](multi-worker-delivery.md): the running rules and 93 dated
+- [Multi-worker delivery](multi-worker-delivery.md): the running rules and 94 dated
   lessons behind each component above.
 - [CI merge throughput](ci-merge-throughput.md): keeping required checks fast and fair.
 - [Post-deploy production guard](post-deploy-production-guard.md): smoke and roll back
