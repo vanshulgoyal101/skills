@@ -118,6 +118,13 @@ from [the Create reliability incident](../incidents/adbrain-create-reliability-2
 	Reject write-shaped input before any network call.
 - Done means repeated production success, for example two consecutive full runs,
 	not one pass. One 3/3 run at 265s of a 270s deadline was not proof.
+- Capture the real `fetch` once at module load when one test stubs it several times.
+	Capturing it per run chained every earlier mock, leaked calls between batches and
+	spent the replay budget several times per call; the replay's missing-reply
+	assertion caught it (#2542).
+- Snapshot each recorded prompt (`structuredClone`) in the mock: the planner appends
+	retry turns to the same messages array, so the "first" prompt silently gained them
+	(#2599).
 
 ## Failed checks and reruns
 

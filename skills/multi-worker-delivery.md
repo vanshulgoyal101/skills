@@ -68,6 +68,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    object store; `git worktree prune` clears dangling registrations. Cloning
    `node_modules` copy-on-write from a cache keyed by the lockfile hash made a
    warm worktree setup take 21s with typecheck green (verified locally only).
+   An install counts as complete only when `node_modules/.package-lock.json` exists
+   and its stamp matches the lockfile hash. Clone into a temp dir, then `mv` it into
+   place, and `touch -c` the cache entry before pruning; a test that drives the shell
+   functions against a temp `HOME` proves each case (#2490).
 18. Test the product's core loop in production before assigning side work. A
    week of secondary releases can hide that the main flow still fails.
 19. Split one issue into parallel subagent jobs: research, CI log reading,
@@ -190,7 +194,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    branches. Before deleting any branch or worktree, `git cherry origin/main <branch>`
    must show no `+` lines **and** `git log --merges origin/main..<branch>` must be empty:
    `git cherry` skips merge commits, so a branch whose only unique work is a divergent
-   merge shows no `+` lines (AdBrain #2491/#2586). An open PR is not proof either. Never
+   merge shows no `+` lines (AdBrain #2491/#2586). The reverse also fails: a
+   squash-merged branch always shows `+` lines, including a push that lost the race
+   with auto-merge. Diff the branch's files against the merged target instead
+   (#2576, #2598). An open PR is not proof either. Never
    delete backup refs, dirty worktrees or deploy-train refs, and check no writer is
    active. GitHub keeps every PR's commits at `pull/<n>/head` after branch deletion, so
    closed PRs are recoverable.
@@ -279,7 +286,9 @@ repair or integrate the same file while the user sees a growing local backlog.
 84. Review inside the author's own team: before asking a human gate, a helper agent
    that did not write the change tries to break it, and its one-line result goes in
    the PR. Keep human or hard-coded gates only for actions in the outside world that
-   can't be undone: money, ad delivery, migrations, secrets.
+   can't be undone: money, ad delivery, migrations, secrets. One attack pass found a
+   prefill gap (a run that used an inherited default, not its own value) that the
+   unit tests had missed (#1174).
 85. Run process changes as measured experiments: record a baseline from existing
    metrics (posts per merged PR, hand-offs per PR, change-failure rate, time to
    restore, plus the business outcome), define keep/adjust/drop targets, and review
@@ -313,6 +322,16 @@ repair or integrate the same file while the user sees a growing local backlog.
    rescan worktrees (newer edits belong to the new chats). An empty snapshot is not
    lost work: confirm the branch tip is pushed (#2476; incident
    [adbrain-nested-session-handover](../incidents/adbrain-nested-session-handover.md)).
+92. Test a waiter through its real wake function against a fake API and a fake
+   clock. GitHub's per-issue comments endpoint ignores `sort`/`direction` and pages
+   oldest-first, so "last comment on page 1" was wrong past 100 comments (#2576); a
+   hold check that returned before reading a scheduled timer silently dropped the
+   timer (#2572). The fake must page oldest-first, include bot-only pages and run
+   the label × schedule matrix.
+93. An automation that files repeat requests must not dedupe against
+   `--state all`: once the first request closed, every repeat was dropped. Decide
+   open, reopen or skip from the newest close time, and reopen last so a failed
+   label or comment write retries on the next run (#2806).
 
 ## Discriminating checks
 
@@ -413,6 +432,10 @@ repair or integrate the same file while the user sees a growing local backlog.
    list before enabling auto-merge (#372).
 - Two workers in one worktree: a commit landed on the other's branch. Check
    `git branch --show-current` and `git status` right before every commit.
+- `git stash` in worktrees that share one `.git`: there is one stash list for all of
+   them, so a pop can apply another worker's work. Commit to a `wip/` branch instead.
+   Rebasing also stripped commit subjects that start with `#` (git's comment
+   character); put a word before the issue number (#2600).
 - Pushing review fixes after the PR already auto-merged: the fixes never ship. Check
    `gh pr view <n> --json state` first, and open a follow-up PR if it's merged.
 - A squash from a stale branch silently reverting someone else's tests: read

@@ -149,6 +149,13 @@ self-running. Paths refer to [templates/agent-team](../templates/agent-team/READ
   woken by a label; the loop must be work → waiter → work.
 - Nesting worker chats inside the coordinator's session (some session tools default to
   child sessions). Create them `independent`.
+- Assuming a create-chat call runs once. The agent host replayed earlier create requests
+  and about 50 duplicate role chats appeared within two minutes. Re-list sessions before
+  every create, tag each request with a reserved spawn id, and have the scheduled check
+  flag any role with more than one chat (#364).
+- Writing a team rule only in the handbook. Chats load the instructions file
+  (`AGENTS.md`) every turn but read the handbook only when told to, so a rule changes
+  behaviour once it is in `AGENTS.md` (#2617).
 - Deleting a stalled coordinator before snapshotting dirty worktrees. Push every unsaved
   worktree to a `wip/<handover>/<worktree>` branch first; an empty snapshot means the
   worktree was clean, so check its branch is pushed instead.
@@ -167,7 +174,7 @@ self-running. Paths refer to [templates/agent-team](../templates/agent-team/READ
 
 ## Related methods
 
-- [Multi-worker delivery](multi-worker-delivery.md): the running rules and 90 dated
+- [Multi-worker delivery](multi-worker-delivery.md): the running rules and 93 dated
   lessons behind each component above.
 - [CI merge throughput](ci-merge-throughput.md): keeping required checks fast and fair.
 - [Post-deploy production guard](post-deploy-production-guard.md): smoke and roll back

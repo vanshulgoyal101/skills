@@ -81,3 +81,9 @@ wait still open.
 - When a success rate misses by one request, group usage events by request id with
   `HAVING NOT bool_or(status = 'success')` to get the failed request's whole provider
   chain in one query (#2242).
+
+## AdBrain lesson (Nov 1)
+
+- A wrapper reason ("free text unavailable") hid the busy cause and turned load into
+  an alerting 500. Classify wrapped exhaustion by attempts and provider count, not by
+  the wrapper's name (#2457).

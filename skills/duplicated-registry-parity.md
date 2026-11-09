@@ -36,3 +36,11 @@ One registry makes a feature visible while another registry omits it from restor
 ## Evidence
 
 Tiny Arcade's `tests/registry-parity.test.ts` compares the hub registry with `shared/cloud.ts` after a sync failure involving `interval`.
+
+## AdBrain lessons (Nov 2)
+
+- A new result kind must reach every reader at once (insights fields, verdict, ledger,
+  evidence, rerun). Grep every reader of the results table before shipping, or one
+  screen silently shows 0 (#2601). When centralising the field and its priority, keep
+  each reader's own missing-data, cost and eligibility policy; distinct sentinel counts
+  and unchanged recorded tests prove compatibility (#2709).
