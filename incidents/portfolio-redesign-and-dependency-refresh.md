@@ -68,6 +68,13 @@ nozzle geometry, repeated launches and no-JavaScript publishing.
 
 ## Residual risk
 
+Full registry metadata found two deliberate exceptions: ESLint and `@eslint/js`
+remain at 9.39.5 because the latest React lint plugin does not support ESLint 10.
+Follow-up [`de4d28d`](https://github.com/vanshulgoyal101/vanshul-portfolio/commit/de4d28d)
+updates checkout/setup-node/configure-pages/upload-pages-artifact/deploy-pages
+to current Node-24-based action majors and removes forced runtime overrides.
+Workflow YAML and artifact/deployment gates were checked before the push.
+
 Registry tags change after this dated audit. Local tests do not establish search
 rank, field performance, live OAuth/contact delivery or production SQL grants.
 Anonymous counts remain untrusted. Self-hosted font licences and a guarded

@@ -21,6 +21,9 @@ tooling nuisance hides real regressions.
 
 1. Query registry `latest` tags, peer ranges, optional peers and engine ranges.
    Record the audit date; "latest" is not a permanent property.
+   Cross-check full registry metadata rather than relying solely on `npm outdated`:
+   its abbreviated metadata can report a different `latest` tag. Include CI
+   actions and other execution dependencies, not only the package manifest.
 2. Update manifests and lockfiles together. Validate on a supported runtime and
    align local setup documentation and CI with the declared engine floor.
 3. Run focused tests for changed boundaries before the full release gate.
@@ -53,6 +56,14 @@ tooling nuisance hides real regressions.
 - Raising test timeouts before distinguishing parallel-machine load from a bug.
 - Replacing precise regressions with mocks that always return success.
 - Stating a clean audit proves live database authorization or external delivery.
+
+## Compatibility example
+
+On 2026-11-10, full registry metadata exposed ESLint 10.14.0 even though
+`npm outdated` did not flag the installed 9.39.5 release. The latest React lint
+plugin still declared support only through ESLint 9. Retain the compatible
+ESLint/core-config pair and document the blocker; do not use forced peer
+resolution or replace a working lint stack merely to claim every number is newest.
 
 ## Evidence
 
