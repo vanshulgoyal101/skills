@@ -45,6 +45,21 @@ Two pages clone the same marketing sections and compete for one query (duplicate
 - Structured data referencing a stale `@id`, wrong host, or a value the DOM no longer shows.
 - Treating a successful URL fetch as proof of every source claim or of live browser layout.
 
+## Learnings
+
+- Scope structured data to its actual page. A shared shell must not attach the
+  homepage `ProfilePage` graph to articles or an archive; test graph absence as
+  well as presence in generated HTML and client navigation.
+- Share browser-safe authored data and metadata builders across visible UI,
+  prerendered pages, feeds and machine-readable discovery files. Explicitly parse
+  calendar dates in the intended timezone instead of `new Date(humanText)`.
+- On directory-based static hosts, use the same trailing-slash canonical path in
+  internal links, RSS and sitemap entries to avoid redirect hops.
+- A generated `llms.txt` should reuse visible facts and canonical links. It is
+  discovery material, not proof of search-engine adoption or a ranking guarantee.
+
+Source: [portfolio publishing contracts](https://github.com/vanshulgoyal101/vanshul-portfolio/blob/42db971/documentation/seo.md).
+
 ## Redirect evidence
 
 The blog subdomain originally reached `/blog`, which lacked the homepage shelf card. The user explicitly required `/#blog`, not `/reading-list`. Redirect integrity tests pinned the exact URL across mechanisms. See [portfolio shelf and release](../incidents/portfolio-shelf-and-release.md).

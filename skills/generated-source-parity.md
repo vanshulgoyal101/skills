@@ -44,3 +44,12 @@ The artifact served to users reflects the source and the registry contract that 
 - A promotion script fails after a previous promotion replaced `dist` with a redirect stub.
 - Text regexes that allow `[a-z-]+` silently omit numeric slugs.
 - `git add -A` can sweep another actor's staged or uncommitted work.
+
+## Learnings
+
+Self-hosted font assets need source/version and licence records, matching
+`@font-face` declarations and valid preload targets. Verify every declared file in
+the production output; split Unicode ranges and preload only initial-page subsets
+rather than fetching every font variant eagerly.
+
+Source: [portfolio font pipeline](https://github.com/vanshulgoyal101/vanshul-portfolio/blob/f586105/documentation/styles.md).

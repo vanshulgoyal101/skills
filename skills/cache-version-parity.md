@@ -42,3 +42,13 @@ A page or error document retains an old `?v=` while the main page points at a ne
 ## Evidence
 
 Tiny Arcade's `tests/asset-version.test.ts` caught drift between `index.html`, `404.html`, shared imports, and the service-worker cache.
+
+## Learnings
+
+Hashed lazy chunks can disappear after a static-host deployment while an old tab
+retains the previous entry. Retry only a recognized chunk failure, with a durable
+per-tab cooldown recorded before reloading; disable automatic reload when offline
+or storage is unavailable. Test slow repeated failures as well as an immediate
+second failure so the cooldown cannot become a reload loop.
+
+Source: [portfolio recovery guard and regressions](https://github.com/vanshulgoyal101/vanshul-portfolio/blob/3d86684/src/utils/routeRetry.js).

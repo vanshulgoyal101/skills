@@ -41,6 +41,24 @@ A decorative effect drifts too far from the pointer, moves too aggressively, or 
 - Using the same intensity on desktop, tablet, and mobile without checking usability.
 - Allowing a visual effect to fight the user instead of supporting the intended interaction.
 
+## Learnings
+
+- Reduced-motion overrides should use true `0s` transition duration and delay.
+  Using `0.01ms` while `transition-property` defaults to `all` leaves a stale
+  layout frame when a breakpoint changes; verify computed bounds after resizing.
+- Animation libraries can write inline transforms that override CSS hover
+  transforms. On motion-owned elements, use the library's `whileHover` rather
+  than competing transform declarations.
+- A fixed ancestor with `backdrop-filter` can become the containing block for a
+  fixed drawer. Put decorative blur on a pseudo-element and assert drawer bounds
+  against the viewport, not merely its parent.
+- A fake JavaScript clock is not proof of rendered animation progress. Sample real
+  frames over a cycle and retain measured displacement/geometry thresholds. Keep
+  unrelated expensive scenes out of focused motion checks, with separate
+  full-viewport coverage for those scenes.
+
+Source: [verified portfolio motion rules](https://github.com/vanshulgoyal101/vanshul-portfolio/blob/48497e8/documentation/styles.md).
+
 ## Evidence
 
 The portfolio's magnetic effect initially ignored the configured range and moved too strongly. The fix was to soften the follow ratio, clamp the displacement, and disable the decorative motion when reduced motion was requested.

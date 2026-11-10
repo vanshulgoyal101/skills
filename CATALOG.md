@@ -6,6 +6,8 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 
 | Skill | Use when | Source |
 |---|---|---|
+| [lazy-bundle-boundaries](skills/lazy-bundle-boundaries.md) | Heavy SDKs and renderers must stay outside initial imports and modulepreloads | Portfolio |
+| [dependency-refresh-contracts](skills/dependency-refresh-contracts.md) | Dependency major upgrades change runtimes, lint presets, emulated DOM or bundle output | Portfolio |
 | [design-intent-preservation](skills/design-intent-preservation.md) | Refactoring established UI, preserving signature features, or separating content collections | Vanshul Portfolio |
 | [rendered-ui-evidence](skills/rendered-ui-evidence.md) | DOM visibility cannot prove viewport fit, media framing, canvas motion, or control usability | Vanshul Portfolio |
 | [async-lifecycle-guards](skills/async-lifecycle-guards.md) | Timers, promises, animations, rAF loops, or delayed callbacks can outlive a view/run | Tiny Arcade |
@@ -89,6 +91,7 @@ Reusable skills, incident evidence, and release checklists. Register new entries
 
 - [adbrain-brand-identity-parity](incidents/adbrain-brand-identity-parity.md)
 - [portfolio-shelf-and-release](incidents/portfolio-shelf-and-release.md)
+- [portfolio-redesign-and-dependency-refresh](incidents/portfolio-redesign-and-dependency-refresh.md)
 - [arcade-sync-and-integrity](incidents/arcade-sync-and-integrity.md)
 - [arcade-ui-and-lifecycle](incidents/arcade-ui-and-lifecycle.md)
 - [arcade-generated-and-production](incidents/arcade-generated-and-production.md)

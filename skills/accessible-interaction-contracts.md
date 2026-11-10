@@ -49,6 +49,19 @@ Every control has an accessible name, keyboard users retain a visible focus indi
 - A title tooltip is not a reliable accessible name.
 - Adding `outline: none` after a shared focus rule can silently remove keyboard focus for a specific control type.
 
+## Learnings
+
+- Make a drawer visible immediately on open before moving focus; delay visibility
+  only on close. A shared visibility delay can make `focus()` silently fail.
+- Mount the polite notification live region before adding its first message.
+  Toast titles are not page headings; retain dismiss controls without moving focus.
+- Custom form validation needs `aria-invalid`, error descriptions and focus on the
+  first invalid control. Check a multi-error submission, correction and resubmission.
+- Wait for real animation opacity to settle before contrast/visibility scans;
+  reduced motion can retain opacity fades.
+
+Source: [portfolio accessibility contracts](https://github.com/vanshulgoyal101/vanshul-portfolio/blob/48497e8/documentation/accessibility.md).
+
 ## Evidence
 
 The September 28 Arcade audit reproduced a dismissed-result replay pill covering
